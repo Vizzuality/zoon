@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  description: MyText
+  author: MyString
+  name: MyString
+  version: MyString
+  date_submitted: 2016-10-15
+  family: MyString
+  path_to_module: MyString
+  latest_import: 2016-10-15
+
+two:
+  title: MyString
+  description: MyText
+  author: MyString
+  name: MyString
+  version: MyString
+  date_submitted: 2016-10-15
+  family: MyString
+  path_to_module: MyString
+  latest_import: 2016-10-15

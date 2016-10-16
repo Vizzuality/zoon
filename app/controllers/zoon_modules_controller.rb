@@ -2,7 +2,7 @@ class ZoonModulesController < ApplicationController
   before_action :set_zoon_module, only: [:show]
 
   def index
-    @zoon_modules = ZoonModule.order(:name)
+    @zoon_modules = ZoonModule.order(:name).search(params[:query])
     @families = ZoonModule.select("distinct family").order(:family).
       where.not(family: nil)
   end

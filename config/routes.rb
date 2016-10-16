@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :modules, only: [:index, :show],
+    controller: "zoon_modules"
+
   root 'home#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

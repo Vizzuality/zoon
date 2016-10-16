@@ -1,2 +1,32 @@
-<h1>ZoonModules#show</h1>
-<p>Find me in app/views/zoon_modules/show.html.erb</p>
+<%= link_to "< go back to all modules", modules_path %>
+<div class="expanded row flow-image">
+</div>
+
+<div class="row">
+	<div class="small-12 large-8 columns">
+
+    <p>Filter by module type</p>
+    <ul>
+      <% @families.each do |fam| %>
+        <li><%= fam.family %></li>
+      <% end %>
+    </ul>
+    <%= form_tag modules_path, method: :get do %>
+      <%= text_field_tag :query, params[:query] %>
+      <%= submit_tag "Search" %>
+    <% end %>
+	</div>
+</div>
+<div class="row">
+  <div class="small-12 large-8 columns">
+    <% @zoon_modules.each do |mod| %>
+      <%= link_to module_path(mod) do %>
+        <div class="module">
+          <span class="module-title"><%= mod.title %></span>
+          <span class="module-version"><%= mod.version %></span>
+          <span class="module-description"><%= mod.description %></span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

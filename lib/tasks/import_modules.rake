@@ -16,7 +16,7 @@ namespace :import do
 
       zoon = ZoonModule.find_or_initialize_by(name: file_name, path_to_module: path)
       [[:title, "@title"], [:description, "@description"], [:author, "@author"],
-       [:version, "@section Version"], [:date_submitted, "@section Data submitted:"],
+       [:version, "@section Version:"], [:date_submitted, "@section Data submitted:"],
        [:family, "@family"]].each do |term|
          term_line = file_content.select{|t| t.include?("#' #{term[1]}")}.first
          if term_line

@@ -25,15 +25,11 @@ namespace :import do
                :invalid => :replace,
                :undef   => :replace,
                :replace => '?'
-             })
+             }).strip
            zoon.send("#{term[0]}=", encoded)
          end
        end
-       begin
-         zoon.save!
-       rescue
-         debugger
-       end
+       zoon.save!
        sleep(1)
     end
     puts "#{ZoonModule.count} now in our database"

@@ -7,19 +7,21 @@
 <div class="expanded row flow-image">
 </div>
 
+<br>
+
 <div class="row">
   <div class="small-8 large-5 columns">
-    <span>
+    <span class="module-title">
       <%= @zoon_module.title %>
     </span>
     <span class="module-version">
-      v<%= @zoon_module.version %>
+      <%= @zoon_module.version %>
     </span>
-    <div>
+    <p>
       <%= @zoon_module.description %>
-    </div>
+    </p>
   </div>
   <div class="small-4 large-3 columns">
-    <%= link_to "View on Github", "#" %>
+    <a href="#" class="button">VIEW ON GITHUB</a>
   </div>
 </div>

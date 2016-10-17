@@ -5,7 +5,11 @@ namespace :import do
   desc "Imports modules information from github"
   task modules: :environment do
     # get all modules
-    client = Octokit::Client.new(access_token: "80f57a5d6ce5b6902f5cb4351a75627df9b19d39")
+    if ENV["GITHUB_AUTH_TOKEN"].blank?
+      puts "Please specify a GITHUB_AUTH_TOKEN in your .env file"
+      next
+    end
+    client = Octokit::Client.new(access_token: ENV["GITHUB_AUTH_TOKEN"])
     puts "#{ZoonModule.count} in our database"
     client.contents("zoonproject/modules", path: "R").each do |file|
       file_name = file[:name]

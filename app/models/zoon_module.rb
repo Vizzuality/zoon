@@ -1,4 +1,5 @@
 class ZoonModule < ApplicationRecord
+  ratyrate_rateable "usefulness"
 
   has_many :comments
 

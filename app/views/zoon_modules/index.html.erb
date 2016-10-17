@@ -25,12 +25,19 @@
       <%= link_to mod do %>
 
         <div class="columns small-12 medium-6 large-4 ">
+
           <div class="module-card">
             <span class="module-title"><%= mod.title && mod.title.include?(':') ? mod.title.split(":")[1] : mod.title %></span>
-            <span class="module-version"><%= mod.version %></span>
+            <span class="module-version  <%= mod.family %>"><%= mod.version %></span>
             <span class="module-description"><%= mod.description %></span>
           </div>
+
+          <div class="module-footer <%= mod.family %>">
+            <span class="module-date"><%= mod.family  %></span>
+          </div>
+
         </div>
+
       <% end %>
     <% end %>
 </div>

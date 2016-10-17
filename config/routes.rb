@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :modules, only: [:index, :show],
-    controller: "zoon_modules"
+
+  resources :zoon_modules, only: [:index, :show] do
+    resources :comments, only: [:create]
+  end
 
   root 'home#index'
 

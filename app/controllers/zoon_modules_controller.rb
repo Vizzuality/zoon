@@ -11,6 +11,7 @@ class ZoonModulesController < ApplicationController
   end
 
   def show
+    @comment = @zoon_module.comments.build
   end
 
   private

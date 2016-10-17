@@ -6,7 +6,13 @@
 	        	<li><%= link_to "ZOÖN", root_path %></li>
 	        	<li><%= link_to "MODULES", modules_path %></li>
 		      	<li><a href="#">WORKFLOWS</a></li>
-		      	<li><a href="#">ABOUT</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <% if current_user %>
+              <li><%= link_to "LOG OUT", destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to "SIGN IN", new_user_session_path %></li>
+              <li><%= link_to "SIGN UP", new_user_registration_path %></li>
+            <% end %>
 			</ul>
 	  </div>
 	</div>

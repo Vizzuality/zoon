@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :modules, only: [:index, :show],
     controller: "zoon_modules"
 

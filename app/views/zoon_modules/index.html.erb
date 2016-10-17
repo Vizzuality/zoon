@@ -4,7 +4,6 @@
 <div class="row">
   <br>
     <p class="module-description">Filter by module type</p>
-    
     <% @families.each_with_index do |fam, i| %>
       <div class="module-type columns small-12 medium-4 large-2">
         <%= image_tag("module#{i}.png") %>
@@ -25,7 +24,7 @@
 
         <div class="columns small-12 medium-6 large-4 ">
           <div class="module-card">
-            <span class="module-title"><%= String(mod.title).include?(':') ? String(mod.title).split(":")[1] : mod.title %></span>
+            <span class="module-title"><%= mod.title && mod.title.include?(':') ? mod.title.split(":")[1] : mod.title %></span>
             <span class="module-version"><%= mod.version %></span>
             <span class="module-description"><%= mod.description %></span>
           </div>

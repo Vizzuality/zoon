@@ -28,7 +28,9 @@
         <a href="/zoon_modules" class="button">EXPLORE THE MODULES</a>
       </div>
       <div class="medium-6 small-12 columns">
-        <input type="text" placeholder="Or look for a specific one">
+        <%= form_tag zoon_modules_path, method: :get do %>
+          <%= text_field_tag :query, nil, placeholder:"Or look for a specific one" %>
+        <% end %>
       </div>
     </div>
 

@@ -1,4 +1,7 @@
 class ZoonModule < ApplicationRecord
+
+  has_many :comments
+
   validates :name, uniqueness: [:path]
 
   scope :search, -> (query) { where("UPPER(name) like UPPER(?) OR UPPER(description) like UPPER(?)", "#{query}%", "#{query}%") }

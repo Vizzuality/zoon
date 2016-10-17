@@ -9,7 +9,7 @@
 <div class="row">
   <div class="small-12 large-7 columns">
     <span class="module-title">
-      <%= @zoon_module.title && @zoon_module.title.include?(':') ? @zoon_module.title.split(":")[1] : @zoon_module.title %>
+      <%= @zoon_module.title && @zoon_module.title.include?(":") ? @zoon_module.title.split(":")[1] : @zoon_module.title %>
     </span>
     <span class="module-version">
       <%= @zoon_module.version %>
@@ -20,8 +20,8 @@
 
     <div class="comments">
       <p>
-        <%= rating_for @zoon_module, 'usefulness', disable_after_rate: true %>
-        <%= pluralize(@zoon_module.comments.count, 'comment') %>
+        <%= rating_for @zoon_module, "usefulness", star_path: "/images/ratyrate"%>
+        <%= pluralize(@zoon_module.comments.count, "comment") %>
       </p>
       <% if current_user %>
         <div class="add-comment">

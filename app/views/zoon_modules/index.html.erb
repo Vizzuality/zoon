@@ -6,8 +6,10 @@
     <p class="module-description">Filter by module type</p>
     <% @families.each_with_index do |fam, i| %>
       <div class="module-type columns small-12 medium-4 large-2">
-        <%= image_tag("module#{i}.png") %>
-        <%= fam.family %>
+        <%= link_to modules_path(family: fam.family) do %>
+          <%= image_tag("module#{i}.png") %>
+          <%= fam.family %>
+        <% end %>
       </div>
     <% end %>
 

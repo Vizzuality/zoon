@@ -3,6 +3,9 @@ class ZoonModulesController < ApplicationController
 
   def index
     @zoon_modules = ZoonModule.order(:name).search(params[:query])
+    if params[:family]
+      @zoon_modules = @zoon_modules.filter_by_family(params[:family])
+    end
     @families = ZoonModule.select("distinct family").order(:family).
       where.not(family: nil)
   end

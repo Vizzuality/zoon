@@ -5,20 +5,16 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version 2.3.1
 
-* System dependencies
+* Rails version: 5.0.1
 
-* Configuration
+* Database creation:
 
-* Database creation
+Locally is using sqlite3
 
-* Database initialization
+* Import data from github:
 
-* How to run the test suite
+`rails import:modules`
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Requires setting up the GITHUB_AUTH_TOKEN on the **.env** file.

@@ -58,3 +58,5 @@ gem "octokit", "~> 4.0"
 gem 'devise'
 gem 'ratyrate'
 gem 'dotenv-rails', :groups => [:development, :test]
+
+gem "react_on_rails", "~> 6.5.0"

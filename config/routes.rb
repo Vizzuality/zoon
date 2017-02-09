@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'hello_world', to: 'hello_world#index'
+  get 'home', to: 'home#index'
   post '/rate' => 'rater#create', :as => 'rate'
   devise_for :users
 
@@ -7,7 +7,5 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  root 'home#index'
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  root 'hello_world#index'
 end

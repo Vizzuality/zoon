@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-const HelloWorld = ({ name, updateName }) => (
+import { updateName } from '../actions/name';
+
+const Greeter = ({ name, updateName }) => (
   <div>
-    <h3>
-      Hello, {name}!
-    </h3>
-    <hr />
-    <form >
+    <h3>Hello, {name}!</h3>
+    <form>
       <label htmlFor="name">
         Say hello to:
       </label>
@@ -20,9 +20,11 @@ const HelloWorld = ({ name, updateName }) => (
   </div>
 );
 
-HelloWorld.propTypes = {
+Greeter.propTypes = {
   name: PropTypes.string.isRequired,
   updateName: PropTypes.func.isRequired,
 };
 
-export default HelloWorld;
+export default connect(
+  (state) => ({ name: state.name }),
+  { updateName })(Greeter);

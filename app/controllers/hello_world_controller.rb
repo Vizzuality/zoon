@@ -1,5 +1,7 @@
 class HelloWorldController < ApplicationController
   def index
-    @hello_world_props = { name: "Stranger" }
+    @state = {
+      name: params[:name] || "requester",
+    }
   end
 end

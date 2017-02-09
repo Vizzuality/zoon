@@ -60,3 +60,5 @@ gem 'ratyrate'
 gem 'dotenv-rails', :groups => [:development, :test]
 
 gem "react_on_rails", "~> 6.5.0"
+
+gem 'mini_racer', platforms: :ruby

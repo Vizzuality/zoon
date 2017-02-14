@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  root 'home#index'
+  get '*path', to: 'home#index'
+  root to: 'home#index'
 end

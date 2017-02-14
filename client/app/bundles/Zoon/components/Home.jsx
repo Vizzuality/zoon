@@ -1,16 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import * as F from 'react-foundation';
 import { connect } from 'react-redux';
 
-import TopNav from "./TopNav"
-
 const Home = ({  }) => (
 <span>
-<TopNav />
-
-<p className="notice"></p>
-<p className="alert"></p>
-
 <F.Row>
   <F.Column small={12} large={8}>
     <h1>ZOÖN</h1>

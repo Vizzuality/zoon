@@ -1,6 +1,6 @@
 import { NAME_UPDATE } from '../action_types';
 
-export default name = (state = '', action) => {
+const name = (state = '', action) => {
   switch (action.type) {
     case NAME_UPDATE:
       return action.text;
@@ -8,3 +8,4 @@ export default name = (state = '', action) => {
       return state;
   }
 };
+export default name;

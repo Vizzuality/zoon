@@ -48,7 +48,7 @@ ReactOnRails.configure do |config|
   # Default is true. Logs server rendering messages to Rails.logger.info
   config.logging_on_server = true
 
-  config.raise_on_prerender_error = false # change to true to raise exception on server if the JS code throws
+  config.raise_on_prerender_error = true # change to true to raise exception on server if the JS code throws
 
   # Server rendering only (not for render_component helper)
   # You can configure your pool of JS virtual machines and specify where it should load code:

@@ -1,6 +1,6 @@
 import React from 'react'; // pkoch: to render the jsx.
 import { Provider } from 'react-redux';
-import { Router, IndexRoute, Route, browserHistory } from 'react-router'
+import { Router, IndexRoute, Route, browserHistory, createMemoryHistory } from 'react-router'
 
 import configureStore from '../store';
 import Layout from '../components/Layout';
@@ -9,7 +9,7 @@ import Modules from '../components/Modules';
 
 const ZoonApp = (props, _railsContext) => (
   <Provider store={configureStore(props)}>
-    <Router history={browserHistory}>
+    <Router history={browserHistory || createMemoryHistory(_railsContext['location'])}>
       <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="/modules" component={Modules} />

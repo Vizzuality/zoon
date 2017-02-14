@@ -1,8 +1,10 @@
 import { AUTHENTICATED } from '../action_types';
 
-export default authenticated = (state = '', action) => {
+const authenticated = (state = '', action) => {
   switch (action.type) {
     default:
       return state;
   }
 };
+
+export default authenticated;

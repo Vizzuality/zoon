@@ -6,6 +6,7 @@ import configureStore from '../store';
 import Layout from '../components/Layout';
 import Home from '../components/Home';
 import Modules from '../components/Modules';
+import NotFound from '../components/NotFound';
 
 const ZoonApp = (props, _railsContext) => (
   <Provider store={configureStore(props)}>
@@ -13,6 +14,7 @@ const ZoonApp = (props, _railsContext) => (
       <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="/modules" component={Modules} />
+        <Route path="*" component={NotFound} />
       </Route>
     </Router>
   </Provider>

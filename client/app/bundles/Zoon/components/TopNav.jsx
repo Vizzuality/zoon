@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const TopNav = ({ authenticated }) => {
   if (authenticated) {
     var items = [
-      <F.MenuItem><Link to="/users/sign_out">Log Out</Link></F.MenuItem>
+      <F.MenuItem key={0}><Link to="/users/sign_out">Log Out</Link></F.MenuItem>
     ]
   } else {
     var items = [
@@ -32,10 +32,6 @@ const TopNav = ({ authenticated }) => {
   </F.TopBar>
 </F.Row>
   );
-};
-
-TopNav.propTypes = {
-  authenticated: PropTypes.bool.isRequired,
 };
 
 export default connect(

@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   def index
     @state = {
       name: params[:name] || "requester",
-      authenticated: false,
+      authenticated: current_user || User.new
     }
   end
 end

@@ -134,3 +134,44 @@
 	letter-spacing: -0.5px;
 	color: #ffffff;
 }
+
+.map-picker {
+  .picker {
+    display: flex;
+    align-items: top;
+    justify-content: center;
+
+    > * {
+      flex: 1;
+
+      &.buttons {
+        text-align: center;
+
+        button, button:hover, button:focus {
+          display: inline;
+          color: black;
+          text-transform: uppercase;
+          border-width: 2px;
+          border-color: black;
+          outline: none;
+
+          &:first-child {
+            margin-right: 1em;
+          }
+
+          &.active {
+            background-color: black;
+            color: white;
+          }
+        }
+      }
+    }
+
+    &::after {
+      content: "";
+      flex: 1;
+    }
+  }
+  .map {
+  }
+}

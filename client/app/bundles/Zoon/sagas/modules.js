@@ -33,7 +33,10 @@ function* init(action) {
 
 function* fetchModulesListFromFamily(action) {
   const state = yield select()
-  yield fetchModulesList(action.newFamilyName, state.modules.searchQuery)
+  yield fetchModulesList({
+    familyName: action.newFamilyName,
+    searchQuery: state.modules.searchQuery,
+  })
 }
 
 function* fetchModulesList({familyName, searchQuery}) {

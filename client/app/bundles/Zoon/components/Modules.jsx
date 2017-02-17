@@ -68,7 +68,11 @@ class Modules extends React.Component {
   }
 
   componentDidMount(){
-    this.updateMosaic();
+    this.props.initModules();
+  }
+
+  componentWillUnmount(){
+    this.props.clearModules();
   }
 
   choosePannel() {
@@ -141,6 +145,8 @@ Modules.propTypes = {
   families: PropTypes.arrayOf(familyShape).isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
   updateFamilyFilter: PropTypes.func.isRequired,
+  initModules: PropTypes.func.isRequired,
+  clearModules: PropTypes.func.isRequired,
 }
 
 export default connect(

@@ -16,3 +16,11 @@ export const updateFamilyFilter = (newFamilyName) => ({
   type: A.MODULES_UPDATE_FAMILY_FILTER,
   newFamilyName,
 });
+
+export const initModules = () => ({
+  type: A.MODULES_INIT,
+});
+
+export const clearModules = () => ({
+  type: A.MODULES_CLEAR,
+});

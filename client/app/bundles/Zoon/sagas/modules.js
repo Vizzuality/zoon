@@ -17,6 +17,29 @@ function filterEmptyValues(obj){
   return result
 }
 
+function* init(action) {
+  const state = yield select()
+  const q = state.routing.locationBeforeTransitions.query
+  const familyName = q.familyName || '';
+  const searchQuery = q.searchQuery || '';
+
+  yield put({
+    type: A.MODULES_UPDATE_FAMILY_FILTER,
+    newFamilyName: familyName,
+  })
+
+  yield put({
+    type: A.MODULES_UPDATE_SEARCH_QUERY,
+    newQuery: searchQuery,
+  })
+
+  yield put({
+    type: A.MODULES_FETCH_START,
+    familyName,
+    searchQuery,
+  })
+}
+
 function* fetchModulesListFromFamily(action) {
   const state = yield select()
   yield put({
@@ -56,5 +79,6 @@ export default function* modules() {
   yield [
     takeLatest(A.MODULES_FETCH_START, fetchModulesList),
     takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesListFromFamily),
+    takeLatest(A.MODULES_INIT, init),
   ];
 };

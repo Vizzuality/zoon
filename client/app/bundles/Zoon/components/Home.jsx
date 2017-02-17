@@ -98,7 +98,6 @@ const Home = ({  }) => (
 </span>
 );
 
-
 export default connect(
   (state) => ({
   }),

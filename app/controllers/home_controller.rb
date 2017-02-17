@@ -3,7 +3,6 @@ class HomeController < ApplicationController
 
   def index
     @state = {
-      name: params[:name] || "requester",
       authenticated: current_user || User.new,
       families: families,
       modules: {

@@ -7,6 +7,11 @@ export const fetchModuleList = (familyName, searchQuery, pageNumber=0) => ({
   pageNumber,
 });
 
+export const finishModuleFetch = (result) => ({
+  type: A.MODULES_FETCH_FINISHED,
+  result,
+});
+
 export const updateSearchQuery = (newQuery) => ({
   type: A.MODULES_UPDATE_SEARCH_QUERY,
   newQuery,

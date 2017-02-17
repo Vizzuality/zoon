@@ -4,6 +4,7 @@ import buildUrl from 'build-url';
 import { push } from 'react-router-redux'
 
 import * as A from '../action_types';
+import * as moduleActions from '../actions/modules';
 
 
 function filterEmptyValues(obj){
@@ -23,30 +24,16 @@ function* init(action) {
   const familyName = q.familyName || '';
   const searchQuery = q.searchQuery || '';
 
-  yield put({
-    type: A.MODULES_UPDATE_FAMILY_FILTER,
-    newFamilyName: familyName,
-  })
+  yield put(moduleActions.updateFamilyFilter(familyName))
 
-  yield put({
-    type: A.MODULES_UPDATE_SEARCH_QUERY,
-    newQuery: searchQuery,
-  })
+  yield put(moduleActions.updateSearchQuery(searchQuery))
 
-  yield put({
-    type: A.MODULES_FETCH_START,
-    familyName,
-    searchQuery,
-  })
+  yield put(moduleActions.fetchModuleList(familyName, searchQuery))
 }
 
 function* fetchModulesListFromFamily(action) {
   const state = yield select()
-  yield put({
-    type: A.MODULES_FETCH_START,
-    familyName: action.newFamilyName,
-    searchQuery: state.modules.searchQuery,
-  })
+  yield fetchModulesList(action.newFamilyName, state.modules.searchQuery)
 }
 
 function* fetchModulesList({familyName, searchQuery}) {
@@ -59,12 +46,12 @@ function* fetchModulesList({familyName, searchQuery}) {
       .then((r) => r.json())
     );
 
-    yield put({type: A.MODULES_FETCH_FINISHED, result: json})
+    yield put(moduleActions.finishModuleFetch(json))
   } catch (error) {
-    yield put({type: A.MODULES_FETCH_FINISHED, result: {
+    yield put(moduleActions.finishModuleFetch({
       state: 'error',
       errorMessage: 'Error talking to the server. ' + error.message,
-    }})
+    }))
   }
 
   yield put(push(
@@ -72,7 +59,6 @@ function* fetchModulesList({familyName, searchQuery}) {
       queryParams: filterEmptyValues({familyName, searchQuery})
     })
   ))
-
 }
 
 export default function* modules() {

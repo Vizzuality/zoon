@@ -75,7 +75,7 @@ class Modules extends React.Component {
     this.props.clearModules();
   }
 
-  choosePannel() {
+  choosePanel() {
     if (this.props.state === 'error') {
       return (
         <F.Column>
@@ -107,36 +107,43 @@ class Modules extends React.Component {
   }
 
   render() {
-    return (<span>
-  <FlowBanner />
-  <F.Row>
-    <F.Column className="module-description">
-      Filter by module type
-    </F.Column>
-    {this.props.families.map(f => (
-      <ModuleTypeSwitch
-        key={f.name}
-        currentFamilyName={this.props.selectedFamilyName}
-        targetFamily={f}
-        updateFamilyFilter={this.props.updateFamilyFilter}
-      />
-    ))}
-    <F.Column className="module-search" small={12} medium={4} large={2}>
-      <form onSubmit={noDefault(() => (this.updateMosaic()))}>
-        <input
-          type="text"
-          placeholder="search"
-          value={this.props.searchQuery}
-          onChange={(e) => this.props.updateSearchQuery(e.target.value)}
-        />
-      </form>
-    </F.Column>
-  </F.Row>
-  <F.Row>
-    {this.choosePannel()}
-  </F.Row>
-  <MapPicker />
-    </span>);
+    return (
+      <span>
+        <FlowBanner />
+
+        <F.Row>
+          <F.Column className="module-description">
+            Filter by module type
+          </F.Column>
+
+          {this.props.families.map(f => (
+            <ModuleTypeSwitch
+              key={f.name}
+              currentFamilyName={this.props.selectedFamilyName}
+              targetFamily={f}
+              updateFamilyFilter={this.props.updateFamilyFilter}
+            />
+          ))}
+
+          <F.Column className="module-search" small={12} medium={4} large={2}>
+            <form onSubmit={noDefault(() => (this.updateMosaic()))}>
+              <input
+                type="text"
+                placeholder="search"
+                value={this.props.searchQuery}
+                onChange={(e) => this.props.updateSearchQuery(e.target.value)}
+              />
+            </form>
+          </F.Column>
+        </F.Row>
+
+        <F.Row>
+          {this.choosePanel()}
+        </F.Row>
+
+        <MapPicker />
+      </span>
+    );
   };
 }
 

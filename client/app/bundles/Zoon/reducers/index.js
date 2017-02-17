@@ -1,11 +1,20 @@
 import { combineReducers } from 'redux'
+import { routerReducer as routing } from 'react-router-redux'
 
-import name from './name'
 import authenticated from './authenticated'
 import map from "./map"
+import modules from './modules'
+import name from './name'
+
+function noOpReducer(state=null, action) {
+  return state;
+}
 
 export default combineReducers({
-  name,
   authenticated,
+  families: noOpReducer,
   map
+  modules,
+  name,
+  routing,
 })

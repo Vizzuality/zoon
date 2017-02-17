@@ -2,6 +2,9 @@ import React from 'react';
 import * as F from 'react-foundation';
 import { connect } from 'react-redux';
 
+import FlowBanner from './FlowBanner'
+
+
 const Home = ({  }) => (
 <span>
 <F.Row>
@@ -11,8 +14,7 @@ const Home = ({  }) => (
   </F.Column>
 </F.Row>
 
-<div className="expanded row flow-image">
-</div>
+<FlowBanner />
 
 <F.Row>
   <F.Column small={12} large={8}>
@@ -95,6 +97,7 @@ const Home = ({  }) => (
 </F.Row>
 </span>
 );
+
 
 export default connect(
   (state) => ({

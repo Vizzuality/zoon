@@ -21,6 +21,17 @@ const config = {
     path: '../app/assets/webpack',
   },
 
+  externals: [
+    {
+      'isomorphic-fetch': {
+        root: 'isomorphic-fetch',
+        commonjs2: 'isomorphic-fetch',
+        commonjs: 'isomorphic-fetch',
+        amd: 'isomorphic-fetch'
+      }
+    },
+  ],
+
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {

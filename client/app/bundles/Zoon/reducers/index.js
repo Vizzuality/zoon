@@ -13,7 +13,7 @@ function noOpReducer(state=null, action) {
 export default combineReducers({
   authenticated,
   families: noOpReducer,
-  map
+  map,
   modules,
   name,
   routing,

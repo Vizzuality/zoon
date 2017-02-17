@@ -2,42 +2,85 @@ import React from 'react';
 import * as F from 'react-foundation';
 import { connect } from 'react-redux';
 
-const SignUp = ({  }) => (
-  <F.Row>
-    <F.Column small={12} large={8}>
-      <h2>Sign up</h2>
+import * as authActions from '../actions/auth';
 
-      <form className="new_user" id="new_user" action="/users" acceptCharset="UTF-8" method="post">
-        <input name="utf8" type="hidden" value="&#x2713;" />
-        <input type="hidden" name="authenticity_token" value="QB9IOvCrK2zSE/6i2FAfqruKFSKEuGfopNNIzYCBvfdD/PSuin1BDUpuZ0SNS25DYTfSjyuVVIB0nZtE/wgQIQ==" />
 
-        <div className="field">
-          <label htmlFor="user_email">Email</label><br />
-          <input autoFocus="autofocus" type="email" value="" name="user[email]" id="user_email" />
-        </div>
+class SignUp extends React.Component {
+  onEmailChange(ev) {
+    this.setState({ email: ev.target.value });
+  }
 
-        <div className="field">
-          <label htmlFor="user_password">Password</label><br />
-          <input autoComplete="off" type="password" name="user[password]" id="user_password" />
-        </div>
+  onPasswordChange(ev) {
+    this.setState({ password: ev.target.value });
+  }
 
-        <div className="field">
-          <label htmlFor="user_password_confirmation">Password confirmation</label><br />
-          <input autoComplete="off" type="password" name="user[password_confirmation]" id="user_password_confirmation" />
-        </div>
+  submit(event) {
+    event.preventDefault();
 
-        <div className="actions">
-          <input type="submit" name="commit" value="Sign up" data-disable-with="Sign up" />
-        </div>
-      </form>
+    this.props.authSignup(
+      this.props.state.csrf,
+      this.state.email,
+      this.state.password,
+    );
+  }
 
-      <a href="/users/sign_in">Log in</a><br />
-    </F.Column>
-  </F.Row>
-);
+  render() {
+    return (
+      <F.Row>
+        <F.Column small={12} large={8}>
+          <h2>Sign up</h2>
+
+          {
+            Object.keys(this.props.state.errors || []).map((key) => (
+              this.props.state.errors[key].map((error) => (
+                <p className="error">{key}: {error}</p>
+              ))
+            ))
+          }
+
+          <form className="new_user" onSubmit={this.submit.bind(this)}>
+            <div className="field">
+              <label htmlFor="user_email">Email</label><br />
+              <input
+                autoFocus="autofocus"
+                name="user[email]" id="user_email"
+                onChange={this.onEmailChange.bind(this)}
+                type="email"
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="user_password">Password</label><br />
+              <input
+                autoComplete="off"
+                id="user_password"
+                name="user[password]"
+                onChange={this.onPasswordChange.bind(this)}
+                type="password"
+              />
+            </div>
+
+            <div className="actions">
+              <input
+                disabled={this.props.state.pending}
+                name="commit"
+                type="submit"
+                value="Sign up"
+              />
+            </div>
+          </form>
+
+          <a href="/users/sign_in">Log in</a><br />
+        </F.Column>
+      </F.Row>
+    );
+  }
+};
 
 export default connect(
   (state) => ({
+    state: state.auth,
   }),
   {
+    ...authActions
   })(SignUp);

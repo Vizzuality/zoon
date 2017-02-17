@@ -3,7 +3,9 @@ class HomeController < ApplicationController
 
   def index
     @state = {
-      authenticated: current_user || User.new,
+      auth: (current_user || User.new).as_json.merge(
+          csrf: form_authenticity_token,
+      ),
       families: families,
       modules: {
         selectedFamilyName: params[:familyName] || '',

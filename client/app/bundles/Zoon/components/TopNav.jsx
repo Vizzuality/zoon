@@ -3,10 +3,12 @@ import * as F from 'react-foundation';
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
 
-const TopNav = ({ authenticated }) => {
-  if (authenticated.id) {
+import * as authActions from '../actions/auth';
+
+const TopNav = ({ auth, authLogout }) => {
+  if (auth.id) {
     var items = [
-      <F.MenuItem key={0}><Link to="/users/sign_out">Log Out</Link></F.MenuItem>
+      <F.MenuItem key={0} ><Link onClick={() => authLogout(auth.csrf)}>Log Out</Link></F.MenuItem>
     ]
   } else {
     var items = [
@@ -36,6 +38,8 @@ const TopNav = ({ authenticated }) => {
 
 export default connect(
   (state) => ({
-    authenticated: state.authenticated
+    auth: state.auth,
   }),
-  {})(TopNav);
+  {
+    ...authActions,
+  })(TopNav);

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer as routing } from 'react-router-redux'
 
-import authenticated from './authenticated'
+import auth from './auth'
 import map from "./map"
 import modules from './modules'
 
@@ -10,7 +10,7 @@ function noOpReducer(state=null, action) {
 }
 
 export default combineReducers({
-  authenticated,
+  auth,
   families: noOpReducer,
   map,
   modules,

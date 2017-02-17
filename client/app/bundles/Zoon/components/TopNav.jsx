@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux';
 
 const TopNav = ({ authenticated }) => {
-  if (authenticated) {
+  if (authenticated.id) {
     var items = [
       <F.MenuItem key={0}><Link to="/users/sign_out">Log Out</Link></F.MenuItem>
     ]

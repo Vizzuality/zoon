@@ -1,5 +1,6 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
+import { goBack } from 'react-router-redux'
 import 'isomorphic-fetch';
 
 import * as A from '../action_types';
@@ -38,7 +39,7 @@ function* signIn({authenticityToken, email, password}) {
   yield put(authActions.authFinished({ ...result }));
 
   if (!result.errors) {
-    yield put(push('/'));
+    yield put(goBack());
   }
 }
 

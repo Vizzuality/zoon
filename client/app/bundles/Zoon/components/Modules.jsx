@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 import * as F from 'react-foundation';
-import buildUrl from 'build-url';
 
 import * as modules_actions from '../actions/modules'
 import MapPicker from './MapPicker';

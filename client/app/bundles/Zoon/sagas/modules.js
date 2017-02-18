@@ -18,7 +18,7 @@ function filterEmptyValues(obj){
   return result
 }
 
-function* init(action) {
+function* initModules(action) {
   const state = yield select()
   const q = state.routing.locationBeforeTransitions.query
   const familyName = q.familyName || '';
@@ -32,6 +32,23 @@ function* init(action) {
   yield put(moduleActions.updateSearchTags(searchTags))
 
   yield put(moduleActions.fetchModuleList(familyName, searchQuery, searchTags))
+}
+
+function* initModule({id}) {
+  try {
+    const json = yield (
+      fetch(buildUrl('/api/modules/'+id))
+      .catch((e) => {throw e})
+      .then((r) => r.json())
+    );
+
+    yield put(moduleActions.finishModuleFetch(json))
+  } catch (error) {
+    yield put(moduleActions.finishModuleFetch({
+      state: 'error',
+      errorMessage: 'Error talking to the server. ' + error.message,
+    }))
+  }
 }
 
 function* fetchModulesListFromFamily(action) {
@@ -72,6 +89,7 @@ export default function* modules() {
   yield [
     takeLatest(A.MODULES_FETCH_START, fetchModulesList),
     takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesListFromFamily),
-    takeLatest(A.MODULES_INIT, init),
+    takeLatest(A.MODULES_INIT, initModules),
+    takeLatest(A.MODULE_INIT, initModule),
   ];
 };

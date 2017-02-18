@@ -38,14 +38,16 @@ const ModuleMosaic = ({ models }) => {
   return (<F.Row>
     {models.map(m => (
       <F.Column key={m.id} small={12} medium={6} large={4}>
-        <div className="module-card">
-          <span className="module-title">{m.title}</span>
-          <span className="module-version  model">{m.version}</span>
-          <span className="module-description">{m.description}</span>
-        </div>
-        <div className={`module-footer ${m.family}`}>
-          <span className="module-date">{m.family}</span>
-        </div>
+        <Link to={`/modules/${m.id}`}>
+          <div className="module-card">
+            <span className="module-title">{m.title}</span>
+            <span className="module-version  model">{m.version}</span>
+            <span className="module-description">{m.description}</span>
+          </div>
+          <div className={`module-footer ${m.family}`}>
+            <span className="module-date">{m.family}</span>
+          </div>
+        </Link>
       </F.Column>
     ))}
   </F.Row>);

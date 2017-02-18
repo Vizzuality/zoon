@@ -7,9 +7,11 @@ import configureStore from '../store';
 import Layout from '../components/Layout';
 import Home from '../components/Home';
 import Modules from '../components/Modules';
+import Module from '../components/Module';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import NotFound from '../components/NotFound';
+
 
 const ZoonApp = (props, _railsContext) => {
   let store = configureStore(props);
@@ -21,6 +23,7 @@ const ZoonApp = (props, _railsContext) => {
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
           <Route path="/modules" component={Modules} />
+          <Route path="/modules/:id" component={Module} />
           <Route path="/users/sign_in" component={SignIn} />
           <Route path="/users/sign_up" component={SignUp} />
           <Route path="*" component={NotFound} />

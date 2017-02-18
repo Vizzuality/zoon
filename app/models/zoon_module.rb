@@ -6,6 +6,8 @@ class ZoonModule < ApplicationRecord
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
 
+  has_many :screenshots, as: :screenshootable, dependent: :destroy
+
   validates :name, uniqueness: [:path]
 
   scope :search, -> (query, tags) {

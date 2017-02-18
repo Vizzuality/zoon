@@ -49,7 +49,7 @@ class Module extends React.Component {
     goBack: PropTypes.func.isRequired,
   }
 
-  render(r){
+  render(){
     return (<span>
   <F.Row>
     <F.Column className="back-link">

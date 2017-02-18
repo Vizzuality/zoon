@@ -4,32 +4,32 @@
 
 
 body {
-	background: #F0F0F0;
+    background: #F0F0F0;
 }
 
 
 // MENU
 
 .main-header {
-	height: 100px;
+    height: 100px;
 }
 
 .top-bar, .top-bar ul {
-	background: none;
+    background: none;
 }
 
 .menu > li > a {
-	font-family: 'Work Sans', sans-serif;
-	font-size: 24px;
-	font-weight: 300;
-	color: #000000;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    color: #000000;
 }
 
 .menu > li > a:hover {
-	font-family: 'Work Sans', sans-serif;
-	font-size: 24px;
-	font-weight: 800;
-	color: #000000;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: #000000;
 }
 
 // GENERAL
@@ -37,86 +37,86 @@ body {
 
 
 p {
-	font-family: 'Work Sans', sans-serif;
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 1.7;
-	opacity: 0.9;
-	letter-spacing: -0.4px;
-	color: #000000;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.7;
+    opacity: 0.9;
+    letter-spacing: -0.4px;
+    color: #000000;
 }
 
 h1 {
-	font-family: 'Work Sans', sans-serif;
-	font-weight: 700;
-	font-size: 86px;
-	line-height: 1;
-	letter-spacing: 14px;
-	color: #000000;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 86px;
+    line-height: 1;
+    letter-spacing: 14px;
+    color: #000000;
 }
 
 h3 {
-	font-family: 'Work Sans', sans-serif;
-	font-weight: 700;
-	font-size: 18px;
-	line-height: 1.7;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.7;
 }
 
 
 
 p a {
-	text-decoration: none;
-	font-weight: 700;
-	font-size: 18px;
-	line-height: 1.7;
-	letter-spacing: -0.4px;
-	color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.7;
+    letter-spacing: -0.4px;
+    color: #000000;
 }
 
 a {
-	color: #000000;
+    color: #000000;
 }
 
 .button {
-	display: block;
-	padding: 10px 20px;
-	background: #000000;
+    display: block;
+    padding: 10px 20px;
+    background: #000000;
 }
 
 .button-label {
-	font-size: 14px;
-	font-weight: 700;
-	line-height: 2.1;
-	color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 2.1;
+    color: #ffffff;
 }
 
 .code-snippet {
-	display: block;
-	padding: 10px auto 10px 20px;
-	background: #ffffff;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    display: block;
+    padding: 10px auto 10px 20px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .code-snippet-text {
-	opacity: 0.5;
-	font-family: Courier;
-	font-size: 14px;
-	line-height: 2.1;
-	letter-spacing: -0.3px;
-	color: #000000;
+    opacity: 0.5;
+    font-family: Courier;
+    font-size: 14px;
+    line-height: 2.1;
+    letter-spacing: -0.3px;
+    color: #000000;
 }
 
 .citation {
-	font-size: 14px;
-	opacity: 0.5;
-	line-height: 1.4;
-	letter-spacing: -0.3px;
-	color: #000000;
+    font-size: 14px;
+    opacity: 0.5;
+    line-height: 1.4;
+    letter-spacing: -0.3px;
+    color: #000000;
 }
 
 .flow-image {
-	height: 143px;
-	background-image: image-url('flow.png');
+    height: 143px;
+    background-image: image-url('flow.png');
     background-repeat: no-repeat;
     background-position: center;
 }

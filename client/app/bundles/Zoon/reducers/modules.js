@@ -7,6 +7,7 @@ const defaultState = {
   errorMessage: '',
   selectedFamilyName: '',
   searchQuery: '',
+  shownEntityId: null,
   entities: [],
   pageCount: null,
   currentPage: null,
@@ -46,6 +47,19 @@ const modules = (state = defaultState, action) => {
 
     case A.MODULES_CLEAR:
       return defaultState
+
+    case A.MODULE_INIT:
+      return {
+        ...state,
+        shownEntityId: action.id,
+      };
+
+    case A.MODULE_CLEAR:
+      return {
+        ...state,
+        entities: [],
+        shownEntityId: null,
+      };
 
     default:
       return {

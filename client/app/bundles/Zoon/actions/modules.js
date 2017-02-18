@@ -35,3 +35,12 @@ export const initModules = () => ({
 export const clearModules = () => ({
   type: A.MODULES_CLEAR,
 });
+
+export const initModule = (id) => ({
+  type: A.MODULE_INIT,
+  id,
+});
+
+export const clearModule = () => ({
+  type: A.MODULE_CLEAR,
+});

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post '/rate' => 'rater#create', :as => 'rate'
 
   namespace :api do
-    resources :modules, only: [:index]
+    resources :modules, only: [:index, :show]
   end
 
   # DEVISE

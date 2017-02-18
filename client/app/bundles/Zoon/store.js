@@ -6,6 +6,12 @@ import { browserHistory } from 'react-router'
 import reducer from './reducers/index';
 import saga from './sagas';
 
+const reduxDevtoolsExtensionMiddleware = () => (
+  window !== undefined
+  && window.__REDUX_DEVTOOLS_EXTENSION__
+  && window.__REDUX_DEVTOOLS_EXTENSION__()
+  || ((f) => f)
+)
 
 const configureStore = (props) => {
   const sagaMiddleware = createSagaMiddleware();
@@ -16,19 +22,9 @@ const configureStore = (props) => {
     compose(
       applyMiddleware(sagaMiddleware),
       applyMiddleware(routerMiddleware(browserHistory)),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() || ((f) => f)
+      reduxDevtoolsExtensionMiddleware(),
     ),
   );
-
-  if (false) {
-    let old_d = store.dispatch;
-    store.dispatch = (...args) => {
-      console.log("Dispatching:", args[0]);
-      return old_d(...args);
-    }
-
-    store.subscribe(() => {console.log("New state: ", store.getState())})
-  }
 
   sagaMiddleware.run(saga);
 

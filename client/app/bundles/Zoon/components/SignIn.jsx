@@ -61,11 +61,6 @@ class SignIn extends React.Component {
               />
             </div>
 
-            <div className="field">
-              <input name="user[remember_me]" type="hidden" value="0" /><input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" />
-              <label htmlFor="user_remember_me">Remember me</label>
-            </div>
-
             <div className="actions">
               <input
                 disabled={this.props.state.pending}

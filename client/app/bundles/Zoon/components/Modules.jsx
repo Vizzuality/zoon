@@ -141,7 +141,7 @@ class Modules extends React.Component {
           {this.choosePanel()}
         </F.Row>
 
-        <MapPicker />
+        <MapPicker select={console.log} unselect={console.log} />
       </span>
     );
   };

@@ -6,15 +6,15 @@ import countriesMap from '../countriesMap';
 import countriesData from '../countriesData';
 import continentsMap from '../continentsMap';
 import continentsData from '../continentsData';
-import clone from 'clone';
 import { pickMapGranularity } from '../actions/map';
 
-const config = {
+const config = (seriesData, select, unselect) => ({
   title: null,
   chart: {
     backgroundColor: "transparent"
   },
   series: [{
+    ...seriesData,
     allowPointSelect: true,
   }],
   plotOptions: {
@@ -31,12 +31,8 @@ const config = {
       },
       point: {
         events: {
-          select: function (event) {
-            console.log("Selected", event.target.name);
-          },
-          unselect: function (event) {
-            console.log("Unselected");
-          }
+          select: select,
+          unselect: unselect,
         }
       }
     },
@@ -57,23 +53,20 @@ const config = {
       textTransform: "uppercase"
     }
   }
+});
+
+const data = {
+  continents: {
+    mapData: continentsMap,
+    data: continentsData,
+  },
+  countries: {
+    mapData: countriesMap,
+    data: countriesData,
+  },
 };
 
-const continentsConfig = (function () {
-  var conf = clone(config);
-  conf.series[0].mapData = continentsMap;
-  conf.series[0].data = continentsData;
-  return conf;
-})();
-
-const countriesConfig = (function () {
-  var conf = clone(config);
-  conf.series[0].mapData = countriesMap;
-  conf.series[0].data = countriesData;
-  return conf;
-})();
-
-const MapPicker = ({ granularity, pickMapGranularity }) => (
+const MapPicker = ({ granularity, pickMapGranularity, select, unselect }) => (
 <div className="map-picker">
   <div className="picker">
     <span>Filter by coverage</span>
@@ -87,11 +80,7 @@ const MapPicker = ({ granularity, pickMapGranularity }) => (
     </div>
   </div>
   <div className="map">
-    { granularity === "continents" ? (
-      <ReactHighmaps config = {continentsConfig}></ReactHighmaps>
-    ) : (
-      <ReactHighmaps config = {countriesConfig}></ReactHighmaps>
-    )}
+    <ReactHighmaps config={config(data[granularity], select, unselect)} />
   </div>
 </div>
 );

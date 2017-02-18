@@ -7,130 +7,174 @@
 
 
 .module-filter {
-	list-style-type: none;
+    list-style-type: none;
     float: left;
 }
 
 .module-type {
-	font-size: 20px;
-	font-weight: 300;
-	line-height: 2;
-	letter-spacing: -0.5px;
-	color: #000000;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 2;
+    letter-spacing: -0.5px;
+    color: #000000;
     margin-bottom: 10px;
+}
+.module-type.selected {
+    font-weight: bold;
 }
 
 .module-type img {
-	width: 40px;
-	margin-right: 10px;
-	float: left;
+    width: 40px;
+    margin-right: 10px;
+    float: left;
 }
 
 .module-card {
-	background-color: #ffffff;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-	padding: 20px;
-	margin-top: 20px;
-	height: 250px;
-	overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 20px;
+    height: 250px;
+    overflow: hidden;
 }
 
 
 .module-footer {
-	width: 100%;
-	height: 50px;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-	padding: 12px 20px;
+    width: 100%;
+    height: 50px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    padding: 12px 20px;
 }
 
 .module-date {
-	font-size: 15px;
-	font-weight: 400;
-	line-height: 1.3;
-	letter-spacing: -0.3px;
-	color: #ffffff;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.3px;
+    color: #ffffff;
 }
 
 .covariate {
-	background-color: #00A2B7;
+    background-color: #00A2B7;
 }
 
 .model {
-	background-color: #D46F79;
+    background-color: #D46F79;
 }
 
 .occurrence {
-	background-color: #1E6E6B;
+    background-color: #1E6E6B;
 }
 
 .output {
-	background-color: #F0506A;
+    background-color: #F0506A;
 }
 
 .process {
-	background-color: #F48999;
+    background-color: #F48999;
 }
 
 .module-card .covariate {
-	background: none;
-	color: #00A2B7;
+    background: none;
+    color: #00A2B7;
 }
 
 .module-card .model {
-	background: none;
-	color: #D46F79;
+    background: none;
+    color: #D46F79;
 }
 
 .module-card .occurrence {
-	background: none;
-	color: #1E6E6B;
+    background: none;
+    color: #1E6E6B;
 }
 
 .module-card .output {
-	background: none;
-	color: #F0506A;
+    background: none;
+    color: #F0506A;
 }
 
 .module-card .process {
-	background: none;
-	color: #F48999;
+    background: none;
+    color: #F48999;
 }
 
 .module-title {
-	font-size: 30px;
-	font-weight: 300;
-	line-height: 1.2;
-	letter-spacing: -0.5px;
-	color: #000000;
-	display: block;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: #000000;
+    display: block;
 }
 
 .module-version {
-	font-size: 15px;
-	font-weight: 400;
-	line-height: 1.3;
-	color: #000000;
-	display: block;
-	margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: #000000;
+    display: block;
+    margin-bottom: 10px;
 }
 
 .module-version::before {
-	content: "V.";
+    content: "V.";
 }
 
 .module-description {
-	font-size: 15px;
-	font-weight: 400;
-	line-height: 1.3;
-	opacity: .3;
-	letter-spacing: -0.3px;
-	color: #000000;
-	display: block;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.3;
+    opacity: .3;
+    letter-spacing: -0.3px;
+    color: #000000;
+    display: block;
 }
 
 .date-small {
-	font-size: 15px;
-	line-height: 1.3;
-	letter-spacing: -0.5px;
-	color: #ffffff;
+    font-size: 15px;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.map-picker {
+  .picker {
+    display: flex;
+    align-items: top;
+    justify-content: center;
+
+    > * {
+      flex: 1;
+
+      &.buttons {
+        text-align: center;
+
+        button, button:hover, button:focus {
+          display: inline;
+          color: black;
+          text-transform: uppercase;
+          border-width: 2px;
+          border-color: black;
+          outline: none;
+
+          &:first-child {
+            margin-right: 1em;
+          }
+
+          &.active {
+            background-color: black;
+            color: white;
+          }
+        }
+      }
+    }
+
+    &::after {
+      content: "";
+      flex: 1;
+    }
+  }
+  .map {
+  }
 }

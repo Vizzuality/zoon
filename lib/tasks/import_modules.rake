@@ -33,6 +33,18 @@ namespace :import do
            zoon.send("#{term[0]}=", encoded)
          end
        end
+       zoon.tags = [
+         "europe",
+         "portugal",
+         "north america",
+         "africa",
+         "usa",
+         "sudan",
+         "pakistan",
+         "australia",
+         "thailand",
+         "russia",
+       ].sample(3)
        zoon.save!
        sleep(1)
     end

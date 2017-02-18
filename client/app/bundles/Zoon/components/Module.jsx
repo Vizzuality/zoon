@@ -39,6 +39,16 @@ class Module extends React.Component {
     }
   }
 
+  static propTypes = {
+    state: PropTypes.string.isRequired,
+    urlId: PropTypes.string.isRequired,
+    entity: PropTypes.object,
+
+    initModule: PropTypes.func.isRequired,
+    clearModule: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired,
+  }
+
   render(r){
     return (<span>
   <F.Row>
@@ -61,16 +71,6 @@ class Module extends React.Component {
     </span>);
   };
 };
-
-Module.propTypes = {
-  state: PropTypes.string.isRequired,
-  urlId: PropTypes.string.isRequired,
-  entity: PropTypes.object,
-
-  initModule: PropTypes.func.isRequired,
-  clearModule: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired,
-}
 
 export default connect(
   (state, ownProps) => {

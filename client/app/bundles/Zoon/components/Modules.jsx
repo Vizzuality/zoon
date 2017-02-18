@@ -31,7 +31,13 @@ const ModuleTypeSwitch = ({
   );
 }
 
-// TODO ModuleTypeSwitch.propTypes
+ModuleTypeSwitch.propTypes = {
+  currentFamilyName: PropTypes.string.isRequired,
+  targetFamily: PropTypes.object.isRequired,
+
+  updateFamilyFilter: PropTypes.func.isRequired,
+}
+
 
 const ModuleMosaic = ({ models }) => {
   return (<F.Row>

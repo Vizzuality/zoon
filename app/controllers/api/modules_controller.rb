@@ -3,7 +3,7 @@ class Api::ModulesController < ApplicationController
     modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
 
     if familyName = params[:familyName].presence
-      modules = modules.filter_by_family familyName 
+      modules = modules.filter_by_family familyName
     end
 
     render json: {

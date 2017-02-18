@@ -5,6 +5,16 @@ import { goBack } from 'react-router-redux'
 import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
+import Errorable from './Errorable'
+
+
+const SillyModule = ({ entity, currentUser, canRate }) => {
+  return (<span>
+    <pre>
+      {JSON.stringify(entity, null, 2)}
+    </pre>
+  </span>);
+}
 
 class Module extends React.Component {
   componentDidMount(){
@@ -14,33 +24,10 @@ class Module extends React.Component {
   componentWillUnmount(){
     this.props.clearModule();
   }
-  choosePanel() {
-    if (this.props.state === 'error') {
-      return (
-        <F.Column>
-          Oops! There seems to be something wrong! <br/>
-          {this.props.errorMessage}
-        </F.Column>
-      );
-    } else if (this.props.state === 'uninitialized') {
-      return (
-        <F.Column>
-          Initializing.
-        </F.Column>
-      );
-    } else if (this.props.state === 'fetching') {
-      return (
-        <F.Column>
-          Fetching info from server.
-        </F.Column>
-      );
-    } else {
-      return JSON.stringify(this.props.entity, null, 2)
-    }
-  }
 
   static propTypes = {
     state: PropTypes.string.isRequired,
+    errorMessage: PropTypes.string,
     urlId: PropTypes.string.isRequired,
     entity: PropTypes.object,
 
@@ -59,9 +46,12 @@ class Module extends React.Component {
 
   <F.Row>
     <F.Column className="content" medium={7}>
-      <pre>
-      {this.choosePanel()}
-      </pre>
+      <Errorable
+        state={this.props.state}
+        errorMessage={this.props.errorMessage}
+      >
+        <SillyModule entity={this.props.entity}/>
+      </Errorable>
     </F.Column>
 
     <F.Column className="sidebar" medium={4} offsetOnMedium={1}>
@@ -76,6 +66,7 @@ export default connect(
   (state, ownProps) => {
     return {
       state: state.modules.state,
+      errorMessage: state.modules.errorMessage,
       urlId: ownProps.routeParams.id,
       entity: state.modules.entities[0],
     }

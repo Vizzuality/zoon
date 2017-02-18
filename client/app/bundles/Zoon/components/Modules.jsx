@@ -6,6 +6,7 @@ import * as F from 'react-foundation';
 import * as modules_actions from '../actions/modules'
 import MapPicker from './MapPicker';
 import FlowBanner from './FlowBanner'
+import Errorable from './Errorable'
 
 
 const familyShape = React.PropTypes.shape({
@@ -92,37 +93,6 @@ class Modules extends React.Component {
     this.props.clearModules();
   }
 
-  choosePanel() {
-    if (this.props.state === 'error') {
-      return (
-        <F.Column>
-          Oops! There seems to be something wrong! <br/>
-          {this.props.errorMessage}
-        </F.Column>
-      );
-    } else if (this.props.state === 'uninitialized') {
-      return (
-        <F.Column>
-          Initializing.
-        </F.Column>
-      );
-    } else if (this.props.state === 'fetching') {
-      return (
-        <F.Column>
-          Fetching info from server.
-        </F.Column>
-      );
-    } else if (this.props.entities.length === 0) {
-      return (
-        <F.Column>
-          No results. Try another search.
-        </F.Column>
-      );
-    } else {
-      return <ModuleMosaic models={this.props.entities}/>;
-    }
-  }
-
   render() {
     return (
       <span>
@@ -157,7 +127,18 @@ class Modules extends React.Component {
         <MapPicker onSelect={this.onSelect.bind(this)} />
 
         <F.Row>
-          {this.choosePanel()}
+          <Errorable
+            state={this.props.state}
+            errorMessage={this.props.errorMessage}
+          >
+            { this.props.entities.length === 0 ? (
+                <F.Column>
+                  No results. Try another search.
+                </F.Column>
+            ) : (
+              <ModuleMosaic models={this.props.entities}/>
+            ) }
+          </Errorable>
         </F.Row>
 
       </span>

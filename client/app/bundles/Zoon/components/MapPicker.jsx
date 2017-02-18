@@ -66,24 +66,74 @@ const data = {
   },
 };
 
-const MapPicker = ({ granularity, pickMapGranularity, select, unselect }) => (
-<div className="map-picker">
-  <div className="picker">
-    <span>Filter by coverage</span>
-    <div className="buttons">
-      <F.Button isHollow className={ granularity === "continents" ? "active" : "" } onClick={ () => (pickMapGranularity("continents"))}>
-        Continents
-      </F.Button>
-      <F.Button isHollow className={ granularity === "countries" ? "active" : "" } onClick={ () => (pickMapGranularity("countries"))}>
-        Countries
-      </F.Button>
-    </div>
-  </div>
-  <div className="map">
-    <ReactHighmaps config={config(data[granularity], select, unselect)} />
-  </div>
-</div>
-);
+class MapPicker extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      granularity: props.defaultGranularity || "continents",
+    }
+
+    this.configs = {
+      countries: config(data["countries"], this.onSelected.bind(this), this.onUnselected.bind(this)),
+      continents: config(data["continents"], this.onSelected.bind(this), this.onUnselected.bind(this)),
+    };
+  }
+
+  pickMapGranularity(granularity) {
+    this.setState({ granularity });
+  }
+
+  onChartRender(chart) {
+    let selectedGeos = chart.
+      getSelectedPoints().
+      map((p) => p.name);
+
+    this.props.onSelect(selectedGeos);
+  }
+
+  onSelected(ev) {
+    let selectedGeos = ev.target.series.chart.
+      getSelectedPoints().
+      map((p) => p.name).
+      concat([ev.target.name]);
+
+    this.props.onSelect(selectedGeos);
+  }
+
+  onUnselected(ev) {
+    let selectedGeos = ev.target.series.chart.
+        getSelectedPoints().
+        map((p) => p.name).
+        filter((e) => e != ev.target.name);
+
+    this.props.onSelect(selectedGeos);
+  }
+
+  render() {
+    return (
+      <div className="map-picker">
+        <div className="picker">
+          <span>Filter by coverage</span>
+          <div className="buttons">
+            {["continents", "countries"].map((granularity) => (
+              <F.Button
+                key={granularity}
+                isHollow
+                className={this.state.granularity === granularity ? "active" : "" }
+                onClick={() => this.pickMapGranularity(granularity)}>
+                {granularity}
+              </F.Button>
+            ))}
+          </div>
+        </div>
+        <div className="map">
+          <ReactHighmaps isPureConfig callback={this.onChartRender.bind(this)} config={this.configs[this.state.granularity]} />
+        </div>
+      </div>
+    );
+  }
+}
 
 export default connect(
   (state) => ({

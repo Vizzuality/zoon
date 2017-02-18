@@ -3,8 +3,21 @@ class ZoonModule < ApplicationRecord
 
   has_many :comments
 
+  has_many :taggings, as: :taggable, dependent: :destroy
+  has_many :tags, through: :taggings
+
   validates :name, uniqueness: [:path]
 
-  scope :search, -> (query) { where("UPPER(name) like UPPER(?) OR UPPER(description) like UPPER(?)", "#{query}%", "#{query}%") }
+  scope :search, -> (query, tags) {
+    modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, query|
+      all.where("zoon_modules.title ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?", "%#{query}%", "%#{query}%", query.downcase)
+    end
+
+    if tags.empty?
+      modules.uniq
+    else
+      modules.where(tags: { name: tags.map(&:downcase) }).uniq
+    end
+  }
   scope :filter_by_family, -> (family) { where(family: family) }
 end

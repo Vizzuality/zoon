@@ -34,16 +34,16 @@ namespace :import do
          end
        end
        zoon.tags = [
-         "europe",
-         "portugal",
-         "north america",
-         "africa",
-         "usa",
-         "sudan",
-         "pakistan",
-         "australia",
-         "thailand",
-         "russia",
+         Tag.new(name: "europe"),
+         Tag.new(name: "portugal"),
+         Tag.new(name: "north america"),
+         Tag.new(name: "africa"),
+         Tag.new(name: "usa"),
+         Tag.new(name: "sudan"),
+         Tag.new(name: "pakistan"),
+         Tag.new(name: "australia"),
+         Tag.new(name: "thailand"),
+         Tag.new(name: "russia"),
        ].sample(3)
        zoon.save!
        sleep(1)

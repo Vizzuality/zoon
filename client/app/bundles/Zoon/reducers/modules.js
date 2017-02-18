@@ -17,7 +17,7 @@ const modules = (state = defaultState, action) => {
     case A.MODULES_FETCH_START:
       return {
         ...state,
-        state: 'fetching',
+        //state: 'fetching',
       }
 
     case A.MODULES_FETCH_FINISHED:
@@ -30,6 +30,12 @@ const modules = (state = defaultState, action) => {
       return {
         ...state,
         searchQuery: action.newQuery,
+      }
+
+    case A.MODULES_UPDATE_SEARCH_TAGS:
+      return {
+        ...state,
+        searchTags: action.searchTags,
       }
 
     case A.MODULES_UPDATE_FAMILY_FILTER:

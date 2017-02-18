@@ -64,6 +64,16 @@ class Modules extends React.Component {
     this.props.fetchModuleList(
       this.props.selectedFamilyName,
       this.props.searchQuery,
+      this.props.searchTags,
+    )
+  }
+
+  onSelect(searchTags) {
+    this.props.updateSearchTags(searchTags);
+    this.props.fetchModuleList(
+      this.props.selectedFamilyName,
+      this.props.searchQuery,
+      searchTags,
     )
   }
 
@@ -137,11 +147,12 @@ class Modules extends React.Component {
           </F.Column>
         </F.Row>
 
+        <MapPicker onSelect={this.onSelect.bind(this)} />
+
         <F.Row>
           {this.choosePanel()}
         </F.Row>
 
-        <MapPicker select={console.log} unselect={console.log} />
       </span>
     );
   };
@@ -151,6 +162,7 @@ Modules.propTypes = {
   state: PropTypes.string.isRequired,
   families: PropTypes.arrayOf(familyShape).isRequired,
   updateSearchQuery: PropTypes.func.isRequired,
+  updateSearchTags: PropTypes.func.isRequired,
   updateFamilyFilter: PropTypes.func.isRequired,
   initModules: PropTypes.func.isRequired,
   clearModules: PropTypes.func.isRequired,

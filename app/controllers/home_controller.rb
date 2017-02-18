@@ -10,6 +10,7 @@ class HomeController < ApplicationController
       modules: {
         selectedFamilyName: params[:familyName] || '',
         searchQuery: params[:searchQuery] || '',
+        searchTags: params[:searchTags] || '',
       }
     }
   end

@@ -23,12 +23,15 @@ function* init(action) {
   const q = state.routing.locationBeforeTransitions.query
   const familyName = q.familyName || '';
   const searchQuery = q.searchQuery || '';
+  const searchTags = (q.searchTags || '').split(',');
 
   yield put(moduleActions.updateFamilyFilter(familyName))
 
   yield put(moduleActions.updateSearchQuery(searchQuery))
 
-  yield put(moduleActions.fetchModuleList(familyName, searchQuery))
+  yield put(moduleActions.updateSearchTags(searchTags))
+
+  yield put(moduleActions.fetchModuleList(familyName, searchQuery, searchTags))
 }
 
 function* fetchModulesListFromFamily(action) {
@@ -36,14 +39,15 @@ function* fetchModulesListFromFamily(action) {
   yield fetchModulesList({
     familyName: action.newFamilyName,
     searchQuery: state.modules.searchQuery,
+    searchTags: state.modules.searchTags,
   })
 }
 
-function* fetchModulesList({familyName, searchQuery}) {
+function* fetchModulesList({familyName, searchQuery, searchTags}) {
   try {
     const json = yield (
       fetch(buildUrl('/api/modules', {
-        queryParams: {familyName, searchQuery}
+        queryParams: {familyName, searchQuery, searchTags}
       }))
       .catch((e) => {throw e})
       .then((r) => r.json())

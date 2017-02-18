@@ -1,9 +1,10 @@
 import * as A from '../action_types';
 
-export const fetchModuleList = (familyName, searchQuery, pageNumber=0) => ({
+export const fetchModuleList = (familyName, searchQuery, searchTags, pageNumber=0) => ({
   type: A.MODULES_FETCH_START,
   familyName,
   searchQuery,
+  searchTags,
   pageNumber,
 });
 
@@ -15,6 +16,11 @@ export const finishModuleFetch = (result) => ({
 export const updateSearchQuery = (newQuery) => ({
   type: A.MODULES_UPDATE_SEARCH_QUERY,
   newQuery,
+});
+
+export const updateSearchTags = (searchTags) => ({
+  type: A.MODULES_UPDATE_SEARCH_TAGS,
+  searchTags,
 });
 
 export const updateFamilyFilter = (newFamilyName) => ({

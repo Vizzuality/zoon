@@ -7,11 +7,10 @@ export const authLogin = (authenticityToken, email, password) => ({
   password,
 });
 
-export const authSignup = (authenticityToken, email, password) => ({
+export const authSignup = (authenticityToken, user) => ({
   type: A.AUTH_SIGNUP,
   authenticityToken,
-  email,
-  password,
+  user,
 });
 
 export const authFinished = (payload) => ({

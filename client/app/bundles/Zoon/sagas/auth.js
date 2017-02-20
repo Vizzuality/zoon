@@ -43,11 +43,11 @@ function* signIn({authenticityToken, email, password}) {
   }
 }
 
-function* signUp({authenticityToken, email, password}) {
+function* signUp({authenticityToken, user}) {
   let result = yield fetch('/users', {
     method: 'POST',
     credentials: "same-origin",
-    body: JSON.stringify({ user: { email, password, } }),
+    body: JSON.stringify({ user }),
     headers: new Headers({
       'X-CSRF-Token': authenticityToken,
       'Content-Type': 'application/json',

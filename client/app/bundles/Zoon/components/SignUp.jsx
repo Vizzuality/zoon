@@ -6,12 +6,15 @@ import * as authActions from '../actions/auth';
 
 
 class SignUp extends React.Component {
-  onEmailChange(ev) {
-    this.setState({ email: ev.target.value });
-  }
+  constructor(props) {
+    super(props)
 
-  onPasswordChange(ev) {
-    this.setState({ password: ev.target.value });
+    this.state = {}
+  }
+  onFieldChange(key, ev) {
+    this.setState({
+      [key]: ev.target.value,
+    })
   }
 
   submit(event) {
@@ -19,9 +22,19 @@ class SignUp extends React.Component {
 
     this.props.authSignup(
       this.props.state.csrf,
-      this.state.email,
-      this.state.password,
+      this.state,
     );
+  }
+
+  isSubmitDisabled() {
+    const isUserDataFilled =
+      this.state.name &&
+      this.state.email &&
+      this.state.password &&
+      this.state.organization &&
+      this.state.github_username;
+
+    return this.props.state.pending || !isUserDataFilled;
   }
 
   render() {
@@ -40,11 +53,41 @@ class SignUp extends React.Component {
 
           <form className="new_user" onSubmit={this.submit.bind(this)}>
             <div className="field">
+              <label htmlFor="user_name">Name</label><br />
+              <input
+                autoFocus="autofocus"
+                name="user[name]" id="user_name"
+                onChange={(ev) => this.onFieldChange("name", ev)}
+                type="text"
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="user_organization">Organization</label><br />
+              <input
+                autoFocus="autofocus"
+                name="user[organization]" id="user_organization"
+                onChange={(ev) => this.onFieldChange("organization", ev)}
+                type="text"
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="user_github_username">GitHub username</label><br />
+              <input
+                autoFocus="autofocus"
+                name="user[github_username]" id="user_github_username"
+                onChange={(ev) => this.onFieldChange("github_username", ev)}
+                type="text"
+              />
+            </div>
+
+            <div className="field">
               <label htmlFor="user_email">Email</label><br />
               <input
                 autoFocus="autofocus"
                 name="user[email]" id="user_email"
-                onChange={this.onEmailChange.bind(this)}
+                onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
               />
             </div>
@@ -55,14 +98,14 @@ class SignUp extends React.Component {
                 autoComplete="off"
                 id="user_password"
                 name="user[password]"
-                onChange={this.onPasswordChange.bind(this)}
+                onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
               />
             </div>
 
             <div className="actions">
               <input
-                disabled={this.props.state.pending}
+                disabled={this.isSubmitDisabled()}
                 name="commit"
                 type="submit"
                 value="Sign up"

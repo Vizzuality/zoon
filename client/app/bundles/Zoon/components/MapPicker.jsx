@@ -99,11 +99,10 @@ class MapPicker extends React.Component {
   }
 
   geoState(granularity, selectedGeos) {
-    let state = { ...this.state };
-
-    state[granularity] = selectedGeos;
-
-    return state;
+    return {
+      ...this.state,
+      [granularity]: selectedGeos
+    };
   }
 
   pickMapGranularity(granularity) {

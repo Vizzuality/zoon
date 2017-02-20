@@ -9,9 +9,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(
-      :sign_up,
-      keys: [:github_username, :organization, :name],
-    )
+    [:sign_up, :account_update].each do |action|
+      devise_parameter_sanitizer.permit(
+        action,
+        keys: [:github_username, :organization, :name],
+      )
+    end
   end
 end

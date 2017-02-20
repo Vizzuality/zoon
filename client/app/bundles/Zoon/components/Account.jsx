@@ -6,11 +6,16 @@ import * as authActions from '../actions/auth';
 import Errors from './Errors'
 
 
-class SignUp extends React.Component {
+class Account extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      name: props.auth.name || "",
+      email: props.auth.email || "",
+      organization: props.auth.organization || "",
+      github_username: props.auth.github_username || "",
+    }
   }
 
   onFieldChange(key, ev) {
@@ -22,7 +27,7 @@ class SignUp extends React.Component {
   submit(event) {
     event.preventDefault();
 
-    this.props.authSignup(
+    this.props.authUpdate(
       this.state,
     );
   }
@@ -31,11 +36,11 @@ class SignUp extends React.Component {
     const isUserDataFilled =
       this.state.name &&
       this.state.email &&
-      this.state.password &&
+      this.state.current_password &&
       this.state.organization &&
       this.state.github_username;
 
-    return this.props.state.pending || !isUserDataFilled;
+    return this.props.auth.pending || !isUserDataFilled;
   }
 
   render() {
@@ -44,14 +49,15 @@ class SignUp extends React.Component {
         <F.Column small={12} large={8}>
           <h2>Sign up</h2>
 
-          <Errors errors={this.props.state.errors} />
+          <Errors errors={this.props.auth.errors} />
 
-          <form className="new_user" onSubmit={this.submit.bind(this)}>
+          <form className="edit_user" onSubmit={this.submit.bind(this)}>
             <div className="field">
               <label htmlFor="user_name">Name</label><br />
               <input
                 autoFocus="autofocus"
                 name="user[name]" id="user_name"
+                value={this.state.name}
                 onChange={(ev) => this.onFieldChange("name", ev)}
                 type="text"
               />
@@ -62,6 +68,7 @@ class SignUp extends React.Component {
               <input
                 autoFocus="autofocus"
                 name="user[organization]" id="user_organization"
+                value={this.state.organization}
                 onChange={(ev) => this.onFieldChange("organization", ev)}
                 type="text"
               />
@@ -72,6 +79,7 @@ class SignUp extends React.Component {
               <input
                 autoFocus="autofocus"
                 name="user[github_username]" id="user_github_username"
+                value={this.state.github_username}
                 onChange={(ev) => this.onFieldChange("github_username", ev)}
                 type="text"
               />
@@ -82,13 +90,25 @@ class SignUp extends React.Component {
               <input
                 autoFocus="autofocus"
                 name="user[email]" id="user_email"
+                value={this.state.email}
                 onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
               />
             </div>
 
             <div className="field">
-              <label htmlFor="user_password">Password</label><br />
+              <label htmlFor="user_current_password">Current Password</label><br />
+              <input
+                autoComplete="off"
+                id="user_current_password"
+                name="user[current_password]"
+                onChange={(ev) => this.onFieldChange("current_password", ev)}
+                type="password"
+              />
+            </div>
+
+            <div className="field">
+              <label htmlFor="user_password">New Password</label><br />
               <input
                 autoComplete="off"
                 id="user_password"
@@ -103,12 +123,10 @@ class SignUp extends React.Component {
                 disabled={this.isSubmitDisabled()}
                 name="commit"
                 type="submit"
-                value="Sign up"
+                value="Update"
               />
             </div>
           </form>
-
-          <a href="/users/sign_in">Log in</a><br />
         </F.Column>
       </F.Row>
     );
@@ -117,8 +135,8 @@ class SignUp extends React.Component {
 
 export default connect(
   (state) => ({
-    state: state.auth,
+    auth: state.auth,
   }),
   {
     ...authActions
-  })(SignUp);
+  })(Account);

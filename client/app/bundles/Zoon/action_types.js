@@ -15,6 +15,7 @@ export const MODULE_INIT = 'MODULE_INIT';
 export const MODULE_CLEAR = 'MODULE_CLEAR';
 export const AUTH_LOGIN = 'AUTH_LOGIN';
 export const AUTH_SIGNUP = 'AUTH_SIGNUP';
+export const AUTH_UPDATE = 'AUTH_UPDATE';
 export const AUTH_FINISHED = 'AUTH_FINISHED';
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 export const AUTH_LOGOUT_FINISHED = 'AUTH_LOGOUT_FINISHED';

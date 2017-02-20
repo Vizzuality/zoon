@@ -17,6 +17,11 @@ const auth = (state = defaultState, action) => {
         ...action.payload,
         pending: false,
       }
+    case A.AUTH_UPDATE:
+      return {
+        ...state,
+        pending: true,
+      }
     case A.AUTH_LOGOUT_FINISHED:
       return {
         ...defaultState,

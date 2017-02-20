@@ -1,15 +1,18 @@
 import * as A from '../action_types';
 
-export const authLogin = (authenticityToken, email, password) => ({
+export const authLogin = (email, password) => ({
   type: A.AUTH_LOGIN,
-  authenticityToken,
   email,
   password,
 });
 
-export const authSignup = (authenticityToken, user) => ({
+export const authSignup = (user) => ({
   type: A.AUTH_SIGNUP,
-  authenticityToken,
+  user,
+});
+
+export const authUpdate = (user) => ({
+  type: A.AUTH_UPDATE,
   user,
 });
 
@@ -18,9 +21,8 @@ export const authFinished = (payload) => ({
   payload,
 });
 
-export const authLogout = (authenticityToken) => ({
+export const authLogout = () => ({
   type: A.AUTH_LOGOUT,
-  authenticityToken,
 });
 
 export const authLogoutFinished = (payload) => ({

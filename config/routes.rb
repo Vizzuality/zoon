@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # overridden so React picks these 2 up
   get '/users/sign_in', to: 'home#index'
   get '/users/sign_up', to: 'home#index'
+  get '/account', to: 'home#index'
   devise_for :users
 
   resources :zoon_modules, only: [:index, :show] do

@@ -8,12 +8,15 @@ import * as authActions from '../actions/auth';
 const TopNav = ({ auth, authLogout }) => {
   if (auth.id) {
     var items = [
-      <F.MenuItem key={0} ><Link onClick={() => authLogout(auth.csrf)}>Log Out</Link></F.MenuItem>
+      <F.MenuItem key={0}>
+        <Link onClick={() => authLogout(auth.csrf)}>Log Out</Link>
+        <Link to="/account">My Account</Link>
+      </F.MenuItem>
     ]
   } else {
     var items = [
       (<F.MenuItem key={0}><Link to="/users/sign_in">Sign In</Link></F.MenuItem>),
-      (<F.MenuItem key={1}><Link to="/users/sign_up">Sign Up</Link></F.MenuItem>)
+      (<F.MenuItem key={1}><Link to="/users/sign_up">Sign Up</Link></F.MenuItem>),
     ]
   }
   return (

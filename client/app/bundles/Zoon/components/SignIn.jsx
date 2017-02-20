@@ -31,7 +31,6 @@ class SignIn extends React.Component {
     event.preventDefault();
 
     this.props.authLogin(
-      this.props.state.csrf,
       this.state.email,
       this.state.password,
     );

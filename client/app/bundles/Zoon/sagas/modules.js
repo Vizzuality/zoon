@@ -6,6 +6,16 @@ import { push } from 'react-router-redux'
 import * as A from '../action_types';
 import * as moduleActions from '../actions/modules';
 
+let exceptionToErrors = (e) => ({ error: [e.message] });
+
+let errorToErrors = (json) => {
+  if (json.errors) {
+    return json.errors;
+  } else if (json.error) {
+    return { error: [json.error] };
+  }
+};
+
 
 function filterEmptyValues(obj){
   let result = {};
@@ -63,11 +73,59 @@ function* fetchModulesList() {
   ))
 }
 
+function* uploadModuleScreenshot(action) {
+  const state = yield select();
+  let {moduleId, screenshot} = action;
+
+  var formData = new FormData();
+  formData.append('screenshot[image]', action.screenshot);
+
+  let json = yield fetch(`/api/modules/${moduleId}/create_screenshot`, {
+    method: 'POST',
+    credentials: 'same-origin',
+    body: formData,
+    headers: new Headers({
+      'X-CSRF-TOKEN': state.auth.csrf,
+      'Accept': 'application/json',
+    }),
+  }).then((response) => response.json())
+    .catch(exceptionToErrors);
+
+  if (json.errors || json.error) {
+    yield put(moduleActions.screenshotError(errorToErrors(json)))
+  } else {
+    yield put(moduleActions.finishModuleFetch(json))
+  }
+}
+
+function* deleteModuleScreenshot(action) {
+  const state = yield select();
+  let {moduleId, screenshotId} = action;
+
+  let json = yield fetch(`/api/modules/${moduleId}/delete_screenshot/${screenshotId}`, {
+    method: 'DELETE',
+    credentials: 'same-origin',
+    headers: new Headers({
+      'X-CSRF-TOKEN': state.auth.csrf,
+      'Accept': 'application/json',
+    }),
+  }).then((response) => response.json())
+    .catch(exceptionToErrors);
+
+  if (json.errors || json.error) {
+    yield put(moduleActions.screenshotError(errorToErrors(json)))
+  } else {
+    yield put(moduleActions.finishModuleFetch(json))
+  }
+}
+
 export default function* modules() {
   yield [
     takeLatest(A.MODULES_UPDATE_SEARCH_QUERY, fetchModulesList),
     takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesList),
     takeLatest(A.MODULES_UPDATE_SEARCH_TAGS, fetchModulesList),
+    takeLatest(A.MODULES_UPLOAD_SCREENSHOT, uploadModuleScreenshot),
+    takeLatest(A.MODULES_DELETE_SCREENSHOT, deleteModuleScreenshot),
     takeLatest(A.MODULES_INIT, fetchModulesList),
     takeLatest(A.MODULE_INIT, initModule),
   ];

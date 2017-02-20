@@ -56,6 +56,19 @@ const modules = (state = defaultState, action) => {
         shownEntityId: null,
       };
 
+    case A.MODULES_DELETE_SCREENSHOT:
+    case A.MODULES_UPLOAD_SCREENSHOT:
+      return {
+        ...state,
+        errors: null,
+      };
+
+    case A.SCREENSHOT_ERROR:
+      return {
+        ...state,
+        errors: action.errors,
+      }
+
     default:
       return {
         ...defaultState,

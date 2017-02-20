@@ -2,8 +2,12 @@ Rails.application.routes.draw do
   get 'home', to: 'home#index'
 
   namespace :api do
-    resources :modules, controller: 'zoon_modules', only: [:index, :show]
-    resources :screenshots, only: [:create]
+    resources :modules, controller: 'zoon_modules', only: [:index, :show] do
+      member do
+        post 'create_screenshot'
+        delete 'delete_screenshot/:screenshot_id', to: 'zoon_modules#delete_screenshot'
+      end
+    end
   end
 
   # DEVISE

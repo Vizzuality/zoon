@@ -21,6 +21,23 @@ export const updateFamilyFilter = (newFamilyName) => ({
   newFamilyName,
 });
 
+export const uploadScreenshot = (moduleId, screenshot) => ({
+  type: A.MODULES_UPLOAD_SCREENSHOT,
+  moduleId,
+  screenshot,
+});
+
+export const deleteScreenshot = (moduleId, screenshotId) => ({
+  type: A.MODULES_DELETE_SCREENSHOT,
+  moduleId,
+  screenshotId,
+});
+
+export const screenshotError = (errors) => ({
+  type: A.SCREENSHOT_ERROR,
+  errors,
+});
+
 export const initModules = () => ({
   type: A.MODULES_INIT,
 });

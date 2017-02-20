@@ -14,7 +14,7 @@ const familyShape = React.PropTypes.shape({
   image_url: PropTypes.string.isRequired,
 })
 
-const ModuleTypeSwitch = ({
+const FamilySwitch = ({
   currentFamilyName,
   targetFamily,
   updateFamilyFilter,
@@ -32,13 +32,12 @@ const ModuleTypeSwitch = ({
   );
 }
 
-ModuleTypeSwitch.propTypes = {
+FamilySwitch.propTypes = {
   currentFamilyName: PropTypes.string.isRequired,
   targetFamily: PropTypes.object.isRequired,
 
   updateFamilyFilter: PropTypes.func.isRequired,
 }
-
 
 const ModuleMosaic = ({ models }) => {
   return (<F.Row>
@@ -68,21 +67,26 @@ function noDefault(f) {
 }
 
 class Modules extends React.Component {
-  updateMosaic() {
-    this.props.fetchModuleList(
-      this.props.selectedFamilyName,
-      this.props.searchQuery,
-      this.props.searchTags,
-    )
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      searchQuery: props.searchQuery,
+    };
   }
 
-  onSelect(searchTags) {
-    this.props.updateSearchTags(searchTags);
-    this.props.fetchModuleList(
-      this.props.selectedFamilyName,
-      this.props.searchQuery,
-      searchTags,
-    )
+  updateSearchQuery(value) {
+    this.setState({
+      searchQuery: value,
+    });
+  }
+
+  onSearch() {
+    this.props.updateSearchQuery(this.state.searchQuery)
+  }
+
+  onSelect(granularity, searchTags) {
+    this.props.updateSearchTags(granularity, searchTags);
   }
 
   componentDidMount(){
@@ -104,27 +108,27 @@ class Modules extends React.Component {
           </F.Column>
 
           {this.props.families.map(f => (
-            <ModuleTypeSwitch
+            <FamilySwitch
               key={f.name}
-              currentFamilyName={this.props.selectedFamilyName}
+              currentFamilyName={this.props.searchFamily}
               targetFamily={f}
               updateFamilyFilter={this.props.updateFamilyFilter}
             />
           ))}
 
           <F.Column className="module-search" small={12} medium={4} large={2}>
-            <form onSubmit={noDefault(() => (this.updateMosaic()))}>
+            <form onSubmit={noDefault(() => (this.onSearch()))}>
               <input
                 type="text"
                 placeholder="search"
-                value={this.props.searchQuery}
-                onChange={(e) => this.props.updateSearchQuery(e.target.value)}
+                value={this.state.searchQuery}
+                onChange={(e) => this.updateSearchQuery(e.target.value)}
               />
             </form>
           </F.Column>
         </F.Row>
 
-        <MapPicker onSelect={this.onSelect.bind(this)} />
+        <MapPicker onSelect={this.onSelect.bind(this)} selectedGeos={this.props.searchTags} granularity={this.props.granularity} />
 
         <F.Row>
           <Errorable
@@ -152,6 +156,7 @@ Modules.propTypes = {
   updateSearchQuery: PropTypes.func.isRequired,
   updateSearchTags: PropTypes.func.isRequired,
   updateFamilyFilter: PropTypes.func.isRequired,
+  granularity: PropTypes.string.isRequired,
   initModules: PropTypes.func.isRequired,
   clearModules: PropTypes.func.isRequired,
 }

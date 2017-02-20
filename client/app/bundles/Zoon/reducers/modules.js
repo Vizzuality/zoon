@@ -5,8 +5,6 @@ import { LOCATION_CHANGE } from 'react-router-redux'
 const defaultState = {
   state: 'uninitialized',
   errorMessage: '',
-  selectedFamilyName: '',
-  searchQuery: '',
   shownEntityId: null,
   entities: [],
   pageCount: null,
@@ -15,12 +13,6 @@ const defaultState = {
 
 const modules = (state = defaultState, action) => {
   switch (action.type) {
-    case A.MODULES_FETCH_START:
-      return {
-        ...state,
-        //state: 'fetching',
-      }
-
     case A.MODULES_FETCH_FINISHED:
       return {
         ...state,
@@ -37,16 +29,19 @@ const modules = (state = defaultState, action) => {
       return {
         ...state,
         searchTags: action.searchTags,
+        granularity: action.granularity,
       }
 
     case A.MODULES_UPDATE_FAMILY_FILTER:
       return {
         ...state,
-        selectedFamilyName: action.newFamilyName,
+        searchFamily: action.newFamilyName,
       }
 
     case A.MODULES_CLEAR:
-      return defaultState
+      return {
+        ...state,
+      }
 
     case A.MODULE_INIT:
       return {

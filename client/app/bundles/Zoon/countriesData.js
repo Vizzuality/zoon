@@ -1,812 +1,407 @@
 const countriesData = [
-  {
-      "hc-key": "fo",
-      "value": 0
-  },
-  {
-      "hc-key": "us",
-      "value": 1
-  },
-  {
-      "hc-key": "jp",
-      "value": 2
-  },
-  {
-      "hc-key": "in",
-      "value": 3
-  },
-  {
-      "hc-key": "fr",
-      "value": 4
-  },
-  {
-      "hc-key": "cn",
-      "value": 5
-  },
-  {
-      "hc-key": "sw",
-      "value": 6
-  },
-  {
-      "hc-key": "sh",
-      "value": 7
-  },
-  {
-      "hc-key": "ec",
-      "value": 8
-  },
-  {
-      "hc-key": "au",
-      "value": 9
-  },
-  {
-      "hc-key": "ph",
-      "value": 10
-  },
-  {
-      "hc-key": "es",
-      "value": 11
-  },
-  {
-      "hc-key": "bu",
-      "value": 12
-  },
-  {
-      "hc-key": "mv",
-      "value": 13
-  },
-  {
-      "hc-key": "sp",
-      "value": 14
-  },
-  {
-      "hc-key": "gb",
-      "value": 15
-  },
-  {
-      "hc-key": "gr",
-      "value": 16
-  },
-  {
-      "hc-key": "dk",
-      "value": 17
-  },
-  {
-      "hc-key": "gl",
-      "value": 18
-  },
-  {
-      "hc-key": "pr",
-      "value": 19
-  },
-  {
-      "hc-key": "um",
-      "value": 20
-  },
-  {
-      "hc-key": "vi",
-      "value": 21
-  },
-  {
-      "hc-key": "ca",
-      "value": 22
-  },
-  {
-      "hc-key": "cv",
-      "value": 23
-  },
-  {
-      "hc-key": "dm",
-      "value": 24
-  },
-  {
-      "hc-key": "sc",
-      "value": 25
-  },
-  {
-      "hc-key": "jm",
-      "value": 26
-  },
-  {
-      "hc-key": "om",
-      "value": 27
-  },
-  {
-      "hc-key": "vc",
-      "value": 28
-  },
-  {
-      "hc-key": "sb",
-      "value": 29
-  },
-  {
-      "hc-key": "lc",
-      "value": 30
-  },
-  {
-      "hc-key": "no",
-      "value": 31
-  },
-  {
-      "hc-key": "kn",
-      "value": 32
-  },
-  {
-      "hc-key": "bh",
-      "value": 33
-  },
-  {
-      "hc-key": "id",
-      "value": 34
-  },
-  {
-      "hc-key": "mu",
-      "value": 35
-  },
-  {
-      "hc-key": "se",
-      "value": 36
-  },
-  {
-      "hc-key": "ru",
-      "value": 37
-  },
-  {
-      "hc-key": "tt",
-      "value": 38
-  },
-  {
-      "hc-key": "br",
-      "value": 39
-  },
-  {
-      "hc-key": "bs",
-      "value": 40
-  },
-  {
-      "hc-key": "pw",
-      "value": 41
-  },
-  {
-      "hc-key": "cl",
-      "value": 42
-  },
-  {
-      "hc-key": "gd",
-      "value": 43
-  },
-  {
-      "hc-key": "ee",
-      "value": 44
-  },
-  {
-      "hc-key": "ag",
-      "value": 45
-  },
-  {
-      "hc-key": "tw",
-      "value": 46
-  },
-  {
-      "hc-key": "fj",
-      "value": 47
-  },
-  {
-      "hc-key": "bb",
-      "value": 48
-  },
-  {
-      "hc-key": "it",
-      "value": 49
-  },
-  {
-      "hc-key": "mt",
-      "value": 50
-  },
-  {
-      "hc-key": "pg",
-      "value": 51
-  },
-  {
-      "hc-key": "vu",
-      "value": 52
-  },
-  {
-      "hc-key": "sg",
-      "value": 53
-  },
-  {
-      "hc-key": "cy",
-      "value": 54
-  },
-  {
-      "hc-key": "km",
-      "value": 55
-  },
-  {
-      "hc-key": "va",
-      "value": 56
-  },
-  {
-      "hc-key": "sm",
-      "value": 57
-  },
-  {
-      "hc-key": "az",
-      "value": 58
-  },
-  {
-      "hc-key": "am",
-      "value": 59
-  },
-  {
-      "hc-key": "sd",
-      "value": 60
-  },
-  {
-      "hc-key": "ly",
-      "value": 61
-  },
-  {
-      "hc-key": "tj",
-      "value": 62
-  },
-  {
-      "hc-key": "mx",
-      "value": 63
-  },
-  {
-      "hc-key": "gt",
-      "value": 64
-  },
-  {
-      "hc-key": "ls",
-      "value": 65
-  },
-  {
-      "hc-key": "np",
-      "value": 66
-  },
-  {
-      "hc-key": "uz",
-      "value": 67
-  },
-  {
-      "hc-key": "bd",
-      "value": 68
-  },
-  {
-      "hc-key": "mn",
-      "value": 69
-  },
-  {
-      "hc-key": "pt",
-      "value": 70
-  },
-  {
-      "hc-key": "ma",
-      "value": 71
-  },
-  {
-      "hc-key": "tz",
-      "value": 72
-  },
-  {
-      "hc-key": "ar",
-      "value": 73
-  },
-  {
-      "hc-key": "sa",
-      "value": 74
-  },
-  {
-      "hc-key": "nl",
-      "value": 75
-  },
-  {
-      "hc-key": "ye",
-      "value": 76
-  },
-  {
-      "hc-key": "ae",
-      "value": 77
-  },
-  {
-      "hc-key": "ke",
-      "value": 78
-  },
-  {
-      "hc-key": "tr",
-      "value": 79
-  },
-  {
-      "hc-key": "fi",
-      "value": 80
-  },
-  {
-      "hc-key": "my",
-      "value": 81
-  },
-  {
-      "hc-key": "pa",
-      "value": 82
-  },
-  {
-      "hc-key": "ir",
-      "value": 83
-  },
-  {
-      "hc-key": "ht",
-      "value": 84
-  },
-  {
-      "hc-key": "do",
-      "value": 85
-  },
-  {
-      "hc-key": "hr",
-      "value": 86
-  },
-  {
-      "hc-key": "th",
-      "value": 87
-  },
-  {
-      "hc-key": "cd",
-      "value": 88
-  },
-  {
-      "hc-key": "kw",
-      "value": 89
-  },
-  {
-      "hc-key": "de",
-      "value": 90
-  },
-  {
-      "hc-key": "be",
-      "value": 91
-  },
-  {
-      "hc-key": "ie",
-      "value": 92
-  },
-  {
-      "hc-key": "mm",
-      "value": 93
-  },
-  {
-      "hc-key": "gq",
-      "value": 94
-  },
-  {
-      "hc-key": "ug",
-      "value": 95
-  },
-  {
-      "hc-key": "kz",
-      "value": 96
-  },
-  {
-      "hc-key": "er",
-      "value": 97
-  },
-  {
-      "hc-key": "tn",
-      "value": 98
-  },
-  {
-      "hc-key": "tl",
-      "value": 99
-  },
-  {
-      "hc-key": "mr",
-      "value": 100
-  },
-  {
-      "hc-key": "dz",
-      "value": 101
-  },
-  {
-      "hc-key": "pe",
-      "value": 102
-  },
-  {
-      "hc-key": "ao",
-      "value": 103
-  },
-  {
-      "hc-key": "mz",
-      "value": 104
-  },
-  {
-      "hc-key": "cr",
-      "value": 105
-  },
-  {
-      "hc-key": "sv",
-      "value": 106
-  },
-  {
-      "hc-key": "kh",
-      "value": 107
-  },
-  {
-      "hc-key": "bz",
-      "value": 108
-  },
-  {
-      "hc-key": "kp",
-      "value": 109
-  },
-  {
-      "hc-key": "kr",
-      "value": 110
-  },
-  {
-      "hc-key": "ve",
-      "value": 111
-  },
-  {
-      "hc-key": "gy",
-      "value": 112
-  },
-  {
-      "hc-key": "hn",
-      "value": 113
-  },
-  {
-      "hc-key": "ga",
-      "value": 114
-  },
-  {
-      "hc-key": "il",
-      "value": 115
-  },
-  {
-      "hc-key": "ni",
-      "value": 116
-  },
-  {
-      "hc-key": "mw",
-      "value": 117
-  },
-  {
-      "hc-key": "tm",
-      "value": 118
-  },
-  {
-      "hc-key": "zm",
-      "value": 119
-  },
-  {
-      "hc-key": "nc",
-      "value": 120
-  },
-  {
-      "hc-key": "za",
-      "value": 121
-  },
-  {
-      "hc-key": "lt",
-      "value": 122
-  },
-  {
-      "hc-key": "et",
-      "value": 123
-  },
-  {
-      "hc-key": "gh",
-      "value": 124
-  },
-  {
-      "hc-key": "si",
-      "value": 125
-  },
-  {
-      "hc-key": "ba",
-      "value": 126
-  },
-  {
-      "hc-key": "jo",
-      "value": 127
-  },
-  {
-      "hc-key": "sy",
-      "value": 128
-  },
-  {
-      "hc-key": "mc",
-      "value": 129
-  },
-  {
-      "hc-key": "al",
-      "value": 130
-  },
-  {
-      "hc-key": "uy",
-      "value": 131
-  },
-  {
-      "hc-key": "cnm",
-      "value": 132
-  },
-  {
-      "hc-key": "rw",
-      "value": 133
-  },
-  {
-      "hc-key": "sx",
-      "value": 134
-  },
-  {
-      "hc-key": "bo",
-      "value": 135
-  },
-  {
-      "hc-key": "cm",
-      "value": 136
-  },
-  {
-      "hc-key": "cg",
-      "value": 137
-  },
-  {
-      "hc-key": "eh",
-      "value": 138
-  },
-  {
-      "hc-key": "me",
-      "value": 139
-  },
-  {
-      "hc-key": "rs",
-      "value": 140
-  },
-  {
-      "hc-key": "bj",
-      "value": 141
-  },
-  {
-      "hc-key": "tg",
-      "value": 142
-  },
-  {
-      "hc-key": "af",
-      "value": 143
-  },
-  {
-      "hc-key": "ua",
-      "value": 144
-  },
-  {
-      "hc-key": "sk",
-      "value": 145
-  },
-  {
-      "hc-key": "jk",
-      "value": 146
-  },
-  {
-      "hc-key": "pk",
-      "value": 147
-  },
-  {
-      "hc-key": "bg",
-      "value": 148
-  },
-  {
-      "hc-key": "ro",
-      "value": 149
-  },
-  {
-      "hc-key": "qa",
-      "value": 150
-  },
-  {
-      "hc-key": "li",
-      "value": 151
-  },
-  {
-      "hc-key": "at",
-      "value": 152
-  },
-  {
-      "hc-key": "sz",
-      "value": 153
-  },
-  {
-      "hc-key": "hu",
-      "value": 154
-  },
-  {
-      "hc-key": "ne",
-      "value": 155
-  },
-  {
-      "hc-key": "lu",
-      "value": 156
-  },
-  {
-      "hc-key": "ad",
-      "value": 157
-  },
-  {
-      "hc-key": "ci",
-      "value": 158
-  },
-  {
-      "hc-key": "lr",
-      "value": 159
-  },
-  {
-      "hc-key": "sl",
-      "value": 160
-  },
-  {
-      "hc-key": "bn",
-      "value": 161
-  },
-  {
-      "hc-key": "iq",
-      "value": 162
-  },
-  {
-      "hc-key": "ge",
-      "value": 163
-  },
-  {
-      "hc-key": "gm",
-      "value": 164
-  },
-  {
-      "hc-key": "ch",
-      "value": 165
-  },
-  {
-      "hc-key": "td",
-      "value": 166
-  },
-  {
-      "hc-key": "ng",
-      "value": 167
-  },
-  {
-      "hc-key": "kv",
-      "value": 168
-  },
-  {
-      "hc-key": "lb",
-      "value": 169
-  },
-  {
-      "hc-key": "dj",
-      "value": 170
-  },
-  {
-      "hc-key": "bi",
-      "value": 171
-  },
-  {
-      "hc-key": "sr",
-      "value": 172
-  },
-  {
-      "hc-key": "gw",
-      "value": 173
-  },
-  {
-      "hc-key": "sn",
-      "value": 174
-  },
-  {
-      "hc-key": "gn",
-      "value": 175
-  },
-  {
-      "hc-key": "zw",
-      "value": 176
-  },
-  {
-      "hc-key": "pl",
-      "value": 177
-  },
-  {
-      "hc-key": "mk",
-      "value": 178
-  },
-  {
-      "hc-key": "py",
-      "value": 179
-  },
-  {
-      "hc-key": "by",
-      "value": 180
-  },
-  {
-      "hc-key": "lv",
-      "value": 181
-  },
-  {
-      "hc-key": "bf",
-      "value": 182
-  },
-  {
-      "hc-key": "ss",
-      "value": 183
-  },
-  {
-      "hc-key": "na",
-      "value": 184
-  },
-  {
-      "hc-key": "la",
-      "value": 185
-  },
-  {
-      "hc-key": "co",
-      "value": 186
-  },
-  {
-      "hc-key": "ml",
-      "value": 187
-  },
-  {
-      "hc-key": "md",
-      "value": 188
-  },
-  {
-      "hc-key": "cz",
-      "value": 189
-  },
-  {
-      "hc-key": "cf",
-      "value": 190
-  },
-  {
-      "hc-key": "bt",
-      "value": 191
-  },
-  {
-      "hc-key": "kg",
-      "value": 192
-  },
-  {
-      "hc-key": "nz",
-      "value": 193
-  },
-  {
-      "hc-key": "cu",
-      "value": 194
-  },
-  {
-      "hc-key": "vn",
-      "value": 195
-  },
-  {
-      "hc-key": "mg",
-      "value": 196
-  },
-  {
-      "hc-key": "eg",
-      "value": 197
-  },
-  {
-      "hc-key": "so",
-      "value": 198
-  },
-  {
-      "hc-key": "is",
-      "value": 199
-  },
-  {
-      "hc-key": "lk",
-      "value": 200
-  },
-  {
-      "hc-key": "bw",
-      "value": 201
-  }
-];
+{"value":"Faroe Islands",
+  "hc-key":"fo"},
+{"value":"United States of America",
+  "hc-key":"us"},
+{"value":"Japan",
+  "hc-key":"jp"},
+{"value":"India",
+  "hc-key":"in"},
+{"value":"France",
+  "hc-key":"fr"},
+{"value":"China",
+  "hc-key":"cn"},
+{"value":"Serranilla Bank",
+  "hc-key":"sw"},
+{"value":"Scarborough Reef",
+  "hc-key":"sh"},
+{"value":"Ecuador",
+  "hc-key":"ec"},
+{"value":"Australia",
+  "hc-key":"au"},
+{"value":"Philippines",
+  "hc-key":"ph"},
+{"value":"Spain",
+  "hc-key":"es"},
+{"value":"Bajo Nuevo Bank (Petrel Is.)",
+  "hc-key":"bu"},
+{"value":"Maldives",
+  "hc-key":"mv"},
+{"value":"Spratly Islands",
+  "hc-key":"sp"},
+{"value":"United Kingdom",
+  "hc-key":"gb"},
+{"value":"Greece",
+  "hc-key":"gr"},
+{"value":"Denmark",
+  "hc-key":"dk"},
+{"value":"Greenland",
+  "hc-key":"gl"},
+{"value":"Puerto Rico",
+  "hc-key":"pr"},
+{"value":"United States Minor Outlying Islands",
+  "hc-key":"um"},
+{"value":"United States Virgin Islands",
+  "hc-key":"vi"},
+{"value":"Canada",
+  "hc-key":"ca"},
+{"value":"Cape Verde",
+  "hc-key":"cv"},
+{"value":"Dominica",
+  "hc-key":"dm"},
+{"value":"Seychelles",
+  "hc-key":"sc"},
+{"value":"Jamaica",
+  "hc-key":"jm"},
+{"value":"Oman",
+  "hc-key":"om"},
+{"value":"Saint Vincent and the Grenadines",
+  "hc-key":"vc"},
+{"value":"Solomon Islands",
+  "hc-key":"sb"},
+{"value":"Saint Lucia",
+  "hc-key":"lc"},
+{"value":"Norway",
+  "hc-key":"no"},
+{"value":"Saint Kitts and Nevis",
+  "hc-key":"kn"},
+{"value":"Bahrain",
+  "hc-key":"bh"},
+{"value":"Indonesia",
+  "hc-key":"id"},
+{"value":"Mauritius",
+  "hc-key":"mu"},
+{"value":"Sweden",
+  "hc-key":"se"},
+{"value":"Russia",
+  "hc-key":"ru"},
+{"value":"Trinidad and Tobago",
+  "hc-key":"tt"},
+{"value":"Brazil",
+  "hc-key":"br"},
+{"value":"The Bahamas",
+  "hc-key":"bs"},
+{"value":"Palau",
+  "hc-key":"pw"},
+{"value":"Chile",
+  "hc-key":"cl"},
+{"value":"Grenada",
+  "hc-key":"gd"},
+{"value":"Estonia",
+  "hc-key":"ee"},
+{"value":"Antigua and Barbuda",
+  "hc-key":"ag"},
+{"value":"Taiwan",
+  "hc-key":"tw"},
+{"value":"Fiji",
+  "hc-key":"fj"},
+{"value":"Barbados",
+  "hc-key":"bb"},
+{"value":"Italy",
+  "hc-key":"it"},
+{"value":"Malta",
+  "hc-key":"mt"},
+{"value":"Papua New Guinea",
+  "hc-key":"pg"},
+{"value":"Vanuatu",
+  "hc-key":"vu"},
+{"value":"Singapore",
+  "hc-key":"sg"},
+{"value":"Cyprus",
+  "hc-key":"cy"},
+{"value":"Comoros",
+  "hc-key":"km"},
+{"value":"Vatican",
+  "hc-key":"va"},
+{"value":"San Marino",
+  "hc-key":"sm"},
+{"value":"Azerbaijan",
+  "hc-key":"az"},
+{"value":"Armenia",
+  "hc-key":"am"},
+{"value":"Sudan",
+  "hc-key":"sd"},
+{"value":"Libya",
+  "hc-key":"ly"},
+{"value":"Tajikistan",
+  "hc-key":"tj"},
+{"value":"Mexico",
+  "hc-key":"mx"},
+{"value":"Guatemala",
+  "hc-key":"gt"},
+{"value":"Lesotho",
+  "hc-key":"ls"},
+{"value":"Nepal",
+  "hc-key":"np"},
+{"value":"Uzbekistan",
+  "hc-key":"uz"},
+{"value":"Bangladesh",
+  "hc-key":"bd"},
+{"value":"Mongolia",
+  "hc-key":"mn"},
+{"value":"Portugal",
+  "hc-key":"pt"},
+{"value":"Morocco",
+  "hc-key":"ma"},
+{"value":"United Republic of Tanzania",
+  "hc-key":"tz"},
+{"value":"Argentina",
+  "hc-key":"ar"},
+{"value":"Saudi Arabia",
+  "hc-key":"sa"},
+{"value":"Netherlands",
+  "hc-key":"nl"},
+{"value":"Yemen",
+  "hc-key":"ye"},
+{"value":"United Arab Emirates",
+  "hc-key":"ae"},
+{"value":"Kenya",
+  "hc-key":"ke"},
+{"value":"Turkey",
+  "hc-key":"tr"},
+{"value":"Finland",
+  "hc-key":"fi"},
+{"value":"Malaysia",
+  "hc-key":"my"},
+{"value":"Panama",
+  "hc-key":"pa"},
+{"value":"Iran",
+  "hc-key":"ir"},
+{"value":"Haiti",
+  "hc-key":"ht"},
+{"value":"Dominican Republic",
+  "hc-key":"do"},
+{"value":"Croatia",
+  "hc-key":"hr"},
+{"value":"Thailand",
+  "hc-key":"th"},
+{"value":"Democratic Republic of the Congo",
+  "hc-key":"cd"},
+{"value":"Kuwait",
+  "hc-key":"kw"},
+{"value":"Germany",
+  "hc-key":"de"},
+{"value":"Belgium",
+  "hc-key":"be"},
+{"value":"Ireland",
+  "hc-key":"ie"},
+{"value":"Myanmar",
+  "hc-key":"mm"},
+{"value":"Equatorial Guinea",
+  "hc-key":"gq"},
+{"value":"Uganda",
+  "hc-key":"ug"},
+{"value":"Kazakhstan",
+  "hc-key":"kz"},
+{"value":"Eritrea",
+  "hc-key":"er"},
+{"value":"Tunisia",
+  "hc-key":"tn"},
+{"value":"East Timor",
+  "hc-key":"tl"},
+{"value":"Mauritania",
+  "hc-key":"mr"},
+{"value":"Algeria",
+  "hc-key":"dz"},
+{"value":"Peru",
+  "hc-key":"pe"},
+{"value":"Angola",
+  "hc-key":"ao"},
+{"value":"Mozambique",
+  "hc-key":"mz"},
+{"value":"Costa Rica",
+  "hc-key":"cr"},
+{"value":"El Salvador",
+  "hc-key":"sv"},
+{"value":"Cambodia",
+  "hc-key":"kh"},
+{"value":"Belize",
+  "hc-key":"bz"},
+{"value":"North Korea",
+  "hc-key":"kp"},
+{"value":"South Korea",
+  "hc-key":"kr"},
+{"value":"Venezuela",
+  "hc-key":"ve"},
+{"value":"Guyana",
+  "hc-key":"gy"},
+{"value":"Honduras",
+  "hc-key":"hn"},
+{"value":"Gabon",
+  "hc-key":"ga"},
+{"value":"Israel",
+  "hc-key":"il"},
+{"value":"Nicaragua",
+  "hc-key":"ni"},
+{"value":"Malawi",
+  "hc-key":"mw"},
+{"value":"Turkmenistan",
+  "hc-key":"tm"},
+{"value":"Zambia",
+  "hc-key":"zm"},
+{"value":"Northern Cyprus",
+  "hc-key":"nc"},
+{"value":"South Africa",
+  "hc-key":"za"},
+{"value":"Lithuania",
+  "hc-key":"lt"},
+{"value":"Ethiopia",
+  "hc-key":"et"},
+{"value":"Ghana",
+  "hc-key":"gh"},
+{"value":"Slovenia",
+  "hc-key":"si"},
+{"value":"Bosnia and Herzegovina",
+  "hc-key":"ba"},
+{"value":"Jordan",
+  "hc-key":"jo"},
+{"value":"Syria",
+  "hc-key":"sy"},
+{"value":"Monaco",
+  "hc-key":"mc"},
+{"value":"Albania",
+  "hc-key":"al"},
+{"value":"Uruguay",
+  "hc-key":"uy"},
+{"value":"Cyprus No Mans Area",
+  "hc-key":"cnm"},
+{"value":"Rwanda",
+  "hc-key":"rw"},
+{"value":"Somaliland",
+  "hc-key":"sx"},
+{"value":"Bolivia",
+  "hc-key":"bo"},
+{"value":"Cameroon",
+  "hc-key":"cm"},
+{"value":"Republic of Congo",
+  "hc-key":"cg"},
+{"value":"Western Sahara",
+  "hc-key":"eh"},
+{"value":"Montenegro",
+  "hc-key":"me"},
+{"value":"Republic of Serbia",
+  "hc-key":"rs"},
+{"value":"Benin",
+  "hc-key":"bj"},
+{"value":"Togo",
+  "hc-key":"tg"},
+{"value":"Afghanistan",
+  "hc-key":"af"},
+{"value":"Ukraine",
+  "hc-key":"ua"},
+{"value":"Slovakia",
+  "hc-key":"sk"},
+{"value":"Siachen Glacier",
+  "hc-key":"jk"},
+{"value":"Pakistan",
+  "hc-key":"pk"},
+{"value":"Bulgaria",
+  "hc-key":"bg"},
+{"value":"Romania",
+  "hc-key":"ro"},
+{"value":"Qatar",
+  "hc-key":"qa"},
+{"value":"Liechtenstein",
+  "hc-key":"li"},
+{"value":"Austria",
+  "hc-key":"at"},
+{"value":"Swaziland",
+  "hc-key":"sz"},
+{"value":"Hungary",
+  "hc-key":"hu"},
+{"value":"Niger",
+  "hc-key":"ne"},
+{"value":"Luxembourg",
+  "hc-key":"lu"},
+{"value":"Andorra",
+  "hc-key":"ad"},
+{"value":"Ivory Coast",
+  "hc-key":"ci"},
+{"value":"Liberia",
+  "hc-key":"lr"},
+{"value":"Sierra Leone",
+  "hc-key":"sl"},
+{"value":"Brunei",
+  "hc-key":"bn"},
+{"value":"Iraq",
+  "hc-key":"iq"},
+{"value":"Georgia",
+  "hc-key":"ge"},
+{"value":"Gambia",
+  "hc-key":"gm"},
+{"value":"Switzerland",
+  "hc-key":"ch"},
+{"value":"Chad",
+  "hc-key":"td"},
+{"value":"Nigeria",
+  "hc-key":"ng"},
+{"value":"Kosovo",
+  "hc-key":"kv"},
+{"value":"Lebanon",
+  "hc-key":"lb"},
+{"value":"Djibouti",
+  "hc-key":"dj"},
+{"value":"Burundi",
+  "hc-key":"bi"},
+{"value":"Suriname",
+  "hc-key":"sr"},
+{"value":"Guinea Bissau",
+  "hc-key":"gw"},
+{"value":"Senegal",
+  "hc-key":"sn"},
+{"value":"Guinea",
+  "hc-key":"gn"},
+{"value":"Zimbabwe",
+  "hc-key":"zw"},
+{"value":"Poland",
+  "hc-key":"pl"},
+{"value":"Macedonia",
+  "hc-key":"mk"},
+{"value":"Paraguay",
+  "hc-key":"py"},
+{"value":"Belarus",
+  "hc-key":"by"},
+{"value":"Latvia",
+  "hc-key":"lv"},
+{"value":"Burkina Faso",
+  "hc-key":"bf"},
+{"value":"South Sudan",
+  "hc-key":"ss"},
+{"value":"Namibia",
+  "hc-key":"na"},
+{"value":"Laos",
+  "hc-key":"la"},
+{"value":"Colombia",
+  "hc-key":"co"},
+{"value":"Mali",
+  "hc-key":"ml"},
+{"value":"Moldova",
+  "hc-key":"md"},
+{"value":"Czech Republic",
+  "hc-key":"cz"},
+{"value":"Central African Republic",
+  "hc-key":"cf"},
+{"value":"Bhutan",
+  "hc-key":"bt"},
+{"value":"Kyrgyzstan",
+  "hc-key":"kg"},
+{"value":"New Zealand",
+  "hc-key":"nz"},
+{"value":"Cuba",
+  "hc-key":"cu"},
+{"value":"Vietnam",
+  "hc-key":"vn"},
+{"value":"Madagascar",
+  "hc-key":"mg"},
+{"value":"Egypt",
+  "hc-key":"eg"},
+{"value":"Somalia",
+  "hc-key":"so"},
+{"value":"Iceland",
+  "hc-key":"is"},
+{"value":"Sri Lanka",
+  "hc-key":"lk"},
+{"value":"Botswana",
+  "hc-key":"bw"}];
 
 export default countriesData;

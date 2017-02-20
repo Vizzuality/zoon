@@ -1,27 +1,27 @@
 const continentsData = [
   {
       "hc-key": "eu",
-      "value": 0
+      "value": "Europe",
   },
   {
       "hc-key": "oc",
-      "value": 1
+      "value": "Oceania",
   },
   {
       "hc-key": "af",
-      "value": 2
+      "value": "Africa",
   },
   {
       "hc-key": "as",
-      "value": 3
+      "value": "Asia",
   },
   {
       "hc-key": "na",
-      "value": 4
+      "value": "North America",
   },
   {
       "hc-key": "sa",
-      "value": 5
+      "value": "South America",
   }
 ];
 

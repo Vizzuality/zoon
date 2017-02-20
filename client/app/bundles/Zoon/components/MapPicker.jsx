@@ -6,15 +6,20 @@ import countriesMap from '../countriesMap';
 import countriesData from '../countriesData';
 import continentsMap from '../continentsMap';
 import continentsData from '../continentsData';
-import { pickMapGranularity } from '../actions/map';
 
-const config = (seriesData, select, unselect) => ({
+const config = (seriesData, selectedGeos, select, unselect) => ({
   title: null,
   chart: {
     backgroundColor: "transparent"
   },
   series: [{
-    ...seriesData,
+    data: seriesData.data.map((elem) => (
+      {
+        ...elem,
+        selected: selectedGeos.includes(elem.value),
+      }
+    )),
+    mapData: seriesData.mapData,
     allowPointSelect: true,
   }],
   plotOptions: {
@@ -71,43 +76,66 @@ class MapPicker extends React.Component {
     super(props);
 
     this.state = {
-      granularity: props.defaultGranularity || "continents",
-    }
+      countries: [],
+      continents: [],
+    };
+
+    this.state = this.geoState(
+      this.props.granularity,
+      this.props.selectedGeos,
+    );
+
+    const configGenerator = (granularity) => config(
+      data[granularity],
+      this.state[granularity],
+      this.onGeoSelected.bind(this),
+      this.onGeoUnselected.bind(this),
+    );
 
     this.configs = {
-      countries: config(data["countries"], this.onSelected.bind(this), this.onUnselected.bind(this)),
-      continents: config(data["continents"], this.onSelected.bind(this), this.onUnselected.bind(this)),
+      countries: configGenerator("countries"),
+      continents: configGenerator("continents"),
     };
   }
 
+  geoState(granularity, selectedGeos) {
+    let state = { ...this.state };
+
+    state[granularity] = selectedGeos;
+
+    return state;
+  }
+
   pickMapGranularity(granularity) {
-    this.setState({ granularity });
+    this.props.onSelect(granularity, this.state[granularity]);
   }
 
-  onChartRender(chart) {
-    let selectedGeos = chart.
-      getSelectedPoints().
-      map((p) => p.name);
-
-    this.props.onSelect(selectedGeos);
-  }
-
-  onSelected(ev) {
+  onGeoSelected(ev) {
     let selectedGeos = ev.target.series.chart.
       getSelectedPoints().
       map((p) => p.name).
       concat([ev.target.name]);
 
-    this.props.onSelect(selectedGeos);
+    this.setState(this.geoState(
+      this.props.granularity,
+      this.props.selectedGeos,
+    ));
+
+    this.props.onSelect(this.props.granularity, selectedGeos);
   }
 
-  onUnselected(ev) {
+  onGeoUnselected(ev) {
     let selectedGeos = ev.target.series.chart.
         getSelectedPoints().
         map((p) => p.name).
         filter((e) => e != ev.target.name);
 
-    this.props.onSelect(selectedGeos);
+    this.setState(this.geoState(
+      this.props.granularity,
+      this.props.selectedGeos,
+    ));
+
+    this.props.onSelect(this.props.granularity, selectedGeos);
   }
 
   render() {
@@ -120,7 +148,7 @@ class MapPicker extends React.Component {
               <F.Button
                 key={granularity}
                 isHollow
-                className={this.state.granularity === granularity ? "active" : "" }
+                className={this.props.granularity === granularity ? "active" : "" }
                 onClick={() => this.pickMapGranularity(granularity)}>
                 {granularity}
               </F.Button>
@@ -128,7 +156,7 @@ class MapPicker extends React.Component {
           </div>
         </div>
         <div className="map">
-          <ReactHighmaps isPureConfig callback={this.onChartRender.bind(this)} config={this.configs[this.state.granularity]} />
+          <ReactHighmaps isPureConfig config={this.configs[this.props.granularity]} />
         </div>
       </div>
     );
@@ -137,8 +165,6 @@ class MapPicker extends React.Component {
 
 export default connect(
   (state) => ({
-    granularity: state.map.granularity
   }),
   {
-    pickMapGranularity
   })(MapPicker);

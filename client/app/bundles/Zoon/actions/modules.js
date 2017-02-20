@@ -1,13 +1,5 @@
 import * as A from '../action_types';
 
-export const fetchModuleList = (familyName, searchQuery, searchTags, pageNumber=0) => ({
-  type: A.MODULES_FETCH_START,
-  familyName,
-  searchQuery,
-  searchTags,
-  pageNumber,
-});
-
 export const finishModuleFetch = (result) => ({
   type: A.MODULES_FETCH_FINISHED,
   result,
@@ -18,8 +10,9 @@ export const updateSearchQuery = (newQuery) => ({
   newQuery,
 });
 
-export const updateSearchTags = (searchTags) => ({
+export const updateSearchTags = (granularity, searchTags) => ({
   type: A.MODULES_UPDATE_SEARCH_TAGS,
+  granularity,
   searchTags,
 });
 

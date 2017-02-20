@@ -8,10 +8,11 @@ class HomeController < ApplicationController
       ),
       families: families,
       modules: {
-        selectedFamilyName: params[:familyName] || '',
+        searchFamily: params[:searchFamily] || '',
         searchQuery: params[:searchQuery] || '',
-        searchTags: params[:searchTags] || '',
-      }
+        searchTags: (params[:searchTags] || '').split(',').reject(&:empty?),
+        granularity: params[:granularity].presence || 'continents',
+      },
     }
   end
 

@@ -18,22 +18,6 @@ function filterEmptyValues(obj){
   return result
 }
 
-function* initModules(action) {
-  const state = yield select()
-  const q = state.routing.locationBeforeTransitions.query
-  const familyName = q.familyName || '';
-  const searchQuery = q.searchQuery || '';
-  const searchTags = (q.searchTags || '').split(',');
-
-  yield put(moduleActions.updateFamilyFilter(familyName))
-
-  yield put(moduleActions.updateSearchQuery(searchQuery))
-
-  yield put(moduleActions.updateSearchTags(searchTags))
-
-  yield put(moduleActions.fetchModuleList(familyName, searchQuery, searchTags))
-}
-
 function* initModule({id}) {
   try {
     const json = yield (
@@ -51,20 +35,14 @@ function* initModule({id}) {
   }
 }
 
-function* fetchModulesListFromFamily(action) {
+function* fetchModulesList() {
   const state = yield select()
-  yield fetchModulesList({
-    familyName: action.newFamilyName,
-    searchQuery: state.modules.searchQuery,
-    searchTags: state.modules.searchTags,
-  })
-}
+  let {searchFamily, searchQuery, granularity, searchTags} = state.modules;
 
-function* fetchModulesList({familyName, searchQuery, searchTags}) {
   try {
     const json = yield (
       fetch(buildUrl('/api/modules', {
-        queryParams: {familyName, searchQuery, searchTags}
+        queryParams: {searchFamily, searchQuery, searchTags}
       }))
       .catch((e) => {throw e})
       .then((r) => r.json())
@@ -80,16 +58,17 @@ function* fetchModulesList({familyName, searchQuery, searchTags}) {
 
   yield put(push(
     buildUrl('/modules', {
-      queryParams: filterEmptyValues({familyName, searchQuery})
+      queryParams: filterEmptyValues({searchFamily, searchQuery, granularity, searchTags})
     })
   ))
 }
 
 export default function* modules() {
   yield [
-    takeLatest(A.MODULES_FETCH_START, fetchModulesList),
-    takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesListFromFamily),
-    takeLatest(A.MODULES_INIT, initModules),
+    takeLatest(A.MODULES_UPDATE_SEARCH_QUERY, fetchModulesList),
+    takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesList),
+    takeLatest(A.MODULES_UPDATE_SEARCH_TAGS, fetchModulesList),
+    takeLatest(A.MODULES_INIT, fetchModulesList),
     takeLatest(A.MODULE_INIT, initModule),
   ];
 };

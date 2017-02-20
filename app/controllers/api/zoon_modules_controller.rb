@@ -1,4 +1,4 @@
-class Api::ModulesController < ApplicationController
+class Api::ZoonModulesController < ApplicationController
   def index
     modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
 
@@ -8,7 +8,7 @@ class Api::ModulesController < ApplicationController
 
     render json: {
       state: :ok,
-      entities: modules.map(&:as_json),
+      entities: modules,
     }
   end
 
@@ -25,7 +25,7 @@ class Api::ModulesController < ApplicationController
 
     render json: {
       state: :ok,
-      entities: [zoon_module.as_json],
+      entities: [ZoonModulesSerializer.new(zoon_module).serialize],
       shownEntityId: id,
     }
   end

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'home', to: 'home#index'
 
   namespace :api do
-    resources :modules, only: [:index, :show]
+    resources :modules, controller: 'zoon_modules', only: [:index, :show]
     resources :screenshots, only: [:create]
   end
 

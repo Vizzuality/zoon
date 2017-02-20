@@ -154,6 +154,32 @@ function* deleteModuleTag(action) {
   } else {
     yield put(moduleActions.finishModuleFetch(json))
   }
+
+function* submitFeedback(action) {
+  const state = yield select();
+
+  var formData = new FormData();
+  formData.append('rating', action.rating);
+  formData.append('comment', action.comment);
+
+  let json = yield fetch(
+    `/api/modules/${action.moduleId}/feedback`,
+    {
+      method: 'POST',
+      credentials: 'same-origin',
+      body: formData,
+      headers: new Headers({
+        'X-CSRF-TOKEN': state.auth.csrf,
+        'Accept': 'application/json',
+      }),
+    },
+  ).then((r) => r.json())
+    .catch(e => ({
+      state: 'error',
+      errorMessage: 'Error talking to the server. ' + e.message,
+    }));
+
+  yield put(moduleActions.submitFeedbackFinished(json))
 }
 
 export default function* modules() {
@@ -167,5 +193,6 @@ export default function* modules() {
     takeLatest(A.MODULES_DELETE_TAG, deleteModuleTag),
     takeLatest(A.MODULES_INIT, fetchModulesList),
     takeLatest(A.MODULE_INIT, initModule),
+    takeLatest(A.MODULE_SUBMIT_FEEDBACK, submitFeedback),
   ];
 };

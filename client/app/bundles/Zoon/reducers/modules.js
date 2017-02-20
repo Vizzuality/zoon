@@ -13,6 +13,7 @@ const defaultState = {
 
 const modules = (state = defaultState, action) => {
   switch (action.type) {
+    case A.MODULE_SUBMIT_FEEDBACK_FINISHED:
     case A.MODULES_FETCH_FINISHED:
       return {
         ...state,

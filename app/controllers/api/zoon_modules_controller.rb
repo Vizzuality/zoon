@@ -14,6 +14,16 @@ class Api::ZoonModulesController < ApplicationController
     }
   end
 
+  rescue_from Exception do |e|
+    render(
+      status: 500,
+      json: {
+        state: :error,
+        errorMessage: e.to_s,
+      },
+    )
+  end
+
   def index
     modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
 
@@ -88,6 +98,17 @@ class Api::ZoonModulesController < ApplicationController
     zoon_module.tags.delete(tag)
 
     render_zoon_module zoon_module
+  end
+
+  def feedback
+    z = ZoonModule.find params[:id]
+    z.feedbacks.upsert(
+      current_user.id,
+      params[:rating],
+      params[:comment],
+    )
+
+    render_zoon_module z
   end
 
   private

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         delete 'delete_screenshot/:screenshot_id', as: :delete_screenshot, to: 'zoon_modules#delete_screenshot'
         post 'create_tag'
         delete 'delete_tag/:tag_id', as: :delete_tag, to: 'zoon_modules#delete_tag'
+        post :feedback
       end
     end
 

@@ -5,7 +5,20 @@ class ZoonModulesSerializer < ApplicationSerializer
   end
 
   def serialize
-    json = @zoon_module.as_json
+    json = @zoon_module.as_json(
+      include: {
+        comments: FeedbacksSerializer::DEFAULT_OPTIONS,
+      },
+      methods: [
+        :average_rating,
+        :rating_count,
+        :comment_count,
+      ],
+    )
+
+    json['current_feedback'] = FeedbacksSerializer.new(
+      @zoon_module.feedbacks.find_by(user_id: @user.id),
+    ).serialize
 
     if @user
       json["create_screenshot_path"] = routes.create_screenshot_api_module_path(

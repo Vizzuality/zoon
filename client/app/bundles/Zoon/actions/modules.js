@@ -69,3 +69,15 @@ export const initModule = (id) => ({
 export const clearModule = () => ({
   type: A.MODULE_CLEAR,
 });
+
+export const submitFeedback = (moduleId, rating, comment) => ({
+  type: A.MODULE_SUBMIT_FEEDBACK,
+  moduleId,
+  rating,
+  comment,
+});
+
+export const submitFeedbackFinished = (result) => ({
+  type: A.MODULE_SUBMIT_FEEDBACK_FINISHED,
+  result,
+});

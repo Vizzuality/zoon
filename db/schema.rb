@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220082731) do
+ActiveRecord::Schema.define(version: 20170220113002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.string   "feedbackable_type"
+    t.integer  "feedbackable_id"
+    t.integer  "user_id"
+    t.integer  "rating"
+    t.text     "comment"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["feedbackable_id", "feedbackable_type", "user_id"], name: "feeback_by_user", unique: true, using: :btree
+    t.index ["feedbackable_type", "feedbackable_id"], name: "index_feedbacks_on_feedbackable_type_and_feedbackable_id", using: :btree
+    t.index ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
+  end
 
   create_table "screenshots", force: :cascade do |t|
     t.integer  "screenshootable_id"
@@ -76,5 +89,6 @@ ActiveRecord::Schema.define(version: 20170220082731) do
     t.datetime "updated_at",     null: false
   end
 
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "screenshots", "users"
 end

@@ -1,8 +1,4 @@
 class ZoonModule < ApplicationRecord
-  ratyrate_rateable "usefulness"
-
-  has_many :comments
-
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
 

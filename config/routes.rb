@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get 'home', to: 'home#index'
-  post '/rate' => 'rater#create', :as => 'rate'
 
   namespace :api do
     resources :modules, only: [:index, :show]

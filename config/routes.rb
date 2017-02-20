@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :modules, controller: 'zoon_modules', only: [:index, :show] do
       member do
         post 'create_screenshot'
-        delete 'delete_screenshot/:screenshot_id', to: 'zoon_modules#delete_screenshot'
+        delete 'delete_screenshot/:screenshot_id', as: :delete_screenshot, to: 'zoon_modules#delete_screenshot'
       end
     end
   end

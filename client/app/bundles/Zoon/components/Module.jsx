@@ -18,24 +18,25 @@ const SillyModule = ({ entity, currentUser, canRate }) => {
 };
 
 class Screenshots extends React.Component {
-  onFileSelected(ev) {
-    this.props.upload(ev.target.files[0]);
-  }
-
-  onDeleteButtonPressed(screenshotId) {
-    this.props.delete(screenshotId);
-  }
-
   render() {
     return (
       <div>
-        <p>Add new screenshot:</p>
-        <input type="file" onChange={this.onFileSelected.bind(this)} />
+        {this.props.upload &&
+          <div>
+            <p>Add new screenshot:</p>
+            <input type="file" onChange={(ev) => this.props.upload(ev.target.files[0])} />
+          </div>
+        }
         <ul>
           {(this.props.screenshots || []).map((screenshot) => (
             <li key={`screenshot-${screenshot.id}`}>
               <img src={screenshot.image.thumbnail.url} />
-              <button onClick={() => this.onDeleteButtonPressed(screenshot.id)}>DELETE ME</button>
+              {
+                screenshot.delete_path &&
+                <button onClick={() => this.props.delete(screenshot.delete_path)}>
+                  DELETE ME
+                </button>
+              }
             </li>
           ))}
         </ul>
@@ -92,8 +93,14 @@ class Module extends React.Component {
 
           <Screenshots
             screenshots={this.props.entity.screenshots}
-            upload={(screenshot) => this.props.uploadScreenshot(this.props.entity.id, screenshot)}
-            delete={(screenshotId) => this.props.deleteScreenshot(this.props.entity.id, screenshotId)}
+            upload={
+              this.props.entity.create_screenshot_path &&
+              ((screenshot) => this.props.uploadScreenshot(
+                this.props.entity.create_screenshot_path,
+                screenshot
+              ))
+            }
+            delete={this.props.deleteScreenshot}
           />
         </F.Row>
       </span>

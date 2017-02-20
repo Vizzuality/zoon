@@ -27,7 +27,7 @@ class Api::ZoonModulesController < ApplicationController
 
     render json: {
       state: :ok,
-      entities: [ZoonModulesSerializer.new(zoon_module).serialize],
+      entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
       shownEntityId: zoon_module.id,
     }
   end
@@ -43,7 +43,7 @@ class Api::ZoonModulesController < ApplicationController
     if screenshot.persisted?
       render json: {
         state: :ok,
-        entities: [ZoonModulesSerializer.new(zoon_module).serialize],
+        entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
         shownEntityId: zoon_module.id,
       }
     else
@@ -63,7 +63,7 @@ class Api::ZoonModulesController < ApplicationController
 
       render json: {
         state: :ok,
-        entities: [ZoonModulesSerializer.new(zoon_module).serialize],
+        entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
         shownEntityId: zoon_module.id,
       }
     end

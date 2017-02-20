@@ -21,16 +21,15 @@ export const updateFamilyFilter = (newFamilyName) => ({
   newFamilyName,
 });
 
-export const uploadScreenshot = (moduleId, screenshot) => ({
+export const uploadScreenshot = (screenshotCreatePath, screenshot) => ({
   type: A.MODULES_UPLOAD_SCREENSHOT,
-  moduleId,
+  screenshotCreatePath,
   screenshot,
 });
 
-export const deleteScreenshot = (moduleId, screenshotId) => ({
+export const deleteScreenshot = (screenshotDeletePath) => ({
   type: A.MODULES_DELETE_SCREENSHOT,
-  moduleId,
-  screenshotId,
+  screenshotDeletePath,
 });
 
 export const screenshotError = (errors) => ({

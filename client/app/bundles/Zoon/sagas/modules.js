@@ -31,7 +31,9 @@ function filterEmptyValues(obj){
 function* initModule({id}) {
   try {
     const json = yield (
-      fetch(buildUrl('/api/modules/'+id))
+      fetch(buildUrl('/api/modules/'+id), {
+        credentials: 'same-origin',
+      })
       .catch((e) => {throw e})
       .then((r) => r.json())
     );
@@ -52,6 +54,7 @@ function* fetchModulesList() {
   try {
     const json = yield (
       fetch(buildUrl('/api/modules', {
+        credentials: 'same-origin',
         queryParams: {searchFamily, searchQuery, searchTags}
       }))
       .catch((e) => {throw e})
@@ -75,12 +78,12 @@ function* fetchModulesList() {
 
 function* uploadModuleScreenshot(action) {
   const state = yield select();
-  let {moduleId, screenshot} = action;
+  let {screenshotCreatePath, screenshot} = action;
 
   var formData = new FormData();
   formData.append('screenshot[image]', action.screenshot);
 
-  let json = yield fetch(`/api/modules/${moduleId}/create_screenshot`, {
+  let json = yield fetch(screenshotCreatePath, {
     method: 'POST',
     credentials: 'same-origin',
     body: formData,
@@ -100,9 +103,9 @@ function* uploadModuleScreenshot(action) {
 
 function* deleteModuleScreenshot(action) {
   const state = yield select();
-  let {moduleId, screenshotId} = action;
+  const { screenshotDeletePath } = action;
 
-  let json = yield fetch(`/api/modules/${moduleId}/delete_screenshot/${screenshotId}`, {
+  let json = yield fetch(action.screenshotDeletePath, {
     method: 'DELETE',
     credentials: 'same-origin',
     headers: new Headers({

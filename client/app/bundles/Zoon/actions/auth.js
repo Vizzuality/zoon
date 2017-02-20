@@ -16,6 +16,16 @@ export const authUpdate = (user) => ({
   user,
 });
 
+export const authRecover = (email) => ({
+  type: A.AUTH_RECOVER,
+  email,
+});
+
+export const authChangePassword = (password) => ({
+  type: A.AUTH_CHANGE_PASSWORD,
+  password,
+});
+
 export const authFinished = (payload) => ({
   type: A.AUTH_FINISHED,
   payload,

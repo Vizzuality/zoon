@@ -47,7 +47,7 @@ class Account extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Sign up</h2>
+          <h2>Edit Account</h2>
 
           <Errors errors={this.props.auth.errors} />
 

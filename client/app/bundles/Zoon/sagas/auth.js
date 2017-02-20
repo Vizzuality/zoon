@@ -100,6 +100,61 @@ function* update({user}) {
   yield put(authActions.authFinished({ ...result }));
 }
 
+function* recover({email}) {
+  let state = yield select();
+
+  let result = yield fetch('/users/password', {
+    method: 'POST',
+    credentials: "same-origin",
+    body: JSON.stringify({user: {email}}),
+    headers: new Headers({
+      'X-CSRF-Token': state.auth.csrf,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return {};
+    } else {
+      return response.json();
+    }
+  }).catch((e) => ({ errors: {error: [e.message]} }));
+
+  yield put(authActions.authFinished({ ...result }));
+}
+
+function* changePassword({password}) {
+  let state = yield select();
+
+  let result = yield fetch('/users/password', {
+    method: 'PUT',
+    credentials: "same-origin",
+    body: JSON.stringify({
+      user: {
+        password,
+        reset_password_token: state.auth.reset_password_token,
+      }
+    }),
+    headers: new Headers({
+      'X-CSRF-Token': state.auth.csrf,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return {};
+    } else {
+      return response.json();
+    }
+  }).catch((e) => ({ errors: {error: [e.message]} }));
+
+  yield put(authActions.authFinished({ ...result }));
+
+  if (!result.errors) {
+    yield put(push('/'));
+  }
+}
+
 function* signOut() {
   let state = yield select();
 
@@ -133,6 +188,8 @@ export default function* modules() {
     takeLatest(A.AUTH_LOGIN, signIn),
     takeLatest(A.AUTH_SIGNUP, signUp),
     takeLatest(A.AUTH_UPDATE, update),
+    takeLatest(A.AUTH_RECOVER, recover),
+    takeLatest(A.AUTH_CHANGE_PASSWORD, changePassword),
     takeLatest(A.AUTH_LOGOUT, signOut),
   ];
 };

@@ -1,13 +1,12 @@
 import React from 'react';
 import * as F from 'react-foundation';
-import { Link } from 'react-router'
 import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth';
 import Errors from './Errors'
 
 
-class SignIn extends React.Component {
+class ChangePassword extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,7 +15,6 @@ class SignIn extends React.Component {
 
   isSubmitDisabled() {
     const isUserDataFilled =
-      this.state.email &&
       this.state.password;
 
     return this.props.state.pending || !isUserDataFilled;
@@ -31,8 +29,7 @@ class SignIn extends React.Component {
   submit(event) {
     event.preventDefault();
 
-    this.props.authLogin(
-      this.state.email,
+    this.props.authChangePassword(
       this.state.password,
     );
   }
@@ -41,26 +38,15 @@ class SignIn extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Log in</h2>
+          <h2>Recover Password</h2>
 
           <Errors errors={this.props.state.errors} />
 
           <form className="new_user" onSubmit={this.submit.bind(this)}>
             <div className="field">
-              <label htmlFor="user_email">Email</label><br />
+              <label htmlFor="user_password">New Password</label><br />
               <input
                 autoFocus="autofocus"
-                id="user_email"
-                name="user[email]"
-                onChange={(ev) => this.onFieldChange("email", ev)}
-                type="email"
-              />
-            </div>
-
-            <div className="field">
-              <label htmlFor="user_password">Password</label><br />
-              <input
-                autoComplete="off"
                 id="user_password"
                 name="user[password]"
                 onChange={(ev) => this.onFieldChange("password", ev)}
@@ -73,13 +59,10 @@ class SignIn extends React.Component {
                 disabled={this.isSubmitDisabled()}
                 name="commit"
                 type="submit"
-                value="Log in"
+                value="Recover password"
               />
             </div>
           </form>
-
-          <Link to="/users/sign_up">Sign up</Link><br />
-          <Link to="/recover_password">Forgot your password?</Link><br />
         </F.Column>
       </F.Row>
     );
@@ -92,4 +75,4 @@ export default connect(
   }),
   {
     ...authActions
-  })(SignIn);
+  })(ChangePassword);

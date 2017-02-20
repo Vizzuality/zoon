@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get '/users/sign_in', to: 'home#index'
   get '/users/sign_up', to: 'home#index'
   get '/account', to: 'home#index'
+  get '/recover_password', to: 'home#index'
+  get '/users/password/edit', to: 'home#index'
   devise_for :users
 
   resources :zoon_modules, only: [:index, :show] do

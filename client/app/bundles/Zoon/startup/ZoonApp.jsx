@@ -11,6 +11,8 @@ import Module from '../components/Module';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import Account from '../components/Account';
+import RecoverPassword from '../components/RecoverPassword';
+import ChangePassword from '../components/ChangePassword';
 import NotFound from '../components/NotFound';
 
 
@@ -28,6 +30,8 @@ const ZoonApp = (props, _railsContext) => {
           <Route path="/users/sign_in" component={SignIn} />
           <Route path="/users/sign_up" component={SignUp} />
           <Route path="/account" component={Account} />
+          <Route path="/recover_password" component={RecoverPassword} />
+          <Route path="/users/password/edit" component={ChangePassword} />
           <Route path="*" component={NotFound} />
         </Route>
       </Router>

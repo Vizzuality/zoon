@@ -3,15 +3,28 @@ import * as F from 'react-foundation';
 import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth';
+import Errors from './Errors'
 
 
 class SignIn extends React.Component {
-  onEmailChange(ev) {
-    this.setState({ email: ev.target.value });
+  constructor(props) {
+    super(props);
+
+    this.state = {};
   }
 
-  onPasswordChange(ev) {
-    this.setState({ password: ev.target.value });
+  isSubmitDisabled() {
+    const isUserDataFilled =
+      this.state.email &&
+      this.state.password;
+
+    return this.props.state.pending || !isUserDataFilled;
+  }
+
+  onFieldChange(key, ev) {
+    this.setState({
+      [key]: ev.target.value,
+    })
   }
 
   submit(event) {
@@ -30,13 +43,7 @@ class SignIn extends React.Component {
         <F.Column small={12} large={8}>
           <h2>Log in</h2>
 
-          {
-            Object.keys(this.props.state.errors || []).map((key) => (
-              this.props.state.errors[key].map((error) => (
-                <p className="error">{key}: {error}</p>
-              ))
-            ))
-          }
+          <Errors errors={this.props.state.errors} />
 
           <form className="new_user" onSubmit={this.submit.bind(this)}>
             <div className="field">
@@ -45,7 +52,7 @@ class SignIn extends React.Component {
                 autoFocus="autofocus"
                 id="user_email"
                 name="user[email]"
-                onChange={this.onEmailChange.bind(this)}
+                onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
               />
             </div>
@@ -56,14 +63,14 @@ class SignIn extends React.Component {
                 autoComplete="off"
                 id="user_password"
                 name="user[password]"
-                onChange={this.onPasswordChange.bind(this)}
+                onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
               />
             </div>
 
             <div className="actions">
               <input
-                disabled={this.props.state.pending}
+                disabled={this.isSubmitDisabled()}
                 name="commit"
                 type="submit"
                 value="Log in"

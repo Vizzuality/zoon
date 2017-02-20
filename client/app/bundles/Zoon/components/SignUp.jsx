@@ -3,6 +3,7 @@ import * as F from 'react-foundation';
 import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth';
+import Errors from './Errors'
 
 
 class SignUp extends React.Component {
@@ -11,6 +12,7 @@ class SignUp extends React.Component {
 
     this.state = {}
   }
+
   onFieldChange(key, ev) {
     this.setState({
       [key]: ev.target.value,
@@ -43,13 +45,7 @@ class SignUp extends React.Component {
         <F.Column small={12} large={8}>
           <h2>Sign up</h2>
 
-          {
-            Object.keys(this.props.state.errors || []).map((key) => (
-              this.props.state.errors[key].map((error) => (
-                <p className="error">{key}: {error}</p>
-              ))
-            ))
-          }
+          <Errors errors={this.props.state.errors} />
 
           <form className="new_user" onSubmit={this.submit.bind(this)}>
             <div className="field">

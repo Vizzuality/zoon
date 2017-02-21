@@ -1,0 +1,11 @@
+@import 'settings';
+
+a.button {
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

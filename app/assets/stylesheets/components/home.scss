@@ -1,0 +1,54 @@
+@import 'settings';
+
+.home {
+  .flow-banner {
+    height: 143px;
+    background-image: image-url('flow.png');
+    background-repeat: no-repeat;
+    background-position: -880px center;
+    margin: $global-margin 0 2*$global-margin;
+  }
+
+  h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1rem;
+    line-height: 4rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  ul.moduleTypes {
+    list-style: none;
+    margin: 1rem 0;
+    display: flex;
+
+    li {
+      $list: covariate, model, occurrence, output, process;
+      margin-right: 0.5rem;
+      
+      a {
+        @each $type in $list {
+          &.#{$type} {
+            background: image-url('module_#{$type}.png');
+          }
+        }
+        width: 2.5rem;
+        height: 2.5rem;
+        display: block;
+      }
+    }
+  }
+
+  input.search {
+    background-image: image-url('search.png');
+    background-repeat: no-repeat;
+    background-position: 96% 50%;
+    background-size: 1rem;
+  }
+}

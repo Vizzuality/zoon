@@ -10,8 +10,11 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  *= require foundation_and_overrides
+ *= require_tree ./components
+ *= require_tree ./common
 
  */
+
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,700,900');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');

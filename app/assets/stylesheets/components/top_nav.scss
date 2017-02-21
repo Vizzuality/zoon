@@ -1,0 +1,42 @@
+@import 'settings';
+
+.topnav {
+  margin-bottom: 90px;
+  font-size: 1.3rem;
+
+  .top-bar-left {
+    text-transform: uppercase;
+
+    .menu {
+      li {
+        &.home {
+          a {
+            font-size: 1.5em;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+          }
+        }
+
+        &:first-child {
+          a {
+            padding-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  li {
+    a {
+      font-weight: normal;
+    }
+
+    &.active {
+      a {
+        font-weight: 900;
+        background: none;
+        color: $body-font-color;
+      }
+    }
+  }
+}

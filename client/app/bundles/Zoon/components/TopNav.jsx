@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth';
 
-const TopNav = ({ auth, authLogout }) => {
+const TopNav = ({ auth, isHome, isModules, authLogout }) => {
   if (auth.id) {
     var items = [
-      <F.MenuItem key={0}>
-        <Link onClick={() => authLogout(auth.csrf)}>Log Out</Link>
-        <Link to="/account">My Account</Link>
-      </F.MenuItem>
+      (<F.MenuItem key={0}><Link onClick={() => authLogout(auth.csrf)}>Log Out</Link></F.MenuItem>),
+      (<F.MenuItem key={1}><Link to="/account">My Account</Link></F.MenuItem>),
     ]
   } else {
     var items = [
@@ -20,28 +18,35 @@ const TopNav = ({ auth, authLogout }) => {
     ]
   }
   return (
-<F.Row className="main-header">
-  <F.TopBar>
-    <F.TopBarLeft>
-      <F.Menu>
-        <F.MenuItem><Link to="/">ZOÖN</Link></F.MenuItem>
-        <F.MenuItem><Link to="/modules">MODULES</Link></F.MenuItem>
-        <F.MenuItem><Link to="/workflows">WORKFLOWS</Link></F.MenuItem>
-      </F.Menu>
-    </F.TopBarLeft>
-    <F.TopBarRight>
-      <F.Menu>
-        { items }
-      </F.Menu>
-    </F.TopBarRight>
-  </F.TopBar>
-</F.Row>
+    <F.Row className="topnav">
+      <F.Column small={12}>
+        <F.TopBar>
+          <F.TopBarLeft>
+            <F.Menu>
+              { !isHome && (
+                <F.MenuItem className="home"><Link to="/">Zoön</Link></F.MenuItem>
+              )}
+              <F.MenuItem className={isModules && 'active'}><Link to="/modules">Modules</Link></F.MenuItem>
+              <F.MenuItem><Link to="/workflows">Workflows</Link></F.MenuItem>
+              <F.MenuItem><Link to="javascript:void(0)">About</Link></F.MenuItem>
+            </F.Menu>
+          </F.TopBarLeft>
+          <F.TopBarRight>
+            <F.Menu>
+              { items }
+            </F.Menu>
+          </F.TopBarRight>
+        </F.TopBar>
+      </F.Column>
+    </F.Row>
   );
 };
 
 export default connect(
   (state) => ({
     auth: state.auth,
+    isHome: state.routing.locationBeforeTransitions.pathname === "/",
+    isModules: state.routing.locationBeforeTransitions.pathname === "/modules",
   }),
   {
     ...authActions,

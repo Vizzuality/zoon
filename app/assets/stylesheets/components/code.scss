@@ -1,0 +1,25 @@
+@import 'colors';
+
+.code {
+  display: flex;
+  align-items: center;
+  background-color: $zoon-white;
+  padding: 1rem;
+  box-shadow: 0 1px 1px 1px scale-color($zoon-black, $lightness: +70%);
+  color: #8b8b8b;
+  margin-bottom: 1rem;
+
+  .code__content {
+    flex: 1 0 0;
+    font-family: monospace;
+    white-space: pre-wrap;
+  }
+
+  .code__copy {
+    flex: 0 1 0;
+
+    i {
+      cursor: pointer;
+    }
+  }
+}

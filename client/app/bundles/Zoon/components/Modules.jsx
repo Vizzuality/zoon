@@ -5,7 +5,6 @@ import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
 import MapPicker from './MapPicker';
-import FlowBanner from './FlowBanner'
 import Errorable from './Errorable'
 
 
@@ -100,8 +99,6 @@ class Modules extends React.Component {
   render() {
     return (
       <span>
-        <FlowBanner />
-
         <F.Row>
           <F.Column className="module-description">
             Filter by module type

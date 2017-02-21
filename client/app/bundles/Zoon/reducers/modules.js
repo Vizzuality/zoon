@@ -56,6 +56,8 @@ const modules = (state = defaultState, action) => {
         shownEntityId: null,
       };
 
+    case A.MODULES_CREATE_TAG:
+    case A.MODULES_DELETE_TAG:
     case A.MODULES_DELETE_SCREENSHOT:
     case A.MODULES_UPLOAD_SCREENSHOT:
       return {
@@ -63,6 +65,7 @@ const modules = (state = defaultState, action) => {
         errors: null,
       };
 
+    case A.TAG_ERROR:
     case A.SCREENSHOT_ERROR:
       return {
         ...state,

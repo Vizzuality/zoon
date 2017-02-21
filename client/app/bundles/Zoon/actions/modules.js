@@ -32,6 +32,22 @@ export const deleteScreenshot = (screenshotDeletePath) => ({
   screenshotDeletePath,
 });
 
+export const createTag = (tagCreatePath, tag) => ({
+  type: A.MODULES_CREATE_TAG,
+  tagCreatePath,
+  tag,
+});
+
+export const deleteTag = (tagDeletePath) => ({
+  type: A.MODULES_DELETE_TAG,
+  tagDeletePath,
+});
+
+export const tagError = (errors) => ({
+  type: A.TAG_ERROR,
+  errors,
+});
+
 export const screenshotError = (errors) => ({
   type: A.SCREENSHOT_ERROR,
   errors,

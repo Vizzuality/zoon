@@ -17,6 +17,53 @@ const SillyModule = ({ entity, currentUser, canRate }) => {
   </span>);
 };
 
+class Tags extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { tag: '' };
+  }
+
+  onChange(ev) {
+    this.setState({ tag: ev.target.value });
+  }
+
+  onClick() {
+    this.props.add(this.state.tag)
+  }
+
+  render() {
+    return (
+      <div>
+        <ul>
+          {this.props.add &&
+            <div>
+              <p>Add new tag:</p>
+              <input type="text" onChange={this.onChange.bind(this)} />
+              <button
+                disabled={!this.state.tag}
+                onClick={this.onClick.bind(this)}
+              >
+                Add
+              </button>
+            </div>
+          }
+          {(this.props.tags || []).map((tag) => (
+            <li key={`tag-${tag.id}`}>
+              {tag.name}
+              {
+                tag.delete_path &&
+                <button onClick={() => this.props.delete(tag.delete_path)}>
+                  DELETE ME
+                </button>
+              }
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+
 class Screenshots extends React.Component {
   render() {
     return (
@@ -102,10 +149,22 @@ class Module extends React.Component {
             }
             delete={this.props.deleteScreenshot}
           />
+
+          <Tags
+            tags={this.props.entity.tags}
+            add={
+              this.props.entity.create_tag_path &&
+              ((tag) => this.props.createTag(
+                this.props.entity.create_tag_path,
+                tag
+              ))
+            }
+            delete={this.props.deleteTag}
+          />
         </F.Row>
       </span>
     );
-  };
+  }
 };
 
 export default connect(

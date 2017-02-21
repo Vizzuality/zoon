@@ -1,5 +1,10 @@
 class Api::ZoonModulesController < ApplicationController
-  before_action :authenticate_user!, only: [:create_screenshot, :delete_screenshot]
+  before_action :authenticate_user!, only: [
+    :create_screenshot,
+    :delete_screenshot,
+    :create_tag,
+    :delete_tag,
+  ]
 
   rescue_from ActiveRecord::RecordNotFound do
     render json: {
@@ -55,6 +60,34 @@ class Api::ZoonModulesController < ApplicationController
 
       render_zoon_module zoon_module
     end
+  end
+
+  def create_tag
+    zoon_module = ZoonModule.find params[:id].to_i
+    tag = params[:name]
+
+    tag = Tag.where(name: tag).first_or_create!
+    if zoon_module.tags.include?(tag)
+      render status: :unprocessable_entity, json: { error: ['Tag already exists'] }
+    else
+      zoon_module.tags << tag
+
+      render_zoon_module zoon_module
+    end
+
+  end
+
+  def delete_tag
+    zoon_module = ZoonModule.find params[:id].to_i
+    tag = Tag.find params[:tag_id].to_i
+
+    if !zoon_module.author_emails.include?(current_user.email)
+      render status: :unauthorized, json: { error: ['Unauthorized']}
+    end
+
+    zoon_module.tags.delete(tag)
+
+    render_zoon_module zoon_module
   end
 
   private

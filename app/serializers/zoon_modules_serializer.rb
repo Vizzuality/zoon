@@ -11,12 +11,29 @@ class ZoonModulesSerializer < ApplicationSerializer
       json["create_screenshot_path"] = routes.create_screenshot_api_module_path(
         @zoon_module,
       )
+
+      json["create_tag_path"] = routes.create_tag_api_module_path(
+        @zoon_module,
+      )
     end
 
     json["screenshots"] = @zoon_module.screenshots.map do |screenshot|
       ScreenshotSerializer.new(user: @user, screenshot: screenshot).serialize
     end
 
+    json["tags"] = @zoon_module.tags.map do |tag|
+      { id: tag.id, name: tag.name, }.
+        merge(tag_options(tag))
+    end
+
     json
+  end
+
+  def tag_options tag
+    if @user && @zoon_module.author_emails.include?(@user.email)
+      { delete_path: routes.delete_tag_api_module_path(@zoon_module, tag) }
+    else
+      {}
+    end
   end
 end

@@ -154,6 +154,7 @@ function* deleteModuleTag(action) {
   } else {
     yield put(moduleActions.finishModuleFetch(json))
   }
+}
 
 function* submitFeedback(action) {
   const state = yield select();

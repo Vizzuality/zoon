@@ -2,104 +2,22 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 import { goBack } from 'react-router-redux'
-import Rating from 'react-rating'
 import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
 import * as tagActions from '../actions/tags'
 import Errorable from './Errorable'
 import Errors from './Errors'
+import Feedback from './Feedback'
 
-
-class FeedbackBox extends React.Component {
-  constructor(props){
-    super(props)
-
-    let cf = this.props.entity.current_feedback;
-    this.state = {
-      rating: cf && cf.rating || undefined,
-      comment: cf && cf.comment || '',
-    };
-
-    this.updateComment = this.updateComment.bind(this)
-    this.updateRating = this.updateRating.bind(this)
-    this.submitFeedback = this.submitFeedback.bind(this)
-  }
-
-  render(){
-    return <form className="provide-feedback" onSubmit={this.submitFeedback}>
-      <div>Your avatar: {this.props.currentUser.avatar_url}</div>
-      <Rating
-        initialRate={this.state.rating}
-        onChange={this.updateRating}
-      />
-      <input
-        type="text"
-        name="comment"
-        value={this.state.comment}
-        onChange={this.updateComment}
-        placeholder="How did you use this module?"
-      />
-      <input type="submit" value="Give feedback" />
-    </form>
-   }
-
-  updateComment(ev){
-    this.setState({comment: ev.target.value})
-  }
-
-  updateRating(value){
-    this.setState({rating: value})
-  }
-
-  submitFeedback(ev){
-    ev.preventDefault()
-    ev.stopPropagation()
-
-    this.props.submitFeedback(
-      this.props.entity.id,
-      this.state.rating,
-      this.state.comment,
-    )
-  }
-}
 
 const ModuleDetails = ({
   entity,
-  currentUser,
-
-  submitFeedback,
 }) => {
   return (<span>
     <pre>
       {JSON.stringify(entity, null, 2)}
     </pre>
-    <div className="comments">
-      <div className="stats">
-        <div>Average rating: {entity.average_rating}</div>
-        <div>Rating coun: {entity.rating_count}</div>
-        <div>Comment count: {entity.comment_count}</div>
-      </div>
-      { currentUser.id && (
-        <FeedbackBox
-          entity={entity}
-          currentUser={currentUser}
-          submitFeedback={submitFeedback}
-        />
-      ) }
-      <div className="comments-list">
-        { entity.comments.map((c) => (
-          <div key={c.id} className="comment">
-            <div>{c.user.email} dixit:</div>
-            <Rating
-              initialRate={c.rating}
-              readonly={true}
-            />
-            <div>{c.comment}</div>
-          </div>
-        )) }
-      </div>
-    </div>
   </span>);
 };
 
@@ -130,23 +48,7 @@ const Tags = connect(
     return (
       <div>
         <ul>
-          {this.props.add &&
-            <div>
-              <p>Add new tag:</p>
-              <input type="text" onChange={this.onChange.bind(this)} value={this.props.name} />
-              {(this.props.autocomplete || []).map((name) => (
-                <strong key={name} onClick={() => this.onAutocompleteSelection(name)}>
-                  {name}
-                </strong>
-              ))}
-              <button
-                disabled={!this.props.name}
-                onClick={this.onSubmit.bind(this)}
-              >
-                Add
-              </button>
-            </div>
-          }
+          <h4>Current</h4>
           {(this.props.tags || []).map((tag) => (
             <li key={`tag-${tag.id}`}>
               {tag.name}
@@ -158,6 +60,25 @@ const Tags = connect(
               }
             </li>
           ))}
+          {this.props.add &&
+            <div>
+              <h4>Add new</h4>
+              <input type="text" onChange={this.onChange.bind(this)} value={this.props.name} />
+              <ul>
+                {(this.props.autocomplete || []).map((name) => (
+                  <li key={name} onClick={() => this.onAutocompleteSelection(name)}>
+                    <a>{name}</a>
+                  </li>
+                ))}
+              </ul>
+              <button
+                disabled={!this.props.name}
+                onClick={this.onSubmit.bind(this)}
+              >
+                Add
+              </button>
+            </div>
+          }
         </ul>
       </div>
     );
@@ -232,8 +153,6 @@ class Module extends React.Component {
             >
               <ModuleDetails
                 entity={this.props.entity}
-                currentUser={this.props.currentUser}
-                submitFeedback={this.props.submitFeedback}
               />
             </Errorable>
           </F.Column>
@@ -243,6 +162,14 @@ class Module extends React.Component {
           </F.Column>
         </F.Row>
         <F.Row>
+          <h2>Feedback</h2>
+          <Feedback
+            entity={this.props.entity}
+            currentUser={this.props.currentUser}
+            submitFeedback={this.props.submitFeedback}
+          />
+
+          <h2>Screeshots</h2>
           <Errors errors={this.props.errors} />
 
           <Screenshots
@@ -257,6 +184,7 @@ class Module extends React.Component {
             delete={this.props.deleteScreenshot}
           />
 
+          <h2>Tags</h2>
           <Tags
             tags={this.props.entity.tags}
             add={

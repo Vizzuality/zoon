@@ -8,7 +8,12 @@ class ZoonModule < ApplicationRecord
 
   scope :search, -> (query, tags) {
     modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, query|
-      all.where("zoon_modules.title ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?", "%#{query}%", "%#{query}%", query.downcase)
+      all.where(
+        "zoon_modules.title ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
+        "%#{query}%",
+        "%#{query}%",
+        query.downcase,
+      )
     end
 
     if tags.empty?

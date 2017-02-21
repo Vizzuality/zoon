@@ -10,6 +10,8 @@ Rails.application.routes.draw do
         delete 'delete_tag/:tag_id', as: :delete_tag, to: 'zoon_modules#delete_tag'
       end
     end
+
+    resources :tags, only: [:index]
   end
 
   # DEVISE
@@ -28,4 +30,13 @@ Rails.application.routes.draw do
   get '/modules(/*path)', to: 'home#index'
   get '/workflows(/*path)', to: 'home#index'
   root to: 'home#index'
+
+  match(
+    '*path',
+    via: [:get, :post, :put, :delete],
+    constraints: {format: :json},
+    to: lambda do |env|
+      [404, {'Content-Type'=>'application/json'}, ['{"error": "not_found"}']]
+    end,
+  )
 end

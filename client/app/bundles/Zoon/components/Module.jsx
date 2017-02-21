@@ -5,6 +5,7 @@ import { goBack } from 'react-router-redux'
 import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
+import * as tagActions from '../actions/tags'
 import Errorable from './Errorable'
 import Errors from './Errors'
 
@@ -17,18 +18,27 @@ const SillyModule = ({ entity, currentUser, canRate }) => {
   </span>);
 };
 
-class Tags extends React.Component {
+const Tags = connect(
+  (state, ownProps) => ({
+    name: state.tags.name,
+    autocomplete: state.tags.autocomplete_names,
+  }),
+  { ...tagActions }
+)(class extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tag: '' };
   }
 
   onChange(ev) {
-    this.setState({ tag: ev.target.value });
+    this.props.formChange(ev.target.value);
   }
 
-  onClick() {
-    this.props.add(this.state.tag)
+  onAutocompleteSelection(selection) {
+    this.props.autoCompleteSelect(selection);
+  }
+
+  onSubmit() {
+    this.props.add(this.props.name);
   }
 
   render() {
@@ -38,10 +48,15 @@ class Tags extends React.Component {
           {this.props.add &&
             <div>
               <p>Add new tag:</p>
-              <input type="text" onChange={this.onChange.bind(this)} />
+              <input type="text" onChange={this.onChange.bind(this)} value={this.props.name} />
+              {(this.props.autocomplete || []).map((name) => (
+                <strong key={name} onClick={() => this.onAutocompleteSelection(name)}>
+                  {name}
+                </strong>
+              ))}
               <button
-                disabled={!this.state.tag}
-                onClick={this.onClick.bind(this)}
+                disabled={!this.props.name}
+                onClick={this.onSubmit.bind(this)}
               >
                 Add
               </button>
@@ -62,7 +77,8 @@ class Tags extends React.Component {
       </div>
     );
   }
-}
+});
+
 
 class Screenshots extends React.Component {
   render() {

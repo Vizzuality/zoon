@@ -5,17 +5,7 @@ import { push } from 'react-router-redux'
 
 import * as A from '../action_types';
 import * as moduleActions from '../actions/modules';
-
-let exceptionToErrors = (e) => ({ error: [e.message] });
-
-let errorToErrors = (json) => {
-  if (json.errors) {
-    return json.errors;
-  } else if (json.error) {
-    return { error: [json.error] };
-  }
-};
-
+import { exceptionToErrors, errorToErrors } from './helpers'
 
 function filterEmptyValues(obj){
   let result = {};

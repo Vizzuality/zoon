@@ -2,11 +2,13 @@ import { call, put, takeLatest, select } from 'redux-saga/effects'
 import 'isomorphic-fetch';
 import buildUrl from 'build-url';
 import { push } from 'react-router-redux'
+import { debounce } from 'redux-saga-debounce-effect';
 
 import * as A from '../action_types';
 import * as tagActions from '../actions/tags';
 import * as moduleActions from '../actions/modules';
 import { exceptionToErrors, errorToErrors } from './helpers'
+
 
 function* formChange(action) {
   const state = yield select();
@@ -38,6 +40,6 @@ function* formChange(action) {
 
 export default function* tags() {
   yield [
-    takeLatest(A.TAG_FORM_CHANGE, formChange),
+    debounce(A.TAG_FORM_CHANGE, formChange),
   ];
 };

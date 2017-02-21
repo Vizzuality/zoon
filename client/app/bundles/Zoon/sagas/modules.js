@@ -10,7 +10,10 @@ import { exceptionToErrors, errorToErrors } from './helpers'
 function filterEmptyValues(obj){
   let result = {};
   for (var k in obj) {
-    if (obj[k] === null || obj[k] === undefined || obj[k] === '') {
+    if (obj[k] === null ||
+        obj[k] === undefined ||
+        obj[k] === '' ||
+        (Array.isArray(obj[k]) && obj[k].length == 0)) {
       continue
     }
     result[k] = obj[k]
@@ -39,7 +42,14 @@ function* initModule({id}) {
 
 function* fetchModulesList() {
   const state = yield select()
+  const q = state.routing.locationBeforeTransitions.query;
+
   let {searchFamily, searchQuery, granularity, searchTags} = state.modules;
+
+  searchFamily = searchFamily || q.searchFamily || '';
+  searchQuery = searchQuery || q.searchQuery || '';
+  granularity = granularity || q.granularity || 'continents';
+  searchTags = searchTags || q.searchTags || [];
 
   try {
     const json = yield (

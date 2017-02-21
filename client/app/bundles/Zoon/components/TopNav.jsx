@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth';
 
-const TopNav = ({ auth, isHome, isModules, authLogout }) => {
+const TopNav = ({ auth, isHome, isModules, isSignIn, isSignUp, isAccount, authLogout }) => {
   if (auth.id) {
     var items = [
       (<F.MenuItem key={0}><Link onClick={() => authLogout(auth.csrf)}>Log Out</Link></F.MenuItem>),
-      (<F.MenuItem key={1}><Link to="/account">My Account</Link></F.MenuItem>),
+      (<F.MenuItem key={1} className={isAccount && 'active'}><Link to="/account">My Account</Link></F.MenuItem>),
     ]
   } else {
     var items = [
-      (<F.MenuItem key={0}><Link to="/users/sign_in">Sign In</Link></F.MenuItem>),
-      (<F.MenuItem key={1}><Link to="/users/sign_up">Sign Up</Link></F.MenuItem>),
+      (<F.MenuItem key={0} className={isSignIn && 'active'}><Link to="/users/sign_in">Sign In</Link></F.MenuItem>),
+      (<F.MenuItem key={1} className={isSignUp && 'active'}><Link to="/users/sign_up">Sign Up</Link></F.MenuItem>),
     ]
   }
   return (
@@ -47,6 +47,9 @@ export default connect(
     auth: state.auth,
     isHome: state.routing.locationBeforeTransitions.pathname === "/",
     isModules: state.routing.locationBeforeTransitions.pathname === "/modules",
+    isSignIn: state.routing.locationBeforeTransitions.pathname === "/users/sign_in",
+    isSignUp: state.routing.locationBeforeTransitions.pathname === "/users/sign_up",
+    isAccount: state.routing.locationBeforeTransitions.pathname === "/account",
   }),
   {
     ...authActions,

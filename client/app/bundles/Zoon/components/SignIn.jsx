@@ -41,45 +41,39 @@ class SignIn extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Log in</h2>
-
           <Errors errors={this.props.state.errors} />
 
-          <form className="new_user" onSubmit={this.submit.bind(this)}>
-            <div className="field">
-              <label htmlFor="user_email">Email</label><br />
+          <form onSubmit={this.submit.bind(this)}>
+            <p>
               <input
-                autoFocus="autofocus"
-                id="user_email"
                 name="user[email]"
                 onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
+                placeholder="Email address"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_password">Password</label><br />
+            <p>
               <input
                 autoComplete="off"
-                id="user_password"
                 name="user[password]"
                 onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
+                placeholder="Password"
               />
-            </div>
+            </p>
 
-            <div className="actions">
-              <input
-                disabled={this.isSubmitDisabled()}
-                name="commit"
-                type="submit"
-                value="Log in"
-              />
-            </div>
+            <p>
+              <F.Button
+                  className="button primary"
+                  disabled={this.isSubmitDisabled()}
+                  type="submit">
+                Sign In
+              </F.Button>
+            </p>
           </form>
 
-          <Link to="/users/sign_up">Sign up</Link><br />
-          <Link to="/recover_password">Forgot your password?</Link><br />
+          <p><Link to="/recover_password">Forgot your password?</Link></p>
         </F.Column>
       </F.Row>
     );

@@ -42,73 +42,65 @@ class SignUp extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Sign up</h2>
-
           <Errors errors={this.props.state.errors} />
 
-          <form className="new_user" onSubmit={this.submit.bind(this)}>
-            <div className="field">
-              <label htmlFor="user_name">Name</label><br />
+          <form onSubmit={this.submit.bind(this)}>
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[name]" id="user_name"
                 onChange={(ev) => this.onFieldChange("name", ev)}
                 type="text"
+                placeholder="Name"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_organization">Organization</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[organization]" id="user_organization"
                 onChange={(ev) => this.onFieldChange("organization", ev)}
                 type="text"
+                placeholder="Organization"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_github_username">GitHub username</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[github_username]" id="user_github_username"
                 onChange={(ev) => this.onFieldChange("github_username", ev)}
                 type="text"
+                placeholder="GitHub Username"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_email">Email</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[email]" id="user_email"
                 onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
+                placeholder="Email address"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_password">Password</label><br />
+            <p>
               <input
                 autoComplete="off"
-                id="user_password"
                 name="user[password]"
                 onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
+                placeholder="Password"
               />
-            </div>
+            </p>
 
-            <div className="actions">
-              <input
-                disabled={this.isSubmitDisabled()}
-                name="commit"
-                type="submit"
-                value="Sign up"
-              />
-            </div>
+            <p>
+              <F.Button
+                  className="button primary"
+                  disabled={this.isSubmitDisabled()}
+                  type="submit">
+                Sign Up
+              </F.Button>
+            </p>
           </form>
 
-          <a href="/users/sign_in">Log in</a><br />
         </F.Column>
       </F.Row>
     );

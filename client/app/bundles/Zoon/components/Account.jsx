@@ -47,85 +47,77 @@ class Account extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Edit Account</h2>
-
           <Errors errors={this.props.auth.errors} />
 
-          <form className="edit_user" onSubmit={this.submit.bind(this)}>
-            <div className="field">
-              <label htmlFor="user_name">Name</label><br />
+          <form onSubmit={this.submit.bind(this)}>
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[name]" id="user_name"
                 value={this.state.name}
                 onChange={(ev) => this.onFieldChange("name", ev)}
                 type="text"
+                placeholder="Name"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_organization">Organization</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[organization]" id="user_organization"
                 value={this.state.organization}
                 onChange={(ev) => this.onFieldChange("organization", ev)}
                 type="text"
+                placeholder="Organization"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_github_username">GitHub username</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[github_username]" id="user_github_username"
                 value={this.state.github_username}
                 onChange={(ev) => this.onFieldChange("github_username", ev)}
                 type="text"
+                placeholder="GitHub Username"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_email">Email</label><br />
+            <p>
               <input
-                autoFocus="autofocus"
                 name="user[email]" id="user_email"
                 value={this.state.email}
                 onChange={(ev) => this.onFieldChange("email", ev)}
                 type="email"
+                placeholder="Email"
               />
-            </div>
+            </p>
 
-            <div className="field">
-              <label htmlFor="user_current_password">Current Password</label><br />
+            <p>
               <input
-                autoComplete="off"
-                id="user_current_password"
-                name="user[current_password]"
-                onChange={(ev) => this.onFieldChange("current_password", ev)}
-                type="password"
-              />
-            </div>
-
-            <div className="field">
-              <label htmlFor="user_password">New Password</label><br />
-              <input
-                autoComplete="off"
-                id="user_password"
                 name="user[password]"
                 onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
+                placeholder="New Password"
               />
-            </div>
+            </p>
 
-            <div className="actions">
+            <hr/>
+
+            <p>
               <input
-                disabled={this.isSubmitDisabled()}
-                name="commit"
-                type="submit"
-                value="Update"
+                name="user[current_password]"
+                onChange={(ev) => this.onFieldChange("current_password", ev)}
+                type="password"
+                placeholder="Current Password"
               />
-            </div>
+            </p>
+
+            <p>
+              <F.Button
+                  disabled={this.isSubmitDisabled()}
+                  name="commit"
+                  type="submit">
+                Update
+              </F.Button>
+            </p>
           </form>
         </F.Column>
       </F.Row>

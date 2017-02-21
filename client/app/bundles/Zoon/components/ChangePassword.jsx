@@ -38,30 +38,28 @@ class ChangePassword extends React.Component {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
-          <h2>Recover Password</h2>
+          <h3>Recover Password</h3>
 
           <Errors errors={this.props.state.errors} />
 
-          <form className="new_user" onSubmit={this.submit.bind(this)}>
-            <div className="field">
-              <label htmlFor="user_password">New Password</label><br />
+          <form onSubmit={this.submit.bind(this)}>
+            <p>
               <input
-                autoFocus="autofocus"
-                id="user_password"
                 name="user[password]"
                 onChange={(ev) => this.onFieldChange("password", ev)}
                 type="password"
+                placeholder="New Password"
               />
-            </div>
+            </p>
 
-            <div className="actions">
-              <input
-                disabled={this.isSubmitDisabled()}
-                name="commit"
-                type="submit"
-                value="Recover password"
-              />
-            </div>
+            <p>
+              <F.Button
+                  className="button primary"
+                  disabled={this.isSubmitDisabled()}
+                  type="submit">
+                Recover password
+              </F.Button>
+            </p>
           </form>
         </F.Column>
       </F.Row>

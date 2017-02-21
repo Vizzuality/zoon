@@ -25,11 +25,7 @@ class Api::ZoonModulesController < ApplicationController
   def show
     zoon_module = ZoonModule.find params[:id].to_i
 
-    render json: {
-      state: :ok,
-      entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
-      shownEntityId: zoon_module.id,
-    }
+    render_zoon_module zoon_module
   end
 
   def create_screenshot
@@ -41,11 +37,7 @@ class Api::ZoonModulesController < ApplicationController
     )
 
     if screenshot.persisted?
-      render json: {
-        state: :ok,
-        entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
-        shownEntityId: zoon_module.id,
-      }
+      render_zoon_module zoon_module
     else
       render json: {errors: screenshot.errors}
     end
@@ -61,15 +53,24 @@ class Api::ZoonModulesController < ApplicationController
     else
       screenshot.destroy
 
-      render json: {
-        state: :ok,
-        entities: [ZoonModulesSerializer.new(user: current_user, zoon_module: zoon_module).serialize],
-        shownEntityId: zoon_module.id,
-      }
+      render_zoon_module zoon_module
     end
   end
 
   private
+
+  def render_zoon_module zoon_module
+    render json: {
+      state: :ok,
+      entities: [
+        ZoonModulesSerializer.new(
+          user: current_user,
+          zoon_module: zoon_module
+        ).serialize,
+      ],
+      shownEntityId: zoon_module.id,
+    }
+  end
 
   def screenshot_params
     params.

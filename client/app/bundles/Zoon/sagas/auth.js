@@ -114,7 +114,7 @@ function* recover({email}) {
     }),
   }).then((response) => {
     if (response.ok) {
-      return {};
+      return {message: "Email sent! Check your inbox."};
     } else {
       return response.json();
     }

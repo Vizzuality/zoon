@@ -2,6 +2,7 @@ import * as A from '../action_types';
 
 const defaultState = {
   errorMessage: null,
+  message: null,
 };
 
 const auth = (state = defaultState, action) => {
@@ -26,6 +27,12 @@ const auth = (state = defaultState, action) => {
       return {
         ...defaultState,
         ...action.payload,
+      }
+    case A.AUTH_CLEAR_MESSAGES:
+      return {
+        ...state,
+        errorMessage: null,
+        message: null,
       }
     default:
       return state;

@@ -13,6 +13,14 @@ class RecoverPassword extends React.Component {
     this.state = {};
   }
 
+  componentWillMount(){
+    this.props.authClearMessages();
+  }
+
+  componentWillUnmount(){
+    this.props.authClearMessages();
+  }
+
   isSubmitDisabled() {
     const isUserDataFilled =
       this.state.email;
@@ -41,6 +49,7 @@ class RecoverPassword extends React.Component {
           <h3>Recover Password</h3>
 
           <Errors errors={this.props.state.errors} />
+          { this.props.state.message }
 
           <form onSubmit={this.submit.bind(this)}>
             <p>

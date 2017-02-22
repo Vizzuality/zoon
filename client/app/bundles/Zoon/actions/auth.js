@@ -39,3 +39,7 @@ export const authLogoutFinished = (payload) => ({
   type: A.AUTH_LOGOUT_FINISHED,
   payload,
 });
+
+export const authClearMessages = () => ({
+  type: A.AUTH_CLEAR_MESSAGES,
+});

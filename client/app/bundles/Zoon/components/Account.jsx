@@ -102,6 +102,7 @@ class Account extends React.Component {
             <hr/>
 
             <p>
+              <label htmlFor="user[current_password]">Please input your current password so we can be sure it's really you.</label>
               <input
                 name="user[current_password]"
                 onChange={(ev) => this.onFieldChange("current_password", ev)}

@@ -11,7 +11,6 @@
  * It is generally better to create a new file per style scope.
  *
  *= require foundation_and_overrides
- *= require zoon_modules
  *= require_tree ./components
  *= require_tree ./common
 

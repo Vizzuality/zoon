@@ -5,6 +5,7 @@ import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
 import MapPicker from './MapPicker';
+import ModuleMosaic from './ModuleMosaic';
 import Errorable from './Errorable'
 
 
@@ -20,14 +21,16 @@ const FamilySwitch = ({
 }) => {
   const isCurrent = currentFamilyName === targetFamily.name;
   return (
-    <F.Column className={`module-type ${isCurrent?'selected':''}`} small={12} medium={4} large={2}>
-      <a onClick={() => {
+    <a
+        className={isCurrent?'selected':''}
+        onClick={() => {
           updateFamilyFilter(isCurrent ? '' : targetFamily.name)
-      }}>
-        <img src={targetFamily.image_url} alt={`Module ${targetFamily.name}`} />
-        {targetFamily.name}
-      </a>
-    </F.Column>
+        }}>
+      <span className={targetFamily.name}></span>
+      <span rel={targetFamily.name}>{targetFamily.name}</span>
+    </a>
+    
+
   );
 }
 
@@ -37,25 +40,6 @@ FamilySwitch.propTypes = {
 
   updateFamilyFilter: PropTypes.func.isRequired,
 }
-
-const ModuleMosaic = ({ models }) => {
-  return (<F.Row>
-    {models.map(m => (
-      <F.Column key={m.id} small={12} medium={6} large={4}>
-        <Link to={`/modules/${m.id}`}>
-          <div className="module-card">
-            <span className="module-title">{m.title}</span>
-            <span className="module-version  model">{m.version}</span>
-            <span className="module-description">{m.description}</span>
-          </div>
-          <div className={`module-footer ${m.family}`}>
-            <span className="module-date">{m.family}</span>
-          </div>
-        </Link>
-      </F.Column>
-    ))}
-  </F.Row>);
-};
 
 function noDefault(f) {
   return function(e) {
@@ -98,26 +82,45 @@ class Modules extends React.Component {
 
   render() {
     return (
-      <span>
+      <span className="modules">
         <F.Row>
-          <F.Column className="module-description">
-            Filter by module type
+          <F.Column small={12} large={8}>
+            <p>Modelling isn’t always easy, but it could be easier. ZOON reduces the time and effort it takes to find data, create species distribution models, and share them with the world.</p>
           </F.Column>
+        </F.Row>
 
-          {this.props.families.map(f => (
-            <FamilySwitch
-              key={f.name}
-              currentFamilyName={this.props.searchFamily}
-              targetFamily={f}
-              updateFamilyFilter={this.props.updateFamilyFilter}
-            />
-          ))}
+        <F.Row>
+          <F.Column small={12}>
+            <div className="mixed-filter-row">
+              <div className="family-filter">
+                <h4>Filter by module type</h4>
+                <ul className="family-filter__families">
+                  {this.props.families.map(f => (
+                    <li key={f.name}>
+                      <FamilySwitch
+                        currentFamilyName={this.props.searchFamily}
+                        targetFamily={f}
+                        updateFamilyFilter={this.props.updateFamilyFilter}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <ul className="filter-toggle">
+                <li><F.Button><i className="fa fa-map" /></F.Button></li>
+                <li><F.Button><i className="fa fa-search" /></F.Button></li>
+              </ul>
+            </div>
+          </F.Column>
+        </F.Row>
 
-          <F.Column className="module-search" small={12} medium={4} large={2}>
+        <F.Row>
+          <F.Column small={12}>
+            <h4>Filter by text</h4>
             <form onSubmit={noDefault(() => (this.onSearch()))}>
               <input
                 type="text"
-                placeholder="search"
+                placeholder="Search term will match module name, description, and tags"
                 value={this.state.searchQuery}
                 onChange={(e) => this.updateSearchQuery(e.target.value)}
               />
@@ -125,7 +128,11 @@ class Modules extends React.Component {
           </F.Column>
         </F.Row>
 
-        <MapPicker onSelect={this.onSelect.bind(this)} selectedGeos={this.props.searchTags} granularity={this.props.granularity} />
+        <F.Row>
+          <F.Column small={12}>
+            <MapPicker onSelect={this.onSelect.bind(this)} selectedGeos={this.props.searchTags} granularity={this.props.granularity} />
+          </F.Column>
+        </F.Row>
 
         <F.Row>
           <Errorable
@@ -137,7 +144,9 @@ class Modules extends React.Component {
                   No results. Try another search.
                 </F.Column>
             ) : (
-              <ModuleMosaic models={this.props.entities}/>
+              <F.Column small={12}>
+                <ModuleMosaic models={this.props.entities}/>
+              </F.Column>
             ) }
           </Errorable>
         </F.Row>

@@ -10,7 +10,12 @@ import continentsData from '../continentsData';
 const config = (seriesData, selectedGeos, select, unselect) => ({
   title: null,
   chart: {
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    spacingBottom: 0,
+    spacingTop: 0,
+    spacingLeft: 0,
+    spacingRight: 0,
+    height: 600,
   },
   series: [{
     data: seriesData.data.map((elem) => (
@@ -140,19 +145,17 @@ class MapPicker extends React.Component {
   render() {
     return (
       <div className="map-picker">
+        <h4>Filter by coverage</h4>
         <div className="picker">
-          <span>Filter by coverage</span>
-          <div className="buttons">
-            {["continents", "countries"].map((granularity) => (
-              <F.Button
-                key={granularity}
-                isHollow
-                className={this.props.granularity === granularity ? "active" : "" }
-                onClick={() => this.pickMapGranularity(granularity)}>
-                {granularity}
-              </F.Button>
-            ))}
-          </div>
+          {["continents", "countries"].map((granularity) => (
+            <F.Button
+              key={granularity}
+              isHollow
+              className={this.props.granularity === granularity ? "active" : "" }
+              onClick={() => this.pickMapGranularity(granularity)}>
+              {granularity}
+            </F.Button>
+          ))}
         </div>
         <div className="map">
           <ReactHighmaps isPureConfig config={this.configs[this.props.granularity]} />

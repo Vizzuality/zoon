@@ -15,15 +15,9 @@
     display: flex;
 
     li {
-      $list: covariate, model, occurrence, output, process;
       margin-right: 0.5rem;
       
       a {
-        @each $type in $list {
-          &.#{$type} {
-            background: image-url('module_#{$type}.png');
-          }
-        }
         width: 2.5rem;
         height: 2.5rem;
         display: block;

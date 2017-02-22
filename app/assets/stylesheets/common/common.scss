@@ -36,6 +36,12 @@ body {
     text-transform: uppercase;
   }
 
+  h4 {
+    font-size: 0.9rem;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+
   a {
     color: $zoon-black;
     font-weight: 700;
@@ -80,6 +86,16 @@ body {
       }
       &:-moz-placeholder { /* Firefox 18- */
         color: transparent;
+      }
+    }
+  }
+
+  * {
+    $list: covariate, model, occurrence, output, process;
+    
+    @each $type in $list {
+      &.#{$type} {
+        background: image-url('module_#{$type}.png');
       }
     }
   }

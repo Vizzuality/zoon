@@ -21,11 +21,11 @@ class HomeController < ApplicationController
   def families
     {
       entities: [
-        'covariate',
-        'model',
         'occurrence',
-        'output',
+        'covariate',
         'process',
+        'model',
+        'output',
       ].map do |f|
         # TODO Why won't `image_url("module_#{f}.png")` work here?
         {name: f, image_url: image_url("/assets/module_#{f}.png")}

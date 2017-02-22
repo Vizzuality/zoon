@@ -25,15 +25,20 @@ class Api::ZoonModulesController < ApplicationController
   end
 
   def index
-    modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
+    zoon_modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
 
     if searchFamily = params[:searchFamily].presence
-      modules = modules.filter_by_family searchFamily
+      zoon_modules = zoon_modules.filter_by_family searchFamily
     end
 
     render json: {
       state: :ok,
-      entities: modules,
+      entities: zoon_modules.map do |zoon_module|
+        ZoonModulesSerializer.new(
+          user: current_user,
+          zoon_module: zoon_module,
+        ).serialize
+      end
     }
   end
 

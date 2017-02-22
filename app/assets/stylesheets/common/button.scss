@@ -4,8 +4,13 @@
   font-weight: 700;
   text-decoration: none;
   text-transform: uppercase;
+  border-width: 2px;
 
   &:hover {
     text-decoration: none;
+  }
+
+  &.hollow {
+    border-width: 2px;
   }
 }

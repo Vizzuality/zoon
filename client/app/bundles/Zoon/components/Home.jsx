@@ -38,7 +38,7 @@ class Home extends React.Component {
       <span className="home">
         <F.Row>
           <F.Column small={12} large={8}>
-            <h1>ZOÖN</h1>
+            <h1>ZOON</h1>
             <p>Modelling isn’t always easy, but it could be easier. ZOON reduces the time and effort it takes to find data, create species distribution models, and share them with the world.</p>
           </F.Column>
         </F.Row>

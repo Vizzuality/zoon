@@ -24,7 +24,7 @@ const TopNav = ({ auth, isHome, isModules, isSignIn, isSignUp, isAccount, authLo
           <F.TopBarLeft>
             <F.Menu>
               { !isHome && (
-                <F.MenuItem className="home"><Link to="/">Zoön</Link></F.MenuItem>
+                <F.MenuItem className="home"><Link to="/">Zoon</Link></F.MenuItem>
               )}
               <F.MenuItem className={isModules && 'active'}><Link to="/modules">Modules</Link></F.MenuItem>
               <F.MenuItem><Link to="/workflows">Workflows</Link></F.MenuItem>

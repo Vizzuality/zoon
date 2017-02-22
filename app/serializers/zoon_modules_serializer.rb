@@ -16,11 +16,11 @@ class ZoonModulesSerializer < ApplicationSerializer
       ],
     )
 
-    json['current_feedback'] = FeedbacksSerializer.new(
-      @zoon_module.feedbacks.find_by(user_id: @user.id),
-    ).serialize
-
     if @user
+      json['current_feedback'] = FeedbacksSerializer.new(
+        @zoon_module.feedbacks.find_by(user_id: @user.id),
+      ).serialize
+
       json["create_screenshot_path"] = routes.create_screenshot_api_module_path(
         @zoon_module,
       )
@@ -28,6 +28,8 @@ class ZoonModulesSerializer < ApplicationSerializer
       json["create_tag_path"] = routes.create_tag_api_module_path(
         @zoon_module,
       )
+    else
+      json['current_feedback'] = {}
     end
 
     json["screenshots"] = @zoon_module.screenshots.map do |screenshot|
@@ -35,8 +37,7 @@ class ZoonModulesSerializer < ApplicationSerializer
     end
 
     json["tags"] = @zoon_module.tags.map do |tag|
-      { id: tag.id, name: tag.name, }.
-        merge(tag_options(tag))
+      { id: tag.id, name: tag.name }.merge(tag_options(tag))
     end
 
     json

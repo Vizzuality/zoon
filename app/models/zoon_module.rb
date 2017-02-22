@@ -31,7 +31,7 @@ class ZoonModule < ApplicationRecord
     if tags.empty?
       modules.distinct
     else
-      modules.where(tags: { name: tags.map(&:downcase) }).distinct
+      modules.where("LOWER(tags.name) IN (?)", tags.map(&:downcase)).distinct
     end
   }
 

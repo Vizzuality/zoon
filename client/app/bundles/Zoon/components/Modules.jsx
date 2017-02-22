@@ -29,8 +29,6 @@ const FamilySwitch = ({
       <span className={targetFamily.name}></span>
       <span rel={targetFamily.name}>{targetFamily.name}</span>
     </a>
-    
-
   );
 }
 

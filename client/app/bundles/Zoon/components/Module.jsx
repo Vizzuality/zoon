@@ -161,7 +161,7 @@ class Module extends React.Component {
             <F.Row className="view-on-github">Yo soy um Github link! Ah ah!</F.Row>
           </F.Column>
         </F.Row>
-        <F.Row>
+        <div>
           <h2>Feedback</h2>
           <Feedback
             entity={this.props.entity}
@@ -196,7 +196,7 @@ class Module extends React.Component {
             }
             delete={this.props.deleteTag}
           />
-        </F.Row>
+        </div>
       </span>
     );
   }

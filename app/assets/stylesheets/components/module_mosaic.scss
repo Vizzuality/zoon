@@ -74,6 +74,10 @@
 
     &:hover {
       text-decoration: none;
+
+      .module-title {
+        text-decoration: underline;
+      }
     }
   }
 }

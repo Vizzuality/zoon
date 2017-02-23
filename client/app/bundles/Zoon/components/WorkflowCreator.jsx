@@ -139,7 +139,7 @@ class WorkflowCreator extends React.Component {
             {this.props.entities.map(m => <ModuleCard
               key={m.id}
               m={m}
-              onClick={()=>this.addModule(module)}
+              onClick={()=>this.addModule(m)}
             />)}
           </div>
         </F.Row>

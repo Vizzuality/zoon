@@ -8,10 +8,10 @@ const ModuleMosaic = ({ models }) => {
   return (<div className="module-mosaic">
     {models.map(m => (
       <Link to={`/modules/${m.id}`} className="module-wrapper" key={m.id}>
-        <div className="module">
+        <div className={`module-card module-family-${m.family}`}>
           <div className="module-content">
             <p className="module-title">{m.title}</p>
-            <div className={`module-version-and-ratings ${m.family}`}>
+            <div className="module-version-and-ratings module-family-color">
               <span className="module-version">V.{m.version}</span>
               <span className="module-rating">
                 <Rating
@@ -26,7 +26,7 @@ const ModuleMosaic = ({ models }) => {
             </div>
             <p className="module-description">{m.description}</p>
           </div>
-          <div className={`module-footer ${m.family}`}>
+          <div className="module-footer module-family-background-color">
             <span>{m.tags.map((tag) => (tag.name)).join(", ")}</span>
           </div>
         </div>

@@ -3,8 +3,10 @@
     margin-top: -1rem;
     text-align: center;
 
-    button:first-child {
-      margin-right: 1rem;
+    button {
+      &:first-child {
+        margin-right: 1rem;
+      }
     }
   }
 }

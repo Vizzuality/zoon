@@ -26,7 +26,7 @@ const FamilySwitch = ({
         onClick={() => {
           updateFamilyFilter(isCurrent ? '' : targetFamily.name)
         }}>
-      <span className={targetFamily.name}></span>
+      <span className={`module-family-${targetFamily.name} module-family-background`}></span>
       <span rel={targetFamily.name}>{targetFamily.name}</span>
     </a>
   );

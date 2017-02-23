@@ -91,11 +91,26 @@ body {
   }
 
   * {
-    $list: covariate, model, occurrence, output, process;
-    
-    @each $type in $list {
-      &.#{$type} {
-        background: image-url('module_#{$type}.png');
+    $type_list: covariate, model, occurrence, output, process;
+
+    @each $type in $type_list {
+      &.module-family-#{$type} {
+
+        &.module-family-color,
+        .module-family-color {
+          color: map-get($zoon-module-colors, $type);
+        }
+
+        &.module-family-background,
+        .module-family-background {
+          background: image-url('module_#{$type}.png');
+          background-size: contain;
+        }
+
+        &.module-family-background-color,
+        .module-family-background-color {
+          background-color: map-get($zoon-module-colors, $type);
+        }
       }
     }
   }

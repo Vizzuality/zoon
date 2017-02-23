@@ -14,7 +14,7 @@
     display: block;
     font-weight: normal;
 
-    .module {
+    .module-card {
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 
       .module-content {
@@ -32,14 +32,6 @@
         .module-version-and-ratings {
           font-size: 0.9rem;
           margin-bottom: 0.25rem;
-
-          $list: covariate, model, occurrence, output, process;
-          @each $type in $list {
-            &.#{$type} {
-              background-image: none;
-              color: map-get($zoon-module-colors, $type);
-            }
-          }
 
           .module-version {
             margin-right: 1rem;
@@ -65,14 +57,6 @@
         font-size: 0.8rem;
         line-height: 1rem;
         color: $zoon-white;
-
-        $list: covariate, model, occurrence, output, process;
-        @each $type in $list {
-          &.#{$type} {
-            background-image: none;
-            background-color: map-get($zoon-module-colors, $type);
-          }
-        }
       }
     }
 

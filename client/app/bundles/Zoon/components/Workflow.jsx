@@ -10,6 +10,7 @@ import Errors from './Errors'
 import Feedback from './Feedback'
 import Tags from './Tags'
 import Code from './Code'
+import ModuleCard from './ModuleCard'
 
 
 class Workflow extends React.Component {
@@ -23,14 +24,14 @@ class Workflow extends React.Component {
 
   render() {
     return (
-      <div className={`module module-family-workflow`}>
-        <F.Row>
+      <div className="module">
+        <F.Row className="module-family-workflow">
           <F.Column small={12}>
             <p><Link onClick={this.props.goBack}>&lt; Go back</Link></p>
           </F.Column>
         </F.Row>
 
-        <F.Row>
+        <F.Row className="module-family-workflow">
           <F.Column small={12}>
             <Errorable
                 state={this.props.state}
@@ -40,7 +41,7 @@ class Workflow extends React.Component {
           </F.Column>
         </F.Row>
 
-        <F.Row>
+        <F.Row className="module-family-workflow">
           <F.Column small={7}>
             <div className="module-title">
               <p>
@@ -48,7 +49,22 @@ class Workflow extends React.Component {
                 <span className="module-family-color">{this.props.entity.name}</span>
               </p>
             </div>
+          </F.Column>
 
+          <F.Column small={4} offsetOnSmall={1}>
+            <p className="module-duplicate">
+              <a href={this.props.entity && this.props.entity.url} target="_blank" className="button">
+                Duplicate this workflow
+              </a>
+            </p>
+          </F.Column>
+        </F.Row>
+
+        <F.Row className="module-family-workflow">
+        </F.Row>
+
+        <F.Row className="module-family-workflow">
+          <F.Column small={7}>
             <h5>Description</h5>
             <p className="faded">{this.props.entity.description || "(no description)"}</p>
 
@@ -86,6 +102,17 @@ class Workflow extends React.Component {
 
             <Errors errors={this.props.errors} />
           </F.Column>
+        </F.Row>
+
+        <F.Row>
+          <h2>Modules used in this workflow</h2>
+
+          <div className="mosaic">
+            {(this.props.entity.modules || []).map(m => <ModuleCard
+              key={m.id}
+              m={m}
+            />)}
+          </div>
         </F.Row>
       </div>
     );

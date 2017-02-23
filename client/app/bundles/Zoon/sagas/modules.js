@@ -163,7 +163,7 @@ function* submitFeedback(action) {
   formData.append('comment', action.comment);
 
   let json = yield fetch(
-    `/api/modules/${action.moduleId}/feedback`,
+    `/api/modules/${action.module.id}/feedback`,
     {
       method: 'POST',
       credentials: 'same-origin',

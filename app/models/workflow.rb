@@ -28,7 +28,7 @@ class Workflow < ApplicationRecord
 
   FAMILIES = ["occurrence", "covariate", "process", "model", "output"]
 
-    FAMILIES.each do |family|
+  FAMILIES.each do |family|
     enum "#{family}_composition_type" => {
       list: 0,
       chain: 1,

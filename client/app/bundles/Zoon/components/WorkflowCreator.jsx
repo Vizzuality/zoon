@@ -5,6 +5,7 @@ import * as F from 'react-foundation';
 import Reorder from 'react-reorder';
 
 import * as workflowsActions from '../actions/workflows'
+import ModuleCard from './ModuleCard'
 
 
 function onlyUnique(value, index, self) {
@@ -57,6 +58,20 @@ class WorkflowCreator extends React.Component {
         this.families().map((family) => [family, 'list'])
       ),
     }
+  }
+
+  createWorkflow(ev) {
+    ev.preventDefault();
+
+    this.props.createWorkflow({
+      title: this.state.title,
+      description: this.state.description,
+      compositionTypes: this.state.compositionTypes,
+      modules: Object.
+        values(this.state.modules).
+        reduce((acc, v) => acc.concat(v)).
+        map((module) => module.id),
+    });
   }
 
   componentDidMount() {
@@ -121,20 +136,6 @@ class WorkflowCreator extends React.Component {
     return this.state.selectedFamily == family;
   }
 
-  createWorkflow(ev) {
-    ev.preventDefault();
-
-    this.props.createWorkflow({
-      title: this.state.title,
-      description: this.state.description,
-      compositionTypes: this.state.compositionTypes,
-      modules: Object.
-        values(this.state.modules).
-        reduce((acc, v) => acc.concat(v)).
-        map((module) => module.id),
-    });
-  }
-
   reorder(family, list) {
     console.log(list);
     this.setState({
@@ -157,13 +158,13 @@ class WorkflowCreator extends React.Component {
     return (
       <span>
         <F.Row>
-          <ul>
-            {this.props.entities.map((module)=>(
-              <p onClick={()=>this.addModule(module)} key={module.id}>
-                {module.title}
-              </p>
-            ))}
-          </ul>
+          <div className="mosaic">
+            {this.props.entities.map(m => <ModuleCard
+              key={m.id}
+              m={m}
+              onClick={()=>this.addModule(module)}
+            />)}
+          </div>
         </F.Row>
         <F.Row>
           <h3>

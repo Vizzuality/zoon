@@ -20,6 +20,7 @@ class Api::ZoonModulesController < ApplicationController
       json: {
         state: :error,
         errorMessage: e.to_s,
+        backtrace: e.backtrace,
       },
     )
   end

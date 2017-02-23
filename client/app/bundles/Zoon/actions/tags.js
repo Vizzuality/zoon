@@ -5,8 +5,9 @@ export const formChange = (name) => ({
   name,
 });
 
-export const autoComplete = (names) => ({
+export const autoComplete = (name, names) => ({
   type: A.TAG_AUTOCOMPLETE,
+  name,
   names,
 });
 

@@ -11,15 +11,20 @@ import { exceptionToErrors, errorToErrors } from './helpers'
 
 
 function* formChange(action) {
-  yield call(delay, 500);
-
   const state = yield select();
   const { name } = action;
+
+  if (name === "") {
+    yield put(tagActions.autoComplete(name, []))
+    return
+  }
+
+  yield call(delay, 500);
 
   let json = yield fetch(
     buildUrl(
       "/api/tags",
-      { queryParams: { search: action.name } },
+      { queryParams: { search: name } },
     ),
     {
       method: 'GET',
@@ -35,7 +40,7 @@ function* formChange(action) {
   if (json.errors || json.error) {
     yield put(moduleActions.tagError(errorToErrors(json)))
   } else {
-    yield put(tagActions.autoComplete(json.tags))
+    yield put(tagActions.autoComplete(name, json.tags))
   }
 }
 

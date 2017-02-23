@@ -4,32 +4,30 @@ import Rating from 'react-rating'
 const Feedback = ({
   entity,
   currentUser,
-
   submitFeedback,
-}) => {
-  return <div className="comments">
-    <div className="stats">
-      <h4>Stats</h4>
-      <div>Average rating: {entity.average_rating}</div>
-      <div>Rating coun: {entity.rating_count}</div>
-      <div>Comment count: {entity.comment_count}</div>
+}) => (
+  <div className="feedback">
+    <div className="feedback-summary">
+      <Rating
+        initialRate={Math.round(entity.average_rating*2)/2}
+        readonly={true}
+        empty="fa fa-star-o"
+        full="fa fa-star"
+        step={1}
+        stop={5}/>
+      <span>{entity.rating_count} ratings</span>
+      <span>{entity.comment_count} comments</span>
     </div>
     { currentUser.id && (
-      <div>
-        <h4>Your feedback</h4>
-        <FeedbackBox
-          entity={entity}
-          currentUser={currentUser}
-          submitFeedback={submitFeedback}
-        />
-      </div>
+      <FeedbackBox
+        entity={entity}
+        currentUser={currentUser}
+        submitFeedback={submitFeedback}
+      />
     ) }
-    <div>
-      <h4>Comments</h4>
-      <FeedbackList comments={entity.comments}/>
-    </div>
+    <FeedbackList comments={entity.comments}/>
   </div>
-}
+)
 
 class FeedbackBox extends React.Component {
   constructor(props){
@@ -47,22 +45,29 @@ class FeedbackBox extends React.Component {
   }
 
   render(){
-    return <form className="provide-feedback" onSubmit={this.submitFeedback}>
-      <div>Your avatar: {this.props.currentUser.avatar_url}</div>
-      <Rating
-        initialRate={this.state.rating}
-        onChange={this.updateRating}
-      />
-      <input
-        type="text"
-        name="comment"
-        value={this.state.comment}
-        onChange={this.updateComment}
-        placeholder="How did you use this module?"
-      />
-      <input type="submit" value="Give feedback" />
-    </form>
-   }
+    return (
+      <div className="feedback-box">
+        <img src={this.props.currentUser.avatar_url} />
+
+        <form className="provide-feedback" onSubmit={this.submitFeedback}>
+          <input
+            type="text"
+            name="comment"
+            value={this.state.comment}
+            onChange={this.updateComment}
+            placeholder="How did you use this module?" />
+        </form>
+
+        <Rating
+          initialRate={this.state.rating}
+          onChange={this.updateRating}
+          empty="fa fa-star-o"
+          full="fa fa-star"
+          step={1}
+          stop={5} />
+      </div>
+    )
+  }
 
   updateComment(ev){
     this.setState({comment: ev.target.value})
@@ -88,18 +93,34 @@ const FeedbackList = ({
   comments,
 }) => {
   if (!comments){ return null; }
-  return <div className="comments-list">
-    { comments.map((c) => (
-      <div key={c.id} className="comment">
-        <div>{c.user.email} dixit:</div>
-        <Rating
-          initialRate={c.rating}
-          readonly={true}
-        />
-        <div>{c.comment}</div>
-      </div>
-    )) }
-  </div>
+  return (
+    <div className="comments-list">
+      { comments.map((c) => (
+        <div key={c.id} className="comment">
+          <img src={c.avatar_url || "https://avatars2.githubusercontent.com/u/111554?v=3&s=460"} />
+          <div className="comment-body">
+            <p>
+              {c.user.name}
+              <span>
+                {Math.round((new Date() - new Date(c.created_at))/86400/1000)} days ago
+              </span>
+            </p>
+            <p>
+              <Rating
+                readonly={true}
+                initialRate={Math.round(c.rating*2)/2}
+                empty="fa fa-star-o"
+                full="fa fa-star"
+                fractions={2}
+                step={1}
+                stop={5}/>
+            </p>
+            <p>{c.comment}</p>
+          </div>
+        </div>
+      )) }
+    </div>
+  )
 }
 
 export default Feedback;

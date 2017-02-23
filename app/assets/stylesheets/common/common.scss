@@ -42,6 +42,12 @@ body {
     text-transform: uppercase;
   }
 
+  h5 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
   a {
     color: $zoon-black;
     font-weight: 700;
@@ -57,6 +63,10 @@ body {
     &.citation {
       font-size: 0.9rem;
       color: scale-color($body-font-color, $lightness: +50%);
+    }
+
+    &.faded {
+      color: scale-color($body-font-color, $lightness: +40%);
     }
   }
 

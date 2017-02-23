@@ -1,0 +1,57 @@
+@import 'colors';
+
+.tags {
+  > ul {
+    list-style: none;
+    margin: 0;
+    font-size: 0.8rem;
+    color: $zoon-white;
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      border-radius: 1em;
+      padding: 0 0.4em;
+      margin: 0 0.5em 0.5em 0;
+
+      button {
+        cursor: pointer;
+        margin-left: 0.5rem;
+        color: $zoon-white;
+      }
+    }
+  }
+
+  .tag-autocomplete {
+    position: relative;
+
+    ul {
+      list-style: none;
+      margin: 0;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: $zoon-white;
+      border-bottom: 2px solid $zoon-black;
+      width: 100%;
+      max-height: 200px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+
+      li {
+        padding: 0.5rem 0.5rem 0;
+        border-left: 2px solid $zoon-black;
+        border-right: 2px solid $zoon-black;
+        cursor: pointer;
+
+        &:hover {
+          background-color: scale-color($zoon-white, $lightness: -20%);
+        }
+      }
+
+      &:empty {
+        display: none;
+      }
+    }
+  }
+}

@@ -53,7 +53,7 @@ class Home extends React.Component {
             </p>
             <ul className="moduleTypes">
               {["occurrence", "covariate", "process", "model", "output"].map((type) => (
-              <li key={type}><Link to={`/modules?searchFamily=${type}`} className={type}></Link></li>
+                <li key={type}><Link to={`/modules?searchFamily=${type}`} className={`module-family-${type} module-family-background`}></Link></li>
              ))}
             </ul>
             <p>

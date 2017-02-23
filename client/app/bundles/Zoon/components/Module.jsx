@@ -11,16 +11,6 @@ import Errors from './Errors'
 import Feedback from './Feedback'
 
 
-const ModuleDetails = ({
-  entity,
-}) => {
-  return (<span>
-    <pre>
-      {JSON.stringify(entity, null, 2)}
-    </pre>
-  </span>);
-};
-
 const Tags = connect(
   (state, ownProps) => ({
     name: state.tags.name,
@@ -37,49 +27,51 @@ const Tags = connect(
   }
 
   onAutocompleteSelection(selection) {
-    this.props.autoCompleteSelect(selection);
+    this.props.add(selection);
   }
 
-  onSubmit() {
+  onSubmit(ev) {
+    ev.preventDefault();
+
     this.props.add(this.props.name);
   }
 
   render() {
     return (
-      <div>
+      <div className="tags">
         <ul>
-          <h4>Current</h4>
           {(this.props.tags || []).map((tag) => (
-            <li key={`tag-${tag.id}`}>
+            <li
+                key={`tag-${tag.id}`}
+                className="module-family-background-color">
               {tag.name}
               {
                 tag.delete_path &&
-                <button onClick={() => this.props.delete(tag.delete_path)}>
-                  DELETE ME
-                </button>
+                <button className="fa fa-times-circle" onClick={() => this.props.delete(tag.delete_path)}></button>
               }
             </li>
           ))}
-          {this.props.add &&
-            <div>
-              <h4>Add new</h4>
-              <input type="text" onChange={this.onChange.bind(this)} value={this.props.name} />
+        </ul>
+        {this.props.add &&
+          <div className="tag-autocomplete">
+            <form onSubmit={this.onSubmit.bind(this)}>
+              <input
+                type="text"
+                onChange={this.onChange.bind(this)}
+                placeholder="Add a tag"
+                value={this.props.name} />
+            </form>
+            { this.props.autocomplete &&
               <ul>
                 {(this.props.autocomplete || []).map((name) => (
                   <li key={name} onClick={() => this.onAutocompleteSelection(name)}>
-                    <a>{name}</a>
+                    {name}
                   </li>
                 ))}
               </ul>
-              <button
-                disabled={!this.props.name}
-                onClick={this.onSubmit.bind(this)}
-              >
-                Add
-              </button>
-            </div>
-          }
-        </ul>
+            }
+          </div>
+        }
       </div>
     );
   }
@@ -89,11 +81,13 @@ const Tags = connect(
 class Screenshots extends React.Component {
   render() {
     return (
-      <div>
+      <div className="screenshots">
         {this.props.upload &&
           <div>
-            <p>Add new screenshot:</p>
-            <input type="file" onChange={(ev) => this.props.upload(ev.target.files[0])} />
+            <label className="file-upload button tiny">
+              <i className="fa fa-upload" /> Upload new screenshot
+              <input type="file" onChange={(ev) => this.props.upload(ev.target.files[0])} />
+            </label>
           </div>
         }
         <ul>
@@ -102,8 +96,10 @@ class Screenshots extends React.Component {
               <img src={screenshot.image.thumbnail.url} />
               {
                 screenshot.delete_path &&
-                <button onClick={() => this.props.delete(screenshot.delete_path)}>
-                  DELETE ME
+                <button
+                    className="button tiny expanded"
+                    onClick={() => this.props.delete(screenshot.delete_path)}>
+                  <i className="fa fa-times-circle" /> Delete
                 </button>
               }
             </li>
@@ -138,66 +134,88 @@ class Module extends React.Component {
 
   render() {
     return (
-      <span>
+      <div className={`module module-family-${this.props.entity.family}`}>
         <F.Row>
-          <F.Column className="back-link">
-            <Link onClick={this.props.goBack}>&lt; Go back</Link>
+          <F.Column small={12}>
+            <p><Link onClick={this.props.goBack}>&lt; Go back</Link></p>
           </F.Column>
         </F.Row>
 
         <F.Row>
-          <F.Column className="content" medium={7}>
+          <F.Column small={12}>
             <Errorable
-              state={this.props.state}
-              errorMessage={this.props.errorMessage}
-            >
-              <ModuleDetails
-                entity={this.props.entity}
-              />
+                state={this.props.state}
+                errorMessage={this.props.errorMessage}>
+              <span/>
             </Errorable>
           </F.Column>
+        </F.Row>
 
-          <F.Column className="sidebar" medium={4} offsetOnMedium={1}>
-            <F.Row className="view-on-github">Yo soy um Github link! Ah ah!</F.Row>
+        <F.Row>
+          <F.Column small={7}>
+            <div className="module-title">
+              <span className="module-family-background" />
+              <p>
+                {this.props.entity.title}
+                <span className="module-family-color">{this.props.entity.title}</span>
+              </p>
+            </div>
+
+            <h5>Description</h5>
+            <p className="faded">{this.props.entity.description || "(no description)"}</p>
+
+            <h5>Details</h5>
+            <p className="faded">{this.props.entity.details || "(no details)"}</p>
+
+            <Feedback
+              entity={this.props.entity}
+              currentUser={this.props.currentUser}
+              submitFeedback={this.props.submitFeedback} />
+          </F.Column>
+
+          <F.Column small={4} offsetOnSmall={1}>
+            <p className="module-github">
+              <a href="https://github.com" target="_blank" className="button">
+                <i className="fa fa-github" /> View on GitHub
+              </a>
+            </p>
+
+            <div className="module-authors module-family-background-color">
+              <p>{Math.round((new Date() - new Date(this.props.entity.created_at))/86400/1000)} days ago by</p>
+              <p><img src="https://avatars2.githubusercontent.com/u/111554?v=3&s=460" /> Gertrude Tucker</p>
+              <p><img src="https://avatars2.githubusercontent.com/u/111554?v=3&s=460" /> Enrique Wilson</p>
+            </div>
+
+            <div className="module-tags">
+              <Tags
+                tags={this.props.entity.tags}
+                add={
+                  this.props.entity.create_tag_path &&
+                  ((tag) => this.props.createTag(
+                    this.props.entity.create_tag_path,
+                    tag
+                  ))
+                }
+                delete={this.props.deleteTag} />
+            </div>
+
+            <h5>Screeshots</h5>
+            <Errors errors={this.props.errors} />
+
+            <Screenshots
+              screenshots={this.props.entity.screenshots}
+              upload={
+                this.props.entity.create_screenshot_path &&
+                ((screenshot) => this.props.uploadScreenshot(
+                  this.props.entity.create_screenshot_path,
+                  screenshot
+                ))
+              }
+              delete={this.props.deleteScreenshot}
+            />
           </F.Column>
         </F.Row>
-        <div>
-          <h2>Feedback</h2>
-          <Feedback
-            entity={this.props.entity}
-            currentUser={this.props.currentUser}
-            submitFeedback={this.props.submitFeedback}
-          />
-
-          <h2>Screeshots</h2>
-          <Errors errors={this.props.errors} />
-
-          <Screenshots
-            screenshots={this.props.entity.screenshots}
-            upload={
-              this.props.entity.create_screenshot_path &&
-              ((screenshot) => this.props.uploadScreenshot(
-                this.props.entity.create_screenshot_path,
-                screenshot
-              ))
-            }
-            delete={this.props.deleteScreenshot}
-          />
-
-          <h2>Tags</h2>
-          <Tags
-            tags={this.props.entity.tags}
-            add={
-              this.props.entity.create_tag_path &&
-              ((tag) => this.props.createTag(
-                this.props.entity.create_tag_path,
-                tag
-              ))
-            }
-            delete={this.props.deleteTag}
-          />
-        </div>
-      </span>
+      </div>
     );
   }
 };

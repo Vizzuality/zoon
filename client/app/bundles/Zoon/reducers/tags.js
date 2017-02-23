@@ -21,10 +21,21 @@ const tags = (state = defaultState, action) => {
         autocomplete_names: [],
       }
 
+    case A.MODULES_CREATE_TAG:
+      return {
+        ...state,
+        name: "",
+        autocomplete_names: [],
+      }
+
     case A.TAG_AUTOCOMPLETE:
+      if (action.name === state.name) {
       return {
         ...state,
         autocomplete_names: action.names,
+      }
+      } else {
+        return { ...state, }
       }
 
     default:

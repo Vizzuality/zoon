@@ -1,0 +1,19 @@
+.screenshots {
+  .file-upload {
+    input {
+      display: none;
+    }
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    column-count: 2;
+    column-gap: 1rem;
+
+    li {
+      break-inside: avoid;
+      padding-bottom: 1rem;
+    }
+  }
+}

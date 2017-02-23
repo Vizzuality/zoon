@@ -13,6 +13,7 @@ class ZoonModulesSerializer < ApplicationSerializer
         :average_rating,
         :rating_count,
         :comment_count,
+        :url,
       ],
     )
 

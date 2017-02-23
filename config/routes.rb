@@ -13,7 +13,13 @@ Rails.application.routes.draw do
     end
 
     resources :tags, only: [:index]
-    resources :workflows, only: [:create, :index]
+    resources :workflows, only: [:create, :index, :show] do
+      member do
+        post 'create_tag'
+        delete 'delete_tag/:tag_id', as: :delete_tag, to: 'workflows#delete_tag'
+        post :feedback
+      end
+    end
   end
 
   # DEVISE

@@ -82,28 +82,22 @@ class Api::ZoonModulesController < ApplicationController
     zoon_module = ZoonModule.find params[:id].to_i
     tag = params[:name]
 
-    tag = Tag.where(name: tag).first_or_create!
-    if zoon_module.tags.include?(tag)
-      render status: :unprocessable_entity, json: { error: ['Tag already exists'] }
-    else
-      zoon_module.tags << tag
-
+    super zoon_module, tag do
       render_zoon_module zoon_module
     end
-
   end
 
   def delete_tag
     zoon_module = ZoonModule.find params[:id].to_i
-    tag = Tag.find params[:tag_id].to_i
+    tag_id = params[:tag_id]
 
     if !zoon_module.author_emails.include?(current_user.email)
       render status: :unauthorized, json: { error: ['Unauthorized']}
     end
 
-    zoon_module.tags.delete(tag)
-
-    render_zoon_module zoon_module
+    super zoon_module, tag_id do
+      render_zoon_module zoon_module
+    end
   end
 
   def feedback

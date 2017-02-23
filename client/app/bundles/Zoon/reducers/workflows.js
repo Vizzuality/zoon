@@ -12,6 +12,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case A.WORKFLOW_SUBMIT_FEEDBACK_FINISHED:
     case A.WORKFLOWS_FETCH_FINISHED:
       return {
         ...state,

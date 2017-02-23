@@ -82,7 +82,7 @@ class FeedbackBox extends React.Component {
     ev.stopPropagation()
 
     this.props.submitFeedback(
-      this.props.entity.id,
+      this.props.entity,
       this.state.rating,
       this.state.comment,
     )

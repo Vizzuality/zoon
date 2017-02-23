@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222042344) do
+ActiveRecord::Schema.define(version: 20170223072953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,8 @@ ActiveRecord::Schema.define(version: 20170222042344) do
     t.integer  "process_composition_type",    default: 0
     t.integer  "model_composition_type",      default: 0
     t.integer  "output_composition_type",     default: 0
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_workflows_on_user_id", using: :btree
   end
 
   create_table "zoon_modules", force: :cascade do |t|
@@ -113,4 +115,5 @@ ActiveRecord::Schema.define(version: 20170222042344) do
   add_foreign_key "screenshots", "users"
   add_foreign_key "workflow_modules", "workflows"
   add_foreign_key "workflow_modules", "zoon_modules"
+  add_foreign_key "workflows", "users"
 end

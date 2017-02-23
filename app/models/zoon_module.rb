@@ -54,4 +54,8 @@ class ZoonModule < ApplicationRecord
   def comment_count
     feedbacks.comments.count
   end
+
+  def url
+    "https://github.com/zoonproject/modules/blob/master/R/#{name}"
+  end
 end

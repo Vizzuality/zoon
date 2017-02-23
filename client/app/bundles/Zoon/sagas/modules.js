@@ -7,6 +7,7 @@ import * as A from '../action_types';
 import * as moduleActions from '../actions/modules';
 import { exceptionToErrors, errorToErrors } from './helpers'
 import * as moduleAPI from '../api/modules';
+import * as tagAPI from '../api/tags';
 
 function filterEmptyValues(obj){
   let result = {};
@@ -124,17 +125,7 @@ function* createModuleTag(action) {
   const state = yield select();
   let {tagCreatePath, tag} = action;
 
-  let json = yield fetch(tagCreatePath, {
-    method: 'POST',
-    credentials: 'same-origin',
-    body: JSON.stringify({ name: tag }),
-    headers: new Headers({
-      'X-CSRF-TOKEN': state.auth.csrf,
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }),
-  }).then((response) => response.json())
-    .catch(exceptionToErrors);
+  let json = yield tagAPI.createTag(tagCreatePath, tag, state.auth.csrf);
 
   if (json.errors || json.error) {
     yield put(moduleActions.tagError(errorToErrors(json)))

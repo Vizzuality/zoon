@@ -1,0 +1,104 @@
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router'
+import { goBack } from 'react-router-redux'
+import * as F from 'react-foundation';
+
+import * as workflowActions from '../actions/workflows'
+import Errorable from './Errorable'
+import Errors from './Errors'
+import Feedback from './Feedback'
+import Tags from './Tags'
+
+
+class Workflow extends React.Component {
+  componentDidMount(){
+    this.props.initWorkflow(this.props.urlId);
+  }
+
+  user() {
+    return this.props.entity && this.props.entity.user || {};
+  }
+
+  render() {
+    return (
+      <div className={`module module-family-workflow`}>
+        <F.Row>
+          <F.Column small={12}>
+            <p><Link onClick={this.props.goBack}>&lt; Go back</Link></p>
+          </F.Column>
+        </F.Row>
+
+        <F.Row>
+          <F.Column small={12}>
+            <Errorable
+                state={this.props.state}
+                errorMessage={this.props.errorMessage}>
+              <span/>
+            </Errorable>
+          </F.Column>
+        </F.Row>
+
+        <F.Row>
+          <F.Column small={7}>
+            <div className="module-title">
+              <p>
+                {this.props.entity.title}
+                <span className="module-family-color">{this.props.entity.name}</span>
+              </p>
+            </div>
+
+            <h5>Description</h5>
+            <p className="faded">{this.props.entity.description || "(no description)"}</p>
+
+            <Feedback
+              entity={this.props.entity}
+              currentUser={this.props.currentUser}
+              submitFeedback={this.props.submitFeedback} />
+          </F.Column>
+
+          <F.Column small={4} offsetOnSmall={1}>
+            <div className="module-authors module-family-background-color">
+              <p>{Math.round((new Date() - new Date(this.props.entity.created_at))/86400/1000)} days ago by</p>
+              <p><img src={this.user().avatar_url} /> {this.user().name} </p>
+            </div>
+
+            <div className="module-tags">
+              <Tags
+                tags={this.props.entity.tags}
+                add={
+                  this.props.entity.create_tag_path &&
+                  ((tag) => this.props.createTag(
+                    this.props.entity.create_tag_path,
+                    tag
+                  ))
+                }
+                delete={this.props.deleteTag} />
+            </div>
+
+            <Errors errors={this.props.errors} />
+          </F.Column>
+        </F.Row>
+      </div>
+    );
+  }
+};
+
+export default connect(
+  (state, ownProps) => {
+    return {
+      state: state.workflows.state,
+      errorMessage: state.workflows.errorMessage,
+      errors: state.workflows.errors,
+      currentUser: state.auth,
+
+      urlId: ownProps.routeParams.id,
+      entity: state.workflows.entities[0] || {},
+    }
+  },
+  {
+    ...workflowActions,
+    goBack,
+  }
+)(Workflow);
+

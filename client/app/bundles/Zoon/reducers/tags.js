@@ -21,6 +21,7 @@ const tags = (state = defaultState, action) => {
         autocomplete_names: [],
       }
 
+    case A.WORKFLOW_CREATE_TAG:
     case A.MODULES_CREATE_TAG:
       return {
         ...state,

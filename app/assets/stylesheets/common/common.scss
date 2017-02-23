@@ -101,7 +101,7 @@ body {
   }
 
   * {
-    $type_list: covariate, model, occurrence, output, process;
+    $type_list: map-keys($zoon-module-colors);
 
     @each $type in $type_list {
       &.module-family-#{$type} {

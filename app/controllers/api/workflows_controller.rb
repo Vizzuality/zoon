@@ -11,7 +11,47 @@ class Api::WorkflowsController < ApplicationController
   end
 
   def create
-    workflow = Workflow.create(workflow_params)
+    workflow = Workflow.create(workflow_params.merge(user: current_user))
+
+    render_workflow workflow
+  end
+
+  def show
+    workflow = Workflow.find params[:id].to_i
+
+    render_workflow workflow
+  end
+
+  def create_tag
+    workflow = Workflow.find params[:id].to_i
+    tag = params[:name]
+
+    super workflow, tag do
+      render_workflow workflow
+    end
+  end
+
+  def delete_tag
+    workflow = Workflow.find params[:id].to_i
+    tag_id = params[:tag_id]
+
+    if workflow.user != current_user
+      render status: :unauthorized, json: { error: ['Unauthorized']}
+    else
+      super workflow, tag_id do
+        render_workflow workflow
+      end
+    end
+  end
+
+  def feedback
+    workflow = Workflow.find params[:id].to_i
+
+    workflow.feedbacks.upsert(
+      current_user.id,
+      params.require(:feedback)[:rating],
+      params.require(:feedback)[:comment],
+    )
 
     render_workflow workflow
   end

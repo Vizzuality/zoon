@@ -1,6 +1,7 @@
 class Workflow < ApplicationRecord
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, through: :taggings
+  belongs_to :user
 
   has_many(
     :workflow_modules,

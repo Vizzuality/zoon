@@ -16,4 +16,23 @@ class ApplicationController < ActionController::Base
       )
     end
   end
+
+  def create_tag entity, tagname
+    tag = Tag.where(name: tagname).first_or_create!
+    if entity.tags.include?(tag)
+      render status: :unprocessable_entity, json: { error: ['Tag already exists'] }
+    else
+      entity.tags << tag
+
+      yield
+    end
+  end
+
+  def delete_tag entity, tag_id
+    tag = Tag.find params[:tag_id].to_i
+
+    entity.tags.delete(tag)
+
+    yield
+  end
 end

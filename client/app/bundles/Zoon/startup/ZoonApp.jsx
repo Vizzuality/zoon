@@ -10,6 +10,7 @@ import Modules from '../components/Modules';
 import Module from '../components/Module';
 import Workflows from '../components/Workflows';
 import WorkflowCreator from '../components/WorkflowCreator';
+import Workflow from '../components/Workflow';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import Account from '../components/Account';
@@ -31,6 +32,7 @@ const ZoonApp = (props, _railsContext) => {
           <Route path="/modules/:id" component={Module} />
           <Route path="/workflows/new" component={WorkflowCreator} />
           <Route path="/workflows" component={Workflows} />
+          <Route path="/workflows/:id" component={Workflow} />
           <Route path="/users/sign_in" component={SignIn} />
           <Route path="/users/sign_up" component={SignUp} />
           <Route path="/account" component={Account} />

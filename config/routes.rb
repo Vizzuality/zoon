@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
 
     resources :tags, only: [:index]
+    resources :workflows, only: [:create]
   end
 
   # DEVISE

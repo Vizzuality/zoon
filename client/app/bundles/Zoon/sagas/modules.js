@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 import * as A from '../action_types';
 import * as moduleActions from '../actions/modules';
 import { exceptionToErrors, errorToErrors } from './helpers'
+import * as moduleAPI from '../api/modules';
 
 function filterEmptyValues(obj){
   let result = {};
@@ -51,22 +52,19 @@ function* fetchModulesList() {
   granularity = granularity || q.granularity || 'continents';
   searchTags = searchTags || q.searchTags || [];
 
-  try {
-    const json = yield (
-      fetch(buildUrl('/api/modules', {
-        credentials: 'same-origin',
-        queryParams: {searchFamily, searchQuery, searchTags}
-      }))
-      .catch((e) => {throw e})
-      .then((r) => r.json())
-    );
+  const json = yield moduleAPI.searchModules(
+    searchFamily,
+    searchQuery,
+    searchTags
+  );
 
-    yield put(moduleActions.finishModuleFetch(json))
-  } catch (error) {
+  if (json.errors) {
     yield put(moduleActions.finishModuleFetch({
       state: 'error',
-      errorMessage: 'Error talking to the server. ' + error.message,
+      errorMessage: 'Error talking to the server. ',
     }))
+  } else {
+    yield put(moduleActions.finishModuleFetch(json))
   }
 
   yield put(push(

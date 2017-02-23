@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221095547) do
+ActiveRecord::Schema.define(version: 20170222042344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,11 +75,24 @@ ActiveRecord::Schema.define(version: 20170221095547) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "workflow_modules", force: :cascade do |t|
+    t.integer "zoon_module_id"
+    t.integer "workflow_id"
+    t.integer "position",       null: false
+    t.index ["workflow_id"], name: "index_workflow_modules_on_workflow_id", using: :btree
+    t.index ["zoon_module_id"], name: "index_workflow_modules_on_zoon_module_id", using: :btree
+  end
+
   create_table "workflows", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "occurrence_composition_type", default: 0
+    t.integer  "covariate_composition_type",  default: 0
+    t.integer  "process_composition_type",    default: 0
+    t.integer  "model_composition_type",      default: 0
+    t.integer  "output_composition_type",     default: 0
   end
 
   create_table "zoon_modules", force: :cascade do |t|
@@ -98,4 +111,6 @@ ActiveRecord::Schema.define(version: 20170221095547) do
 
   add_foreign_key "feedbacks", "users"
   add_foreign_key "screenshots", "users"
+  add_foreign_key "workflow_modules", "workflows"
+  add_foreign_key "workflow_modules", "zoon_modules"
 end

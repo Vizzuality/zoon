@@ -9,6 +9,7 @@ import Errorable from './Errorable'
 import Errors from './Errors'
 import Feedback from './Feedback'
 import Tags from './Tags'
+import Code from './Code'
 
 
 class Workflow extends React.Component {
@@ -50,6 +51,13 @@ class Workflow extends React.Component {
 
             <h5>Description</h5>
             <p className="faded">{this.props.entity.description || "(no description)"}</p>
+
+            <h5>Usage</h5>
+            <p className="faded">
+              Copy these lines into your R console
+            </p>
+
+            <Code>{this.props.entity.code}</Code>
 
             <Feedback
               entity={this.props.entity}

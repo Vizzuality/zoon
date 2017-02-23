@@ -58,4 +58,8 @@ class ZoonModule < ApplicationRecord
   def url
     "https://github.com/zoonproject/modules/blob/master/R/#{name}"
   end
+
+  def code
+    name.split(".").first
+  end
 end

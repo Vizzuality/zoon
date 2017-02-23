@@ -52,4 +52,8 @@ class Workflow < ApplicationRecord
   def comment_count
     feedbacks.comments.count
   end
+
+  def code
+    WorkflowCodeGenerator.new(workflow: self).generate
+  end
 end

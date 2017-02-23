@@ -12,6 +12,7 @@ class WorkflowSerializer < ApplicationSerializer
         :average_rating,
         :rating_count,
         :comment_count,
+        :code,
       ],
       include: {
         user: {},

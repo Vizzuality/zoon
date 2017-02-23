@@ -11,6 +11,7 @@ import Feedback from './Feedback'
 import Tags from './Tags'
 import Code from './Code'
 import ModuleCard from './ModuleCard'
+import WorkflowDiagram from './WorkflowDiagram'
 
 
 class Workflow extends React.Component {
@@ -60,7 +61,13 @@ class Workflow extends React.Component {
           </F.Column>
         </F.Row>
 
-        <F.Row className="module-family-workflow">
+        <F.Row>
+          <WorkflowDiagram
+            expandedFamilies={{}}
+            compositionTypes={this.props.entity.compositionTypes || {}}
+            modules={this.props.entity.modules || {}}
+            editable="true"
+          />
         </F.Row>
 
         <F.Row className="module-family-workflow">
@@ -108,7 +115,7 @@ class Workflow extends React.Component {
           <h2>Modules used in this workflow</h2>
 
           <div className="mosaic">
-            {(this.props.entity.modules || []).map(m => <ModuleCard
+            {[].concat.apply([], Object.values(this.props.entity.modules || {})).map(m => <ModuleCard
               key={m.id}
               m={m}
             />)}

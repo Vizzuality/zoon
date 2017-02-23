@@ -6,6 +6,7 @@ import Reorder from 'react-reorder';
 
 import * as workflowsActions from '../actions/workflows'
 import ModuleCard from './ModuleCard'
+import WorkflowDiagram from './WorkflowDiagram'
 
 
 function onlyUnique(value, index, self) {
@@ -21,29 +22,6 @@ function objectFromPairs(pairs) {
 
   return obj;
 }
-
-const Switch = ({ id, checked, onChange }) => (
-  <div className="switch tiny">
-    <input
-      type="checkbox"
-      className="switch-input"
-      id={id}
-      checked={checked}
-      onChange={onChange}
-    />
-    <label className="switch-paddle" htmlFor={id} />
-  </div>
-);
-
-const SelectedItem = ({ item, sharedProps }) => (
-  <div style={{"height": "100px"}}>
-    {item.title}
-    <i
-      className="fa fa-times-circle"
-      onClick={()=> sharedProps.removeModule(item)}
-    />
-  </div>
-);
 
 class WorkflowCreator extends React.Component {
   constructor(props) {
@@ -137,7 +115,6 @@ class WorkflowCreator extends React.Component {
   }
 
   reorder(family, list) {
-    console.log(list);
     this.setState({
       modules: {
         ...this.state.modules,
@@ -172,61 +149,16 @@ class WorkflowCreator extends React.Component {
             } Select a {this.state.selectedFamily} module
           </h3>
 
-          <ol style={{"display": "flex"}}>
-            {this.families().map((family) => (
-              <li
-                key={family}
-                className="module-card"
-                style={{"width": "240px"}}
-              >
-                <div>
-                  {family}
-                  {
-                    !this.isFamilySelected(family) &&
-                    <i
-                      onClick={()=>this.selectFamily(family)}
-                      className="fa fa-edit"
-                    />
-                  }
-                </div>
-
-                {
-                  this.isFamilySelected(family) &&
-                  <div>
-                    <div>
-                      List
-                      <Switch
-                        id={`switch-${family}`}
-                        checked={this.state.compositionTypes[family] == 'chain'}
-                        onChange={(ev) => this.changeCompositionType(
-                          family,
-                          ev.target.checked?'chain':'list',
-                        )}
-                      />
-                      Chain
-                    </div>
-
-                    <Reorder
-                      lock="horizontal"
-                      itemKey="id"
-                      list={this.state.modules[family]}
-                      template={SelectedItem}
-                      callback={(a,b,c,d,list) => this.reorder(family, list)}
-                      sharedProps={{
-                        "removeModule": this.removeModule.bind(this),
-                      }}
-                    />
-
-                    Add a module
-                  </div> ||
-                  <div>
-                    {this.state.modules[family].length} modules selected
-                  </div>
-                }
-              </li>
-            ))}
-          </ol>
-
+          <WorkflowDiagram
+            expandedFamilies={{[this.state.selectedFamily]:true}}
+            compositionTypes={this.state.compositionTypes}
+            modules={this.state.modules}
+            editable="true"
+            selectFamily={this.selectFamily.bind(this)}
+            changeCompositionType={this.changeCompositionType.bind(this)}
+            removeModule={this.removeModule.bind(this)}
+            reorderModules={this.reorder.bind(this)}
+          />
           {
             this.isComplete() &&
             <form onSubmit={this.createWorkflow.bind(this)}>

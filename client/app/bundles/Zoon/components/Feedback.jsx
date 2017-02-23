@@ -35,13 +35,22 @@ class FeedbackBox extends React.Component {
 
     let cf = this.props.entity.current_feedback;
     this.state = {
-      rating: cf && cf.rating || undefined,
-      comment: cf && cf.comment || '',
+      rating: cf && cf.rating,
+      comment: cf && cf.comment,
     };
 
     this.updateComment = this.updateComment.bind(this)
     this.updateRating = this.updateRating.bind(this)
     this.submitFeedback = this.submitFeedback.bind(this)
+  }
+
+  componentWillReceiveProps(newProps) {
+    const cf = newProps.entity.current_feedback;
+
+    this.setState({
+      rating: cf && cf.rating,
+      comment: cf && cf.comment,
+    });
   }
 
   render(){

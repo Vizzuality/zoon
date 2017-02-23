@@ -22,7 +22,7 @@ class WorkflowSerializer < ApplicationSerializer
 
     json["modules"] = @workflow.zoon_modules.map do |zm|
       ZoonModulesSerializer.new(user: @user, zoon_module: zm).serialize
-    end
+    end.group_by { |zm| zm["family"] }
 
     if @user
       json['current_feedback'] = FeedbacksSerializer.new(

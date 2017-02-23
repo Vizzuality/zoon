@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 import * as F from 'react-foundation';
+import Reorder from 'react-reorder';
 
 import * as workflowsActions from '../actions/workflows'
 
@@ -33,6 +34,15 @@ const Switch = ({ id, checked, onChange }) => (
   </div>
 );
 
+const SelectedItem = ({ item, sharedProps }) => (
+  <div style={{"height": "100px"}}>
+    {item.title}
+    <i
+      className="fa fa-times-circle"
+      onClick={()=> sharedProps.removeModule(item)}
+    />
+  </div>
+);
 
 class WorkflowCreator extends React.Component {
   constructor(props) {
@@ -125,6 +135,16 @@ class WorkflowCreator extends React.Component {
     });
   }
 
+  reorder(family, list) {
+    console.log(list);
+    this.setState({
+      modules: {
+        ...this.state.modules,
+        [family]: list,
+      },
+    });
+  }
+
   currentStep() {
     return this.families().indexOf(this.state.selectedFamily) + 1;
   }
@@ -185,15 +205,16 @@ class WorkflowCreator extends React.Component {
                       Chain
                     </div>
 
-                    {(this.state.modules[family] || []).map((module) => (
-                      <div key={module.id}>
-                        {module.title}
-                        <i
-                          className="fa fa-times-circle"
-                          onClick={()=>this.removeModule(module)}
-                        />
-                      </div>
-                    ))}
+                    <Reorder
+                      lock="horizontal"
+                      itemKey="id"
+                      list={this.state.modules[family]}
+                      template={SelectedItem}
+                      callback={(a,b,c,d,list) => this.reorder(family, list)}
+                      sharedProps={{
+                        "removeModule": this.removeModule.bind(this),
+                      }}
+                    />
 
                     Add a module
                   </div> ||

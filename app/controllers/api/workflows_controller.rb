@@ -1,7 +1,15 @@
 class Api::WorkflowsController < ApplicationController
-  # title, description
-  # composition_types{}
-  # modules (positioned)
+  def index
+    render json: {
+      entities: Workflow.all.map do |workflow|
+        WorkflowSerializer.new(
+          user: current_user,
+          workflow: workflow,
+        ).serialize
+      end,
+    }
+  end
+
   def create
     workflow = Workflow.create(workflow_params)
 

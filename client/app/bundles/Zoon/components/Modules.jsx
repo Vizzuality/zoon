@@ -5,7 +5,7 @@ import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
 import MapPicker from './MapPicker';
-import ModuleMosaic from './ModuleMosaic';
+import ModuleCard from './ModuleCard';
 import Errorable from './Errorable'
 
 
@@ -143,7 +143,9 @@ class Modules extends React.Component {
                 </F.Column>
             ) : (
               <F.Column small={12}>
-                <ModuleMosaic models={this.props.entities}/>
+                <div className="mosaic">
+                  {this.props.entities.map(m => <ModuleCard key={m.id} m={m} />)}
+                </div>
               </F.Column>
             ) }
           </Errorable>

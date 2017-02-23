@@ -32,9 +32,29 @@ function* searchModules(action) {
   }
 }
 
+function* initWorkflows(action) {
+  const state = yield select();
+
+  const json = yield workflowAPI.listWorkflows(state.auth.csrf);
+
+  if (json.errors) {
+    yield put(workflowActions.finishWorkflowFetch({
+      state: 'error',
+      errorMessage: 'Error talking to the server.',
+    }));
+  } else {
+    yield put(workflowActions.finishWorkflowFetch({
+      state: 'ok',
+      ...json,
+    }))
+  }
+}
+
+
 export default function* modules() {
   yield [
     takeLatest(A.WORKFLOW_CREATE, createWorkflow),
     takeLatest(A.WORKFLOW_SEARCH_MODULES, searchModules),
+    takeLatest(A.WORKFLOWS_INIT, initWorkflows),
   ];
 };

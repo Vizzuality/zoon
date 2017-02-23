@@ -1,5 +1,4 @@
 import * as A from '../action_types';
-import { LOCATION_CHANGE } from 'react-router-redux'
 
 
 const defaultState = {

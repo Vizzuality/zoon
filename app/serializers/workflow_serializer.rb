@@ -14,6 +14,10 @@ class WorkflowSerializer < ApplicationSerializer
       ZoonModulesSerializer.new(user: @user, zoon_module: zm).serialize
     end
 
+    json["tags"] = @workflow.tags.map do |tag|
+      { id: tag.id, name: tag.name }.merge(tag_options(tag))
+    end
+
     json
   end
 end

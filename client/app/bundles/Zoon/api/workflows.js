@@ -14,3 +14,9 @@ export const createWorkflow = function(workflow, csrf) {
     }),
   });
 }
+
+export const listWorkflows = function(csrf) {
+  return jsonFetch('/api/workflows', {
+    credentials: 'same-origin',
+  });
+}

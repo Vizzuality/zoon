@@ -90,7 +90,9 @@ class Home extends React.Component {
               Using the workflow publisher you can increase the accessibility, usability and quality of your work, or find existing work to inspire your latest research.
             </p>
 
-            <F.Link href="#">Try the Workflow Publisher</F.Link>
+            <Link to='/workflows/new' className="button">
+              Try the Workflow Publisher
+            </Link>
 
             <hr />
 

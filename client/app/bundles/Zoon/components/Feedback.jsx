@@ -101,9 +101,12 @@ const FeedbackList = ({
           <div className="comment-body">
             <p>
               {c.user.name}
-              <span>
+              <span className="days-ago-created">
                 {Math.round((new Date() - new Date(c.created_at))/86400/1000)} days ago
               </span>
+              { c.created_at !== c.updated_at &&
+                <span className="days-ago-updated">(last updated {Math.round((new Date() - new Date(c.created_at))/86400/1000)} days ago)</span>
+              }
             </p>
             <p>
               <Rating

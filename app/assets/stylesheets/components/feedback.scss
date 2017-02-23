@@ -70,9 +70,17 @@
             span {
               color: scale-color($body-font-color, $lightness: +40%);
 
-              &::before {
-                content: "\00b7";
-                margin: 0 0.5rem;
+              &.days-ago-created {
+                &::before {
+                  content: "\00b7";
+                  margin: 0 0.5rem;
+                }
+              }
+
+              &.days-ago-updated {
+                display: block;
+                font-size: 0.8em;
+                font-style: italic;
               }
             }
           }

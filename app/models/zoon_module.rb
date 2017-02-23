@@ -38,7 +38,7 @@ class ZoonModule < ApplicationRecord
   scope :filter_by_family, -> (family) { where(family: family) }
 
   def author_emails
-    author.scan(/\\email{\s*([^}]*)\s*}/).map do |matches|
+    (author || "").scan(/\\email{\s*([^}]*)\s*}/).map do |matches|
       matches.first.sub("@@", "@")
     end
   end

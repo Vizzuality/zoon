@@ -4,7 +4,7 @@ class User < ApplicationRecord
          :validatable
 
   def avatar_url
-    "http://avatar.com/my_cool_avatar"
+    "https://avatars2.githubusercontent.com/u/111554?v=3&s=460"
   end
 
   def serializable_hash(options = nil)

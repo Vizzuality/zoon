@@ -175,7 +175,7 @@ class Module extends React.Component {
 
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-github">
-              <a href="https://github.com" target="_blank" className="button">
+              <a href={`https://github.com/zoonproject/modules/blob/master/R/${this.props.entity.name}`} target="_blank" className="button">
                 <i className="fa fa-github" /> View on GitHub
               </a>
             </p>

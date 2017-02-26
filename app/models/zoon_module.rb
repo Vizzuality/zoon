@@ -42,7 +42,7 @@ class ZoonModule < ApplicationRecord
   scope :filter_by_family, -> (family) { where(family: family) }
 
   def author_emails
-    authors.values.map{|v| v['email']}
+    authors.map{|v| v['email']}
   end
 
   def average_rating

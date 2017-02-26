@@ -26,6 +26,8 @@
           line-height: 1.8rem;
           word-break: break-space;
           white-space: pre-wrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
           margin-bottom: 0.25rem;
         }
 

@@ -35,48 +35,23 @@ class ZoonModulesControllerTest < ActionDispatch::IntegrationTest
       assert_response :success, @response.body
     end
 
+    # Get latest_import
+    @module.reload
+
     assert_equal(
       {
         "state" => "ok",
-        "entity" => {
-          "id" => @module.id,
-          "title" => nil,
-          "description" => nil,
-          "author" => nil,
-          "name" => @module.name,
-          "version" => nil,
-          "date_submitted" => nil,
-          "family" => nil,
-          "path_to_module" => nil,
-          "latest_import" => nil,
-          "created_at" => @module.created_at.iso8601(3),
-          "updated_at" => @module.updated_at.iso8601(3),
-          "average_rating" =>  3.0 ,
-          "rating_count" => 2,
-          "comment_count" => 1,
-          "screenshots" => [],
-          "comments" => [
-            {
-              "id" => @first_comment.id,
-              "user_id" => @user_a.id,
-              "rating" => 2,
-              "comment" => comment,
-              "created_at" => @first_comment.created_at.iso8601(3),
-              "updated_at" => @first_comment.updated_at.iso8601(3),
-            },
-          ],
-          "current_feedback" => {
-            "id" => @second_comment.id,
-            "user_id" => @user_b.id,
-            "rating" => 4,
-            "comment" => nil,
-            "created_at" => @second_comment.created_at.iso8601(3),
-            "updated_at" => @second_comment.updated_at.iso8601(3),
-          },
-          "create_screenshot_path" => "/api/modules/1056801272/create_screenshot",
-        },
+        "entities" => [
+          rejson(ZoonModulesSerializer.new(user: @user_b, zoon_module: @module).serialize),
+        ],
+        "shownEntityId" => @module.id,
       },
       JSON.parse(@response.body),
     )
+  end
+
+  private
+  def rejson a
+    JSON.parse(JSON.dump(a.as_json))
   end
 end

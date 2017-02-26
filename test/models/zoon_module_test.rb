@@ -8,6 +8,14 @@ class ZoonModuleTest < ActiveSupport::TestCase
     @zoon_module = ZoonModule.create! name: 'name'
   end
 
+  test "default scope is visibles only" do
+    # We've already create a visible one in setup
+    ZoonModule.create! name: 'hidden', visible: false
+
+    assert_equal 1, ZoonModule.count
+    assert_equal 2, ZoonModule.unscoped.count
+  end
+
   test "one feedback per user" do
     new_rating = 4
     new_comment = 'new comment'

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 import { goBack } from 'react-router-redux'
+import gravatar from 'gravatar'
 import * as F from 'react-foundation';
 
 import * as modules_actions from '../actions/modules'
@@ -115,9 +116,10 @@ class Module extends React.Component {
             </p>
 
             <div className="module-authors module-family-background-color">
-              <p>{Math.round((new Date() - new Date(this.props.entity.created_at))/86400/1000)} days ago by</p>
-              <p><img src="https://avatars2.githubusercontent.com/u/111554?v=3&s=460" /> Gertrude Tucker</p>
-              <p><img src="https://avatars2.githubusercontent.com/u/111554?v=3&s=460" /> Enrique Wilson</p>
+              <p>{Math.round((new Date() - new Date(this.props.entity.date_submitted))/86400/1000)} days ago by</p>
+              {this.props.entity.authors && this.props.entity.authors.map((a, i)=>(
+                <p key={i}><img src={gravatar.url(a.email, {s: '50'})} />{a.authorName}</p>
+              ))}
             </div>
 
             <div className="module-tags">

@@ -18,29 +18,31 @@ class ZoonModule < ApplicationRecord
 
   validates :name, uniqueness: [:path]
 
+  default_scope { where(visible: true) }
+
   scope :search, -> (query, tags) {
     modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, word|
       all.where(
-        "zoon_modules.title ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
+        "zoon_modules.name ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
         "%#{word}%",
         "%#{word}%",
         word.downcase,
       )
     end
 
-    if tags.empty?
-      modules.distinct
-    else
-      modules.where("LOWER(tags.name) IN (?)", tags.map(&:downcase)).distinct
+    if not tags.empty?
+      modules = modules.where("LOWER(tags.name) IN (?)", tags.map(&:downcase))
     end
+
+    modules.
+      select('distinct on (zoon_modules.name) zoon_modules.*').
+      reorder('zoon_modules.name')
   }
 
   scope :filter_by_family, -> (family) { where(family: family) }
 
   def author_emails
-    (author || "").scan(/\\email{\s*([^}]*)\s*}/).map do |matches|
-      matches.first.sub("@@", "@")
-    end
+    authors.values.map{|v| v['email']}
   end
 
   def average_rating
@@ -56,10 +58,10 @@ class ZoonModule < ApplicationRecord
   end
 
   def url
-    "https://github.com/zoonproject/modules/blob/master/R/#{name}"
+    "https://github.com/zoonproject/modules/blob/master/R/#{name}.R"
   end
 
   def code
-    name.split(".").first
+    name
   end
 end

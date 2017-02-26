@@ -9,6 +9,9 @@ class ZoonModulesSerializer < ApplicationSerializer
       include: {
         comments: FeedbacksSerializer::DEFAULT_OPTIONS,
       },
+      exclude: [
+        :visible,
+      ],
       methods: [
         :average_rating,
         :rating_count,

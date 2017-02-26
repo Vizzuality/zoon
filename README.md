@@ -5,16 +5,16 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version 2.3.1
+* Ruby version 2.3.1 (declared in both the Gemfile and .ruby-version)
 
-* Rails version: 5.0.1
+* bundle && npm install
 
-* Database creation:
-
-Locally is using sqlite3
+* Database: we're using PostgreSQL. Brew's default config will get you set.
+Otherwise, you might want to change some params in `config/database.yml`.
 
 * Import data from github:
+Get a modules dump from the ES server. Then, run somerthing like `rails import:modules[path/to/modules.json]`.
 
-`rails import:modules`
+You can also use `-` as the path to use stdin instead. For prod, you can do
+something like `cat path/to/modules.json | heroku run rake rails import:modules[-]`
 
-Requires setting up the GITHUB_AUTH_TOKEN on the **.env** file.

@@ -4,6 +4,7 @@ import * as A from '../action_types';
 const defaultState = {
   state: 'uninitialized',
   errorMessage: '',
+  errors: null,
   shownEntityId: null,
   entities: [],
   pageCount: null,

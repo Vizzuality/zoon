@@ -18,7 +18,10 @@ function* createWorkflow(action) {
   );
 
   if (json.errors) {
-    //yield put(moduleActions.screenshotError(json.errors))
+    yield put(workflowActions.finishWorkflowFetch({
+      state: 'error',
+      errors: json.errors,
+    }));
   } else {
     yield put(push(`/workflows/${json.workflow.id}`));
   }

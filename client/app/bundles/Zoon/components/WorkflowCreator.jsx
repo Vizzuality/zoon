@@ -7,6 +7,7 @@ import Reorder from 'react-reorder';
 import * as workflowsActions from '../actions/workflows'
 import ModuleCard from './ModuleCard'
 import WorkflowDiagram from './WorkflowDiagram'
+import Errors from './Errors'
 
 
 function onlyUnique(value, index, self) {
@@ -162,6 +163,7 @@ class WorkflowCreator extends React.Component {
           {
             this.isComplete() &&
             <form onSubmit={this.createWorkflow.bind(this)}>
+              <Errors errors={this.props.workflowErrors} />
               <input
                 type="text"
                 placeholder="Title"
@@ -183,6 +185,7 @@ class WorkflowCreator extends React.Component {
 export default connect(
   (state) => ({
     families: state.families.entities,
+    workflowErrors: state.workflows.errors,
     ...state.modules,
   }),
   {

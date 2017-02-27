@@ -12,9 +12,10 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+/* global $:fasle */
 //= require jquery
 //= require jquery_ujs
 //= require foundation
 //= require_tree .
 
-$(document).foundation();
+$(document).foundation()

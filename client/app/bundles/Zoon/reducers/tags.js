@@ -1,10 +1,8 @@
-import * as A from '../action_types';
-import { LOCATION_CHANGE } from 'react-router-redux'
-
+import * as A from "../action_types"
 
 const defaultState = {
-  name: '',
-};
+  name: "",
+}
 
 const tags = (state = defaultState, action) => {
   switch (action.type) {
@@ -31,20 +29,20 @@ const tags = (state = defaultState, action) => {
 
     case A.TAG_AUTOCOMPLETE:
       if (action.name === state.name) {
-      return {
-        ...state,
-        autocomplete_names: action.names,
-      }
+        return {
+          ...state,
+          autocomplete_names: action.names,
+        }
       } else {
-        return { ...state, }
+        return { ...state }
       }
 
     default:
       return {
         ...defaultState,
         ...state,
-      };
+      }
   }
-};
+}
 
-export default tags;
+export default tags

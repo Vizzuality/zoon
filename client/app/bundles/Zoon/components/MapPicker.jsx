@@ -1,11 +1,11 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { connect } from 'react-redux';
-import ReactHighmaps from 'react-highcharts/ReactHighmaps';
-import countriesMap from '../countriesMap';
-import countriesData from '../countriesData';
-import continentsMap from '../continentsMap';
-import continentsData from '../continentsData';
+import React from "react"
+import * as F from "react-foundation"
+import { connect } from "react-redux"
+import ReactHighmaps from "react-highcharts/ReactHighmaps"
+import countriesMap from "../countriesMap"
+import countriesData from "../countriesData"
+import continentsMap from "../continentsMap"
+import continentsData from "../continentsData"
 
 const config = (seriesData, selectedGeos, select, unselect) => ({
   title: null,
@@ -33,22 +33,22 @@ const config = (seriesData, selectedGeos, select, unselect) => ({
       cursor: "pointer",
       states: {
         hover: {
-          color: "#666666"
+          color: "#666666",
         },
         select: {
-          color: "#000000"
-        }
+          color: "#000000",
+        },
       },
       point: {
         events: {
           select: select,
           unselect: unselect,
-        }
-      }
+        },
+      },
     },
   },
   legend: {
-    enabled: false
+    enabled: false,
   },
   tooltip: {
     backgroundColor: "#FFFFFF",
@@ -60,10 +60,10 @@ const config = (seriesData, selectedGeos, select, unselect) => ({
     style: {
       color: "#000000",
       fontWeight: "bold",
-      textTransform: "uppercase"
-    }
-  }
-});
+      textTransform: "uppercase",
+    },
+  },
+})
 
 const data = {
   continents: {
@@ -74,75 +74,75 @@ const data = {
     mapData: countriesMap,
     data: countriesData,
   },
-};
+}
 
 class MapPicker extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
       countries: [],
       continents: [],
-    };
+    }
 
     this.state = this.geoState(
       this.props.granularity,
       this.props.selectedGeos,
-    );
+    )
 
     const configGenerator = (granularity) => config(
       data[granularity],
       this.state[granularity],
       this.onGeoSelected.bind(this),
       this.onGeoUnselected.bind(this),
-    );
+    )
 
     this.configs = {
       countries: configGenerator("countries"),
       continents: configGenerator("continents"),
-    };
+    }
   }
 
-  geoState(granularity, selectedGeos) {
+  geoState (granularity, selectedGeos) {
     return {
       ...this.state,
-      [granularity]: selectedGeos
-    };
+      [granularity]: selectedGeos,
+    }
   }
 
-  pickMapGranularity(granularity) {
-    this.props.onSelect(granularity, this.state[granularity]);
+  pickMapGranularity (granularity) {
+    this.props.onSelect(granularity, this.state[granularity])
   }
 
-  onGeoSelected(ev) {
-    let selectedGeos = ev.target.series.chart.
-      getSelectedPoints().
-      map((p) => p.name).
-      concat([ev.target.name]);
+  onGeoSelected (ev) {
+    let selectedGeos = ev.target.series.chart
+      .getSelectedPoints()
+      .map((p) => p.name)
+      .concat([ev.target.name])
 
     this.setState(this.geoState(
       this.props.granularity,
       this.props.selectedGeos,
-    ));
+    ))
 
-    this.props.onSelect(this.props.granularity, selectedGeos);
+    this.props.onSelect(this.props.granularity, selectedGeos)
   }
 
-  onGeoUnselected(ev) {
-    let selectedGeos = ev.target.series.chart.
-        getSelectedPoints().
-        map((p) => p.name).
-        filter((e) => e != ev.target.name);
+  onGeoUnselected (ev) {
+    let selectedGeos = ev.target.series.chart
+        .getSelectedPoints()
+        .map((p) => p.name)
+        .filter((e) => e !== ev.target.name)
 
     this.setState(this.geoState(
       this.props.granularity,
       this.props.selectedGeos,
-    ));
+    ))
 
-    this.props.onSelect(this.props.granularity, selectedGeos);
+    this.props.onSelect(this.props.granularity, selectedGeos)
   }
 
-  render() {
+  render () {
     return (
       <div className="map-picker">
         <h4>Filter by coverage</h4>
@@ -160,7 +160,7 @@ class MapPicker extends React.Component {
           <ReactHighmaps isPureConfig config={this.configs[this.props.granularity]} />
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -168,4 +168,4 @@ export default connect(
   (state) => ({
   }),
   {
-  })(MapPicker);
+  })(MapPicker)

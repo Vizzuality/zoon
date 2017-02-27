@@ -1,49 +1,48 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { Link } from 'react-router'
-import { connect } from 'react-redux';
+import React from "react"
+import * as F from "react-foundation"
+import { Link } from "react-router"
+import { connect } from "react-redux"
 
-import * as authActions from '../actions/auth';
-import Errors from './Errors'
-
+import * as authActions from "../actions/auth"
+import Errors from "./Errors"
 
 class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.state = {};
+    this.state = {}
   }
 
-  isSubmitDisabled() {
+  isSubmitDisabled () {
     const isUserDataFilled =
       this.state.email &&
-      this.state.password;
+      this.state.password
 
-    return this.props.state.pending || !isUserDataFilled;
+    return this.props.state.pending || !isUserDataFilled
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  submit(event) {
-    event.preventDefault();
+  submit = (event) => {
+    event.preventDefault()
 
     this.props.authLogin(
       this.state.email,
       this.state.password,
-    );
+    )
   }
 
-  render() {
+  render () {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
           <Errors errors={this.props.state.errors} />
 
-          <form onSubmit={this.submit.bind(this)}>
+          <form onSubmit={this.submit}>
             <p>
               <input
                 name="user[email]"
@@ -65,9 +64,9 @@ class SignIn extends React.Component {
 
             <p>
               <F.Button
-                  className="button primary"
-                  disabled={this.isSubmitDisabled()}
-                  type="submit">
+                className="button primary"
+                disabled={this.isSubmitDisabled()}
+                type="submit">
                 Sign In
               </F.Button>
             </p>
@@ -76,7 +75,7 @@ class SignIn extends React.Component {
           <p><Link to="/recover_password">Forgot your password?</Link></p>
         </F.Column>
       </F.Row>
-    );
+    )
   }
 }
 
@@ -85,5 +84,5 @@ export default connect(
     state: state.auth,
   }),
   {
-    ...authActions
-  })(SignIn);
+    ...authActions,
+  })(SignIn)

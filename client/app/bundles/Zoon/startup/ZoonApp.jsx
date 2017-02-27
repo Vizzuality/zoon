@@ -1,26 +1,25 @@
-import React from 'react'; // pkoch: to render the jsx.
-import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory, createMemoryHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import React from "react" // pkoch: to render the jsx.
+import { Provider } from "react-redux"
+import { Router, Route, IndexRoute, browserHistory } from "react-router"
+import { syncHistoryWithStore } from "react-router-redux"
 
-import configureStore from '../store';
-import Layout from '../components/Layout';
-import Home from '../components/Home';
-import Modules from '../components/Modules';
-import Module from '../components/Module';
-import Workflows from '../components/Workflows';
-import WorkflowCreator from '../components/WorkflowCreator';
-import Workflow from '../components/Workflow';
-import SignIn from '../components/SignIn';
-import SignUp from '../components/SignUp';
-import Account from '../components/Account';
-import RecoverPassword from '../components/RecoverPassword';
-import ChangePassword from '../components/ChangePassword';
-import NotFound from '../components/NotFound';
-
+import configureStore from "../store"
+import Layout from "../components/Layout"
+import Home from "../components/Home"
+import Modules from "../components/Modules"
+import Module from "../components/Module"
+import Workflows from "../components/Workflows"
+import WorkflowCreator from "../components/WorkflowCreator"
+import Workflow from "../components/Workflow"
+import SignIn from "../components/SignIn"
+import SignUp from "../components/SignUp"
+import Account from "../components/Account"
+import RecoverPassword from "../components/RecoverPassword"
+import ChangePassword from "../components/ChangePassword"
+import NotFound from "../components/NotFound"
 
 const ZoonApp = (props, _railsContext) => {
-  let store = configureStore(props);
+  let store = configureStore(props)
   let history = syncHistoryWithStore(browserHistory, store)
 
   return (
@@ -42,7 +41,7 @@ const ZoonApp = (props, _railsContext) => {
         </Route>
       </Router>
     </Provider>
-  );
-};
+  )
+}
 
-export default ZoonApp;
+export default ZoonApp

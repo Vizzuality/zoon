@@ -1,22 +1,21 @@
-import 'isomorphic-fetch';
+import "isomorphic-fetch"
 
-
-export const jsonFetch = function(url, opts) {
-  return fetch(url, opts).
-    then((response) => {
-      if (response.status == 204) {
-        return {};
+export const jsonFetch = function (url, opts) {
+  return fetch(url, opts)
+    .then((response) => {
+      if (response.status === 204) {
+        return {}
       }
 
       return response.json().then((json) => {
         if (json.errors) {
-          return { errors: json.errors };
+          return { errors: json.errors }
         } else if (json.error) {
-          return { errors: { error: [json.error] } };
+          return { errors: { error: [json.error] } }
         } else {
-          return json;
+          return json
         }
-      });
-    }).
-    catch((e) => ({ error: [e.message] }));
+      })
+    })
+    .catch((e) => ({ error: [e.message] }))
 }

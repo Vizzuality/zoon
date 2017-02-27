@@ -1,17 +1,15 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import * as F from 'react-foundation';
+import React from "react"
+import { connect } from "react-redux"
+import * as F from "react-foundation"
 
-import * as modules_actions from '../actions/modules'
-import MapPicker from './MapPicker';
-import ModuleCard from './ModuleCard';
-import Errorable from './Errorable'
-
+import * as modulesActions from "../actions/modules"
+import MapPicker from "./MapPicker"
+import ModuleCard from "./ModuleCard"
+import Errorable from "./Errorable"
 
 const familyShape = React.PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  image_url: PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
+  image_url: React.PropTypes.string.isRequired,
 })
 
 const FamilySwitch = ({
@@ -19,66 +17,66 @@ const FamilySwitch = ({
   targetFamily,
   updateFamilyFilter,
 }) => {
-  const isCurrent = currentFamilyName === targetFamily.name;
+  const isCurrent = currentFamilyName === targetFamily.name
   return (
     <a
-        className={isCurrent?'selected':''}
-        onClick={() => {
-          updateFamilyFilter(isCurrent ? '' : targetFamily.name)
-        }}>
-      <span className={`module-family-${targetFamily.name} module-family-background`}></span>
+      className={isCurrent ? "selected" : ""}
+      onClick={() => {
+        updateFamilyFilter(isCurrent ? "" : targetFamily.name)
+      }}>
+      <span className={`module-family-${targetFamily.name} module-family-background`} />
       <span rel={targetFamily.name}>{targetFamily.name}</span>
     </a>
-  );
+  )
 }
 
 FamilySwitch.propTypes = {
-  currentFamilyName: PropTypes.string.isRequired,
-  targetFamily: PropTypes.object.isRequired,
+  currentFamilyName: React.PropTypes.string.isRequired,
+  targetFamily: React.PropTypes.object.isRequired,
 
-  updateFamilyFilter: PropTypes.func.isRequired,
+  updateFamilyFilter: React.PropTypes.func.isRequired,
 }
 
-function noDefault(f) {
-  return function(e) {
-    e.preventDefault();
-    e.stopPropagation();
+function noDefault (f) {
+  return function (e) {
+    e.preventDefault()
+    e.stopPropagation()
     return f()
   }
 }
 
 class Modules extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
       searchQuery: props.searchQuery,
-    };
+    }
   }
 
-  updateSearchQuery(value) {
+  updateSearchQuery (value) {
     this.setState({
       searchQuery: value,
-    });
+    })
   }
 
-  onSearch() {
+  onSearch () {
     this.props.updateSearchQuery(this.state.searchQuery)
   }
 
-  onSelect(granularity, searchTags) {
-    this.props.updateSearchTags(granularity, searchTags);
+  onSelect = (granularity, searchTags) => {
+    this.props.updateSearchTags(granularity, searchTags)
   }
 
-  componentDidMount(){
-    this.props.initModules();
+  componentDidMount () {
+    this.props.initModules()
   }
 
-  componentWillUnmount(){
-    this.props.clearModules();
+  componentWillUnmount () {
+    this.props.clearModules()
   }
 
-  render() {
+  render () {
     return (
       <span className="modules">
         <F.Row>
@@ -128,7 +126,7 @@ class Modules extends React.Component {
 
         <F.Row>
           <F.Column small={12}>
-            <MapPicker onSelect={this.onSelect.bind(this)} selectedGeos={this.props.searchTags} granularity={this.props.granularity} />
+            <MapPicker onSelect={this.onSelect} selectedGeos={this.props.searchTags} granularity={this.props.granularity} />
           </F.Column>
         </F.Row>
 
@@ -138,7 +136,7 @@ class Modules extends React.Component {
             errorMessage={this.props.errorMessage}
           >
             { this.props.entities.length === 0 ? (
-                <F.Column>
+              <F.Column>
                   No results. Try another search.
                 </F.Column>
             ) : (
@@ -152,19 +150,19 @@ class Modules extends React.Component {
         </F.Row>
 
       </span>
-    );
+    )
   };
 }
 
 Modules.propTypes = {
-  state: PropTypes.string.isRequired,
-  families: PropTypes.arrayOf(familyShape).isRequired,
-  updateSearchQuery: PropTypes.func.isRequired,
-  updateSearchTags: PropTypes.func.isRequired,
-  updateFamilyFilter: PropTypes.func.isRequired,
-  granularity: PropTypes.string.isRequired,
-  initModules: PropTypes.func.isRequired,
-  clearModules: PropTypes.func.isRequired,
+  state: React.PropTypes.string.isRequired,
+  families: React.PropTypes.arrayOf(familyShape).isRequired,
+  updateSearchQuery: React.PropTypes.func.isRequired,
+  updateSearchTags: React.PropTypes.func.isRequired,
+  updateFamilyFilter: React.PropTypes.func.isRequired,
+  granularity: React.PropTypes.string.isRequired,
+  initModules: React.PropTypes.func.isRequired,
+  clearModules: React.PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -173,6 +171,6 @@ export default connect(
     ...state.modules,
   }),
   {
-    ...modules_actions,
+    ...modulesActions,
   }
-)(Modules);
+)(Modules)

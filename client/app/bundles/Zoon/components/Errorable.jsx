@@ -1,19 +1,18 @@
-import React, { PropTypes } from 'react';
-import * as F from 'react-foundation';
-
+import React from "react"
+import * as F from "react-foundation"
 
 export default class Errorable extends React.Component {
   static propTypes = {
-    state: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    state: React.PropTypes.string.isRequired,
+    errorMessage: React.PropTypes.string,
   }
 
-  render(){
+  render () {
     return {
       error: (
         <F.Column>
-        Oops! There seems to be something wrong! <br/>
-        {this.props.errorMessage}
+        Oops! There seems to be something wrong! <br />
+          {this.props.errorMessage}
         </F.Column>
       ),
       uninitialized: (
@@ -26,6 +25,6 @@ export default class Errorable extends React.Component {
           Fetching info from server.
         </F.Column>
       ),
-    }[this.props.state] || this.props.children;
+    }[this.props.state] || this.props.children
   }
 }

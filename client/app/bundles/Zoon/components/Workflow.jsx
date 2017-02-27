@@ -1,29 +1,28 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import { goBack } from 'react-router-redux'
-import * as F from 'react-foundation';
+import React from "react"
+import { connect } from "react-redux"
+import { Link } from "react-router"
+import { goBack } from "react-router-redux"
+import * as F from "react-foundation"
 
-import * as workflowActions from '../actions/workflows'
-import Errorable from './Errorable'
-import Errors from './Errors'
-import Feedback from './Feedback'
-import Tags from './Tags'
-import Code from './Code'
-import ModuleCard from './ModuleCard'
-import WorkflowDiagram from './WorkflowDiagram'
-
+import * as workflowActions from "../actions/workflows"
+import Errorable from "./Errorable"
+import Errors from "./Errors"
+import Feedback from "./Feedback"
+import Tags from "./Tags"
+import Code from "./Code"
+import ModuleCard from "./ModuleCard"
+import WorkflowDiagram from "./WorkflowDiagram"
 
 class Workflow extends React.Component {
-  componentDidMount(){
-    this.props.initWorkflow(this.props.urlId);
+  componentDidMount () {
+    this.props.initWorkflow(this.props.urlId)
   }
 
-  user() {
-    return this.props.entity && this.props.entity.user || {};
+  user () {
+    return this.props.entity && this.props.entity.user || {}
   }
 
-  render() {
+  render () {
     return (
       <div className="module">
         <F.Row className="module-family-workflow">
@@ -35,9 +34,9 @@ class Workflow extends React.Component {
         <F.Row className="module-family-workflow">
           <F.Column small={12}>
             <Errorable
-                state={this.props.state}
-                errorMessage={this.props.errorMessage}>
-              <span/>
+              state={this.props.state}
+              errorMessage={this.props.errorMessage}>
+              <span />
             </Errorable>
           </F.Column>
         </F.Row>
@@ -90,7 +89,7 @@ class Workflow extends React.Component {
 
           <F.Column small={4} offsetOnSmall={1}>
             <div className="module-authors module-family-background-color">
-              <p>{Math.round((new Date() - new Date(this.props.entity.created_at))/86400/1000)} days ago by</p>
+              <p>{Math.round((new Date() - new Date(this.props.entity.created_at)) / 86400 / 1000)} days ago by</p>
               <p><img src={this.user().avatar_url} /> {this.user().name} </p>
             </div>
 
@@ -122,7 +121,7 @@ class Workflow extends React.Component {
           </div>
         </F.Row>
       </div>
-    );
+    )
   }
 };
 
@@ -142,5 +141,5 @@ export default connect(
     ...workflowActions,
     goBack,
   }
-)(Workflow);
+)(Workflow)
 

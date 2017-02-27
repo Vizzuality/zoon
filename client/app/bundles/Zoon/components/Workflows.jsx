@@ -1,23 +1,17 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import * as F from 'react-foundation';
+import React from "react"
+import { connect } from "react-redux"
+import * as F from "react-foundation"
 
-import * as workflowActions from '../actions/workflows'
-import Errorable from './Errorable'
-import WorkflowCard from './WorkflowCard';
-
+import * as workflowActions from "../actions/workflows"
+import Errorable from "./Errorable"
+import WorkflowCard from "./WorkflowCard"
 
 class Workflows extends React.Component {
-  constructor(props) {
-    super(props)
+  componentDidMount () {
+    this.props.initWorkflows()
   }
 
-  componentDidMount() {
-    this.props.initWorkflows();
-  }
-
-  render() {
+  render () {
     return (
       <span className="workflows">
         <F.Row>
@@ -26,9 +20,9 @@ class Workflows extends React.Component {
             errorMessage={this.props.errorMessage}
           >
             { this.props.entities.length === 0 ? (
-                <F.Column>
+              <F.Column>
                   No results. Try another search.
-                </F.Column>
+              </F.Column>
             ) : (
               <F.Column small={12}>
                 <div className="mosaic">
@@ -40,13 +34,13 @@ class Workflows extends React.Component {
         </F.Row>
 
       </span>
-    );
+    )
   };
 }
 
 Workflows.propTypes = {
-  state: PropTypes.string.isRequired,
-  initWorkflows: PropTypes.func.isRequired,
+  state: React.PropTypes.string.isRequired,
+  initWorkflows: React.PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -56,5 +50,5 @@ export default connect(
   {
     ...workflowActions,
   }
-)(Workflows);
+)(Workflows)
 

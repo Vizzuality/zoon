@@ -1,5 +1,4 @@
-import * as F from 'react-foundation';
-import React, { PropTypes } from 'react';
+import React from "react"
 
 export default ({ errors }) => (
   <div>
@@ -9,4 +8,4 @@ export default ({ errors }) => (
       ))
     ))}
   </div>
-);
+)

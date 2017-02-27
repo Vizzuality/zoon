@@ -1,14 +1,13 @@
-import * as A from '../action_types';
-
+import * as A from "../action_types"
 
 const defaultState = {
-  state: 'uninitialized',
-  errorMessage: '',
+  state: "uninitialized",
+  errorMessage: "",
   shownEntityId: null,
   entities: [],
   pageCount: null,
   currentPage: null,
-};
+}
 
 const modules = (state = defaultState, action) => {
   switch (action.type) {
@@ -47,14 +46,14 @@ const modules = (state = defaultState, action) => {
       return {
         ...state,
         shownEntityId: action.id,
-      };
+      }
 
     case A.MODULE_CLEAR:
       return {
         ...state,
         entities: [],
         shownEntityId: null,
-      };
+      }
 
     case A.MODULES_CREATE_TAG:
     case A.MODULES_DELETE_TAG:
@@ -63,7 +62,7 @@ const modules = (state = defaultState, action) => {
       return {
         ...state,
         errors: null,
-      };
+      }
 
     case A.TAG_ERROR:
     case A.SCREENSHOT_ERROR:
@@ -76,8 +75,8 @@ const modules = (state = defaultState, action) => {
       return {
         ...defaultState,
         ...state,
-      };
+      }
   }
-};
+}
 
-export default modules;
+export default modules

@@ -1,20 +1,18 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import { goBack } from 'react-router-redux'
-import gravatar from 'gravatar'
-import * as F from 'react-foundation';
+import React from "react"
+import { connect } from "react-redux"
+import { Link } from "react-router"
+import { goBack } from "react-router-redux"
+import gravatar from "gravatar"
+import * as F from "react-foundation"
 
-import * as modules_actions from '../actions/modules'
-import * as tagActions from '../actions/tags'
-import Errorable from './Errorable'
-import Errors from './Errors'
-import Feedback from './Feedback'
-import Tags from './Tags'
-
+import * as modulesActions from "../actions/modules"
+import Errorable from "./Errorable"
+import Errors from "./Errors"
+import Feedback from "./Feedback"
+import Tags from "./Tags"
 
 class Screenshots extends React.Component {
-  render() {
+  render () {
     return (
       <div className="screenshots">
         {this.props.upload &&
@@ -32,8 +30,8 @@ class Screenshots extends React.Component {
               {
                 screenshot.delete_path &&
                 <button
-                    className="button tiny expanded"
-                    onClick={() => this.props.delete(screenshot.delete_path)}>
+                  className="button tiny expanded"
+                  onClick={() => this.props.delete(screenshot.delete_path)}>
                   <i className="fa fa-times-circle" /> Delete
                 </button>
               }
@@ -41,33 +39,33 @@ class Screenshots extends React.Component {
           ))}
         </ul>
       </div>
-    );
+    )
   }
 }
 
 class Module extends React.Component {
-  componentDidMount(){
-    this.props.initModule(this.props.urlId);
+  componentDidMount () {
+    this.props.initModule(this.props.urlId)
   }
 
-  componentWillUnmount(){
-    this.props.clearModule();
+  componentWillUnmount () {
+    this.props.clearModule()
   }
 
   static propTypes = {
-    state: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
-    urlId: PropTypes.string.isRequired,
-    entity: PropTypes.object,
-    currentUser: PropTypes.object,
+    state: React.PropTypes.string.isRequired,
+    errorMessage: React.PropTypes.string,
+    urlId: React.PropTypes.string.isRequired,
+    entity: React.PropTypes.object,
+    currentUser: React.PropTypes.object,
 
-    initModule: PropTypes.func.isRequired,
-    clearModule: PropTypes.func.isRequired,
-    submitFeedback: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired,
+    initModule: React.PropTypes.func.isRequired,
+    clearModule: React.PropTypes.func.isRequired,
+    submitFeedback: React.PropTypes.func.isRequired,
+    goBack: React.PropTypes.func.isRequired,
   }
 
-  render() {
+  render () {
     return (
       <div className={`module module-family-${this.props.entity.family}`}>
         <F.Row>
@@ -79,9 +77,9 @@ class Module extends React.Component {
         <F.Row>
           <F.Column small={12}>
             <Errorable
-                state={this.props.state}
-                errorMessage={this.props.errorMessage}>
-              <span/>
+              state={this.props.state}
+              errorMessage={this.props.errorMessage}>
+              <span />
             </Errorable>
           </F.Column>
         </F.Row>
@@ -116,9 +114,9 @@ class Module extends React.Component {
             </p>
 
             <div className="module-authors module-family-background-color">
-              <p>{Math.round((new Date() - new Date(this.props.entity.date_submitted))/86400/1000)} days ago by</p>
-              {this.props.entity.authors && this.props.entity.authors.map((a, i)=>(
-                <p key={i}><img src={gravatar.url(a.email, {s: '50'})} />{a.authorName}</p>
+              <p>{Math.round((new Date() - new Date(this.props.entity.date_submitted)) / 86400 / 1000)} days ago by</p>
+              {this.props.entity.authors && this.props.entity.authors.map((a, i) => (
+                <p key={i}><img src={gravatar.url(a.email, {s: "50"})} />{a.authorName}</p>
               ))}
             </div>
 
@@ -152,7 +150,7 @@ class Module extends React.Component {
           </F.Column>
         </F.Row>
       </div>
-    );
+    )
   }
 };
 
@@ -169,7 +167,7 @@ export default connect(
     }
   },
   {
-    ...modules_actions,
+    ...modulesActions,
     goBack,
   }
-)(Module);
+)(Module)

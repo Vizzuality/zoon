@@ -1,16 +1,16 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { Link } from 'react-router'
-import { push } from 'react-router-redux'
-import Code from './Code'
-import { connect } from 'react-redux';
-
+import React from "react"
+import $ from "jquery"
+import * as F from "react-foundation"
+import { Link } from "react-router"
+import { push } from "react-router-redux"
+import Code from "./Code"
+import { connect } from "react-redux"
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.state = {};
+    this.state = {}
   }
 
   componentWillMount () {
@@ -21,16 +21,16 @@ class Home extends React.Component {
     $("body").addClass("not-home")
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  searchModules (ev) {
-    ev.preventDefault();
+  searchModules = (ev) => {
+    ev.preventDefault()
 
-    this.props.push(`/modules?searchQuery=${this.state.query}`);
+    this.props.push(`/modules?searchQuery=${this.state.query}`)
   }
 
   render () {
@@ -43,7 +43,7 @@ class Home extends React.Component {
           </F.Column>
         </F.Row>
 
-        <div className="flow-banner"></div>
+        <div className="flow-banner" />
 
         <F.Row>
           <F.Column small={12} large={8}>
@@ -53,7 +53,7 @@ class Home extends React.Component {
             </p>
             <ul className="moduleTypes">
               {["occurrence", "covariate", "process", "model", "output"].map((type) => (
-                <li key={type}><Link to={`/modules?searchFamily=${type}`} className={`module-family-${type} module-family-background`}></Link></li>
+                <li key={type}><Link to={`/modules?searchFamily=${type}`} className={`module-family-${type} module-family-background`} /></li>
              ))}
             </ul>
             <p>
@@ -63,19 +63,19 @@ class Home extends React.Component {
             <F.Row>
               <F.Column className="shrink">
                 <Link
-                    to="/modules"
-                    className="button">
+                  to="/modules"
+                  className="button">
                   Explore the modules
                 </Link>
               </F.Column>
               <F.Column className="shrink">
-                <form onSubmit={this.searchModules.bind(this)}>
+                <form onSubmit={this.searchModules}>
                   <input
-                      type="text"
-                      size="30"
-                      className="search"
-                      onChange={(ev) => this.onFieldChange("query", ev)}
-                      placeholder="Or look for a specific one"/>
+                    type="text"
+                    size="30"
+                    className="search"
+                    onChange={(ev) => this.onFieldChange("query", ev)}
+                    placeholder="Or look for a specific one" />
                 </form>
               </F.Column>
             </F.Row>
@@ -90,7 +90,7 @@ class Home extends React.Component {
               Using the workflow publisher you can increase the accessibility, usability and quality of your work, or find existing work to inspire your latest research.
             </p>
 
-            <Link to='/workflows/new' className="button">
+            <Link to="/workflows/new" className="button">
               Try the Workflow Publisher
             </Link>
 
@@ -104,7 +104,7 @@ class Home extends React.Component {
               ZOON is on CRAN: <a href="https://cran.r-project.org/web/packages/zoon/index.html">https://cran.r-project.org/web/packages/zoon/index.html</a>
             </p>
 
-            <Code>{`install.packages('zoon')`}</Code>
+            <Code>{"install.packages('zoon')"}</Code>
 
             <Code>library(zoon)</Code>
 
@@ -112,7 +112,7 @@ class Home extends React.Component {
               The latest version can be found on GitHub: <a href="https://github.com/zoonproject">https://github.com/zoonproject</a>
             </p>
 
-            <Code>{`library(devtools)\ninstall_github('zoonproject/zoon')`}</Code>
+            <Code>{"library(devtools)\ninstall_github('zoonproject/zoon')"}</Code>
 
             <Code>library(zoon)</Code>
 
@@ -139,5 +139,5 @@ export default connect(
   (state) => ({
   }),
   {
-    push
-  })(Home);
+    push,
+  })(Home)

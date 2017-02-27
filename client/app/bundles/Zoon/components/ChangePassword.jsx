@@ -1,40 +1,39 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { connect } from 'react-redux';
+import React from "react"
+import * as F from "react-foundation"
+import { connect } from "react-redux"
 
-import * as authActions from '../actions/auth';
-import Errors from './Errors'
-
+import * as authActions from "../actions/auth"
+import Errors from "./Errors"
 
 class ChangePassword extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
-    this.state = {};
+    this.state = {}
   }
 
-  isSubmitDisabled() {
+  isSubmitDisabled () {
     const isUserDataFilled =
-      this.state.password;
+      this.state.password
 
-    return this.props.state.pending || !isUserDataFilled;
+    return this.props.state.pending || !isUserDataFilled
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  submit(event) {
-    event.preventDefault();
+  submit = (event) => {
+    event.preventDefault()
 
     this.props.authChangePassword(
       this.state.password,
-    );
+    )
   }
 
-  render() {
+  render () {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
@@ -42,7 +41,7 @@ class ChangePassword extends React.Component {
 
           <Errors errors={this.props.state.errors} />
 
-          <form onSubmit={this.submit.bind(this)}>
+          <form onSubmit={this.submit}>
             <p>
               <input
                 name="user[password]"
@@ -54,16 +53,16 @@ class ChangePassword extends React.Component {
 
             <p>
               <F.Button
-                  className="button primary"
-                  disabled={this.isSubmitDisabled()}
-                  type="submit">
+                className="button primary"
+                disabled={this.isSubmitDisabled()}
+                type="submit">
                 Recover password
               </F.Button>
             </p>
           </form>
         </F.Column>
       </F.Row>
-    );
+    )
   }
 }
 
@@ -72,5 +71,5 @@ export default connect(
     state: state.auth,
   }),
   {
-    ...authActions
-  })(ChangePassword);
+    ...authActions,
+  })(ChangePassword)

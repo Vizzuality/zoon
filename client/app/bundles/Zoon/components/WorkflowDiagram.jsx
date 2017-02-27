@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react';
-import Reorder from 'react-reorder';
+import React from "react"
+import Reorder from "react-reorder"
 
-
-const families = ["occurrence", "covariate", "process", "model", "output"];
+const families = ["occurrence", "covariate", "process", "model", "output"]
 
 const Switch = ({ id, checked, onChange }) => (
   <div className="switch tiny">
@@ -15,17 +14,17 @@ const Switch = ({ id, checked, onChange }) => (
     />
     <label className="switch-paddle" htmlFor={id} />
   </div>
-);
+)
 
 const SelectedItem = ({ item, sharedProps }) => (
   <div style={{"height": "100px"}}>
     {item.title}
     <i
       className="fa fa-times-circle"
-      onClick={()=> sharedProps.removeModule(item)}
+      onClick={() => sharedProps.removeModule(item)}
     />
   </div>
-);
+)
 
 export default ({
   expandedFamilies,
@@ -44,7 +43,7 @@ export default ({
           {family}
           {
             !expandedFamilies[family] &&
-            <i onClick={()=>selectFamily(family)} className="fa fa-edit" />
+            <i onClick={() => selectFamily(family)} className="fa fa-edit" />
           }
         </div>
 
@@ -55,10 +54,10 @@ export default ({
               List
               <Switch
                 id={`switch-${family}`}
-                checked={compositionTypes[family] == 'chain'}
+                checked={compositionTypes[family] === "chain"}
                 onChange={(ev) => changeCompositionType(
                   family,
-                  ev.target.checked?'chain':'list',
+                  ev.target.checked ? "chain" : "list",
                 )}
               />
               Chain
@@ -70,7 +69,7 @@ export default ({
               disableReorder={!editable}
               list={modules[family]}
               template={SelectedItem}
-              callback={(a,b,c,d,list) => reorderModules(family, list)}
+              callback={(a, b, c, d, list) => reorderModules(family, list)}
               sharedProps={{"removeModule": removeModule}}
             />
 
@@ -83,4 +82,4 @@ export default ({
       </li>
     ))}
   </ol>
-);
+)

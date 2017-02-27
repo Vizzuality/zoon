@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import Rating from 'react-rating'
+import React from "react"
+import Rating from "react-rating"
 
 const Feedback = ({
   entity,
@@ -9,12 +9,12 @@ const Feedback = ({
   <div className="feedback">
     <div className="feedback-summary">
       <Rating
-        initialRate={Math.round(entity.average_rating*2)/2}
-        readonly={true}
+        initialRate={Math.round(entity.average_rating * 2) / 2}
+        readonly
         empty="fa fa-star-o"
         full="fa fa-star"
         step={1}
-        stop={5}/>
+        stop={5} />
       <span>{entity.rating_count} ratings</span>
       <span>{entity.comment_count} comments</span>
     </div>
@@ -25,35 +25,35 @@ const Feedback = ({
         submitFeedback={submitFeedback}
       />
     ) }
-    <FeedbackList comments={entity.comments}/>
+    <FeedbackList comments={entity.comments} />
   </div>
 )
 
 class FeedbackBox extends React.Component {
-  constructor(props){
+  constructor (props) {
     super(props)
 
-    let cf = this.props.entity.current_feedback;
+    let cf = this.props.entity.current_feedback
     this.state = {
       rating: cf && cf.rating,
       comment: cf && cf.comment,
-    };
+    }
 
     this.updateComment = this.updateComment.bind(this)
     this.updateRating = this.updateRating.bind(this)
     this.submitFeedback = this.submitFeedback.bind(this)
   }
 
-  componentWillReceiveProps(newProps) {
-    const cf = newProps.entity.current_feedback;
+  componentWillReceiveProps (newProps) {
+    const cf = newProps.entity.current_feedback
 
     this.setState({
       rating: cf && cf.rating,
       comment: cf && cf.comment,
-    });
+    })
   }
 
-  render(){
+  render () {
     return (
       <div className="feedback-box">
         <img src={this.props.currentUser.avatar_url} />
@@ -78,15 +78,15 @@ class FeedbackBox extends React.Component {
     )
   }
 
-  updateComment(ev){
+  updateComment (ev) {
     this.setState({comment: ev.target.value})
   }
 
-  updateRating(value){
+  updateRating (value) {
     this.setState({rating: value})
   }
 
-  submitFeedback(ev){
+  submitFeedback (ev) {
     ev.preventDefault()
     ev.stopPropagation()
 
@@ -101,7 +101,7 @@ class FeedbackBox extends React.Component {
 const FeedbackList = ({
   comments,
 }) => {
-  if (!comments){ return null; }
+  if (!comments) { return null }
   return (
     <div className="comments-list">
       { comments.map((c) => (
@@ -111,21 +111,21 @@ const FeedbackList = ({
             <p>
               {c.user.name}
               <span className="days-ago-created">
-                {Math.round((new Date() - new Date(c.created_at))/86400/1000)} days ago
+                {Math.round((new Date() - new Date(c.created_at)) / 86400 / 1000)} days ago
               </span>
               { c.created_at !== c.updated_at &&
-                <span className="days-ago-updated">(last updated {Math.round((new Date() - new Date(c.created_at))/86400/1000)} days ago)</span>
+                <span className="days-ago-updated">(last updated {Math.round((new Date() - new Date(c.created_at)) / 86400 / 1000)} days ago)</span>
               }
             </p>
             <p>
               <Rating
-                readonly={true}
-                initialRate={Math.round(c.rating*2)/2}
+                readonly
+                initialRate={Math.round(c.rating * 2) / 2}
                 empty="fa fa-star-o"
                 full="fa fa-star"
                 fractions={2}
                 step={1}
-                stop={5}/>
+                stop={5} />
             </p>
             <p>{c.comment}</p>
           </div>
@@ -135,4 +135,4 @@ const FeedbackList = ({
   )
 }
 
-export default Feedback;
+export default Feedback

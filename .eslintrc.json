@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "plugins": [
+    "standard",
+    "promise"
+  ],
+  "rules": {
+    "react/prop-types": ["off"],
+    "comma-dangle": ["error", "always-multiline"],
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "jsx-quotes": ["error", "prefer-double"],
+    "spaced-comment": ["error", "always", { "markers": ["="] }]
+  }
+}

@@ -1,9 +1,9 @@
-import * as A from '../action_types';
+import * as A from "../action_types"
 
 const defaultState = {
   errorMessage: null,
   message: null,
-};
+}
 
 const auth = (state = defaultState, action) => {
   switch (action.type) {
@@ -35,8 +35,8 @@ const auth = (state = defaultState, action) => {
         message: null,
       }
     default:
-      return state;
+      return state
   }
-};
+}
 
-export default auth;
+export default auth

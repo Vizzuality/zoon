@@ -1,17 +1,15 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { connect } from 'react-redux';
+import React from "react"
 
 import TopNav from "./TopNav"
 
 const Layout = React.createClass({
-  render() {
+  render () {
     return (
       <span>
         <TopNav />
 
-        <p className="notice"></p>
-        <p className="alert"></p>
+        <p className="notice" />
+        <p className="alert" />
 
         {this.props.children}
 
@@ -28,12 +26,8 @@ const Layout = React.createClass({
           </ul>
         </div>
       </span>
-    );
-  }
-});
+    )
+  },
+})
 
-export default connect(
-  (state) => ({
-  }),
-  {
-  })(Layout);
+export default Layout

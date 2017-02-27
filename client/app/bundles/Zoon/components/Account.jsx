@@ -1,13 +1,12 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { connect } from 'react-redux';
+import React from "react"
+import * as F from "react-foundation"
+import { connect } from "react-redux"
 
-import * as authActions from '../actions/auth';
-import Errors from './Errors'
-
+import * as authActions from "../actions/auth"
+import Errors from "./Errors"
 
 class Account extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -18,38 +17,38 @@ class Account extends React.Component {
     }
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  submit(event) {
-    event.preventDefault();
+  submit = (event) => {
+    event.preventDefault()
 
     this.props.authUpdate(
       this.state,
-    );
+    )
   }
 
-  isSubmitDisabled() {
+  isSubmitDisabled () {
     const isUserDataFilled =
       this.state.name &&
       this.state.email &&
       this.state.current_password &&
       this.state.organization &&
-      this.state.github_username;
+      this.state.github_username
 
-    return this.props.auth.pending || !isUserDataFilled;
+    return this.props.auth.pending || !isUserDataFilled
   }
 
-  render() {
+  render () {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
           <Errors errors={this.props.auth.errors} />
 
-          <form onSubmit={this.submit.bind(this)}>
+          <form onSubmit={this.submit}>
             <p>
               <input
                 name="user[name]" id="user_name"
@@ -99,7 +98,7 @@ class Account extends React.Component {
               />
             </p>
 
-            <hr/>
+            <hr />
 
             <p>
               <label htmlFor="user[current_password]">Please input your current password so we can be sure it's really you.</label>
@@ -113,16 +112,16 @@ class Account extends React.Component {
 
             <p>
               <F.Button
-                  disabled={this.isSubmitDisabled()}
-                  name="commit"
-                  type="submit">
+                disabled={this.isSubmitDisabled()}
+                name="commit"
+                type="submit">
                 Update
               </F.Button>
             </p>
           </form>
         </F.Column>
       </F.Row>
-    );
+    )
   }
 };
 
@@ -131,5 +130,5 @@ export default connect(
     auth: state.auth,
   }),
   {
-    ...authActions
-  })(Account);
+    ...authActions,
+  })(Account)

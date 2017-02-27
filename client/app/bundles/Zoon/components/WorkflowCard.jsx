@@ -1,8 +1,6 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import Rating from 'react-rating'
-import * as F from 'react-foundation';
+import React from "react"
+import { Link } from "react-router"
+import Rating from "react-rating"
 
 export default ({ w }) => {
   return (
@@ -13,13 +11,13 @@ export default ({ w }) => {
           <div className="entity-version-and-ratings module-family-color">
             <span className="entity-rating">
               <Rating
-                readonly={true}
-                initialRate={Math.round(w.average_rating*2)/2}
+                readonly
+                initialRate={Math.round(w.average_rating * 2) / 2}
                 empty="fa fa-star-o"
                 full="fa fa-star"
                 fractions={2}
                 step={1}
-                stop={5}/>
+                stop={5} />
             </span>
           </div>
           <p className="entity-description">{w.description}</p>
@@ -29,5 +27,5 @@ export default ({ w }) => {
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}

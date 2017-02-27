@@ -1,32 +1,29 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router'
-import * as F from 'react-foundation';
-import Reorder from 'react-reorder';
+import React from "react"
+import { connect } from "react-redux"
+import * as F from "react-foundation"
 
-import * as workflowsActions from '../actions/workflows'
-import ModuleCard from './ModuleCard'
-import WorkflowDiagram from './WorkflowDiagram'
-import Errors from './Errors'
+import * as workflowsActions from "../actions/workflows"
+import ModuleCard from "./ModuleCard"
+import WorkflowDiagram from "./WorkflowDiagram"
+import Errors from "./Errors"
 
-
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
+function onlyUnique (value, index, self) {
+  return self.indexOf(value) === index
 }
 
-function objectFromPairs(pairs) {
-  let obj = {};
+function objectFromPairs (pairs) {
+  let obj = {}
 
   pairs.forEach((pair) => {
-    obj[pair[0]] = pair[1];
-  });
+    obj[pair[0]] = pair[1]
+  })
 
-  return obj;
+  return obj
 }
 
 class WorkflowCreator extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.state = {
       selectedFamily: this.families()[0],
@@ -34,105 +31,105 @@ class WorkflowCreator extends React.Component {
         this.families().map((family) => [family, []])
       ),
       compositionTypes: objectFromPairs(
-        this.families().map((family) => [family, 'list'])
+        this.families().map((family) => [family, "list"])
       ),
     }
   }
 
-  createWorkflow(ev) {
-    ev.preventDefault();
+  createWorkflow = (ev) => {
+    ev.preventDefault()
 
     this.props.createWorkflow({
       title: this.state.title,
       description: this.state.description,
       compositionTypes: this.state.compositionTypes,
-      modules: Object.
-        values(this.state.modules).
-        reduce((acc, v) => acc.concat(v)).
-        map((module) => module.id),
-    });
+      modules: Object
+        .values(this.state.modules)
+        .reduce((acc, v) => acc.concat(v))
+        .map((module) => module.id),
+    })
   }
 
-  componentDidMount() {
-    this.props.searchModules(this.state.selectedFamily);
+  componentDidMount () {
+    this.props.searchModules(this.state.selectedFamily)
   }
 
-  families() {
-    return this.props.families.map((family) => family.name);
+  families () {
+    return this.props.families.map((family) => family.name)
   }
 
-  isComplete() {
-    return Object.
-      values(this.state.modules).
-      every((modules) => (modules.length > 0));
+  isComplete () {
+    return Object
+      .values(this.state.modules)
+      .every((modules) => (modules.length > 0))
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  addModule(module) {
+  addModule (module) {
     this.setState({
       modules: {
         ...this.state.modules,
-        [module.family]: this.
-          state.
-          modules[module.family].
-          concat([module]).
-          filter(onlyUnique),
+        [module.family]: this
+          .state
+          .modules[module.family]
+          .concat([module])
+          .filter(onlyUnique),
       },
-    });
+    })
   }
 
-  removeModule(module) {
+  removeModule = (module) => {
     this.setState({
       modules: {
         ...this.state.modules,
-        [module.family]: this.
-          state.modules[module.family].
-          filter((m) => m.id != module.id),
+        [module.family]: this
+          .state.modules[module.family]
+          .filter((m) => m.id !== module.id),
       },
-    });
+    })
   }
 
-  changeCompositionType(family, type) {
+  changeCompositionType = (family, type) => {
     this.setState({
       compositionTypes: {
         ...this.state.compositionTypes,
         [family]: type,
-      }
-    });
+      },
+    })
   }
 
-  selectFamily(family) {
-    this.setState({ selectedFamily: family });
-    this.props.searchModules(family);
+  selectFamily = (family) => {
+    this.setState({ selectedFamily: family })
+    this.props.searchModules(family)
   }
 
-  isFamilySelected(family) {
-    return this.state.selectedFamily == family;
+  isFamilySelected (family) {
+    return this.state.selectedFamily === family
   }
 
-  reorder(family, list) {
+  reorder = (family, list) => {
     this.setState({
       modules: {
         ...this.state.modules,
         [family]: list,
       },
-    });
+    })
   }
 
-  currentStep() {
-    return this.families().indexOf(this.state.selectedFamily) + 1;
+  currentStep () {
+    return this.families().indexOf(this.state.selectedFamily) + 1
   }
 
-  totalSteps() {
-    return this.families().length;
+  totalSteps () {
+    return this.families().length
   }
 
-  render() {
+  render () {
     return (
       <span>
         <F.Row>
@@ -140,7 +137,7 @@ class WorkflowCreator extends React.Component {
             {this.props.entities.map(m => <ModuleCard
               key={m.id}
               m={m}
-              onClick={()=>this.addModule(m)}
+              onClick={() => this.addModule(m)}
             />)}
           </div>
         </F.Row>
@@ -151,18 +148,18 @@ class WorkflowCreator extends React.Component {
           </h3>
 
           <WorkflowDiagram
-            expandedFamilies={{[this.state.selectedFamily]:true}}
+            expandedFamilies={{[this.state.selectedFamily]: true}}
             compositionTypes={this.state.compositionTypes}
             modules={this.state.modules}
             editable="true"
-            selectFamily={this.selectFamily.bind(this)}
-            changeCompositionType={this.changeCompositionType.bind(this)}
-            removeModule={this.removeModule.bind(this)}
-            reorderModules={this.reorder.bind(this)}
+            selectFamily={this.selectFamily}
+            changeCompositionType={this.changeCompositionType}
+            removeModule={this.removeModule}
+            reorderModules={this.reorder}
           />
           {
             this.isComplete() &&
-            <form onSubmit={this.createWorkflow.bind(this)}>
+            <form onSubmit={this.createWorkflow}>
               <Errors errors={this.props.workflowErrors} />
               <input
                 type="text"
@@ -177,8 +174,8 @@ class WorkflowCreator extends React.Component {
             </form>
           }
         </F.Row>
-     </span>
-    );
+      </span>
+    )
   };
 }
 
@@ -191,4 +188,4 @@ export default connect(
   {
     ...workflowsActions,
   }
-)(WorkflowCreator);
+)(WorkflowCreator)

@@ -1,50 +1,49 @@
-import React from 'react';
-import * as F from 'react-foundation';
-import { connect } from 'react-redux';
+import React from "react"
+import * as F from "react-foundation"
+import { connect } from "react-redux"
 
-import * as authActions from '../actions/auth';
-import Errors from './Errors'
-
+import * as authActions from "../actions/auth"
+import Errors from "./Errors"
 
 class SignUp extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {}
   }
 
-  onFieldChange(key, ev) {
+  onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,
     })
   }
 
-  submit(event) {
-    event.preventDefault();
+  submit = (event) => {
+    event.preventDefault()
 
     this.props.authSignup(
       this.state,
-    );
+    )
   }
 
-  isSubmitDisabled() {
+  isSubmitDisabled () {
     const isUserDataFilled =
       this.state.name &&
       this.state.email &&
       this.state.password &&
       this.state.organization &&
-      this.state.github_username;
+      this.state.github_username
 
-    return this.props.state.pending || !isUserDataFilled;
+    return this.props.state.pending || !isUserDataFilled
   }
 
-  render() {
+  render () {
     return (
       <F.Row>
         <F.Column small={12} large={8}>
           <Errors errors={this.props.state.errors} />
 
-          <form onSubmit={this.submit.bind(this)}>
+          <form onSubmit={this.submit}>
             <p>
               <input
                 name="user[name]" id="user_name"
@@ -93,9 +92,9 @@ class SignUp extends React.Component {
 
             <p>
               <F.Button
-                  className="button primary"
-                  disabled={this.isSubmitDisabled()}
-                  type="submit">
+                className="button primary"
+                disabled={this.isSubmitDisabled()}
+                type="submit">
                 Sign Up
               </F.Button>
             </p>
@@ -103,7 +102,7 @@ class SignUp extends React.Component {
 
         </F.Column>
       </F.Row>
-    );
+    )
   }
 };
 
@@ -112,5 +111,5 @@ export default connect(
     state: state.auth,
   }),
   {
-    ...authActions
-  })(SignUp);
+    ...authActions,
+  })(SignUp)

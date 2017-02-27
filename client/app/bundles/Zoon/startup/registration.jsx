@@ -1,5 +1,5 @@
-import ReactOnRails from 'react-on-rails';
+import ReactOnRails from "react-on-rails"
 
-import ZoonApp from './ZoonApp';
+import ZoonApp from "./ZoonApp"
 
-ReactOnRails.register({ZoonApp});
+ReactOnRails.register({ZoonApp})

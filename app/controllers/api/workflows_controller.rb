@@ -16,6 +16,17 @@ class Api::WorkflowsController < ApplicationController
     render_workflow workflow
   end
 
+  def update
+    w = nil
+    ActiveRecord::Base.transaction do
+      w = Workflow.find(params[:id].to_i)
+      w.workflow_modules.clear
+      w.update!(workflow_params.merge(user: current_user))
+    end
+
+    render_workflow w
+  end
+
   def show
     workflow = Workflow.find params[:id].to_i
 

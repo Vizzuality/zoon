@@ -26,6 +26,24 @@ function* createWorkflow (action) {
   }
 }
 
+function* updateWorkflow (action) {
+  const state = yield select()
+
+  let json = yield workflowAPI.updateWorkflow(
+    action.workflow,
+    state.auth.csrf,
+  )
+
+  if (json.errors) {
+    yield put(workflowActions.finishWorkflowFetch({
+      state: "error",
+      errors: json.errors,
+    }))
+  } else {
+    yield put(push(`/workflows/${json.workflow.id}`))
+  }
+}
+
 function* searchModules (action) {
   const json = yield moduleAPI.searchModules(action.family, "", [])
 
@@ -131,6 +149,7 @@ function* submitWorkflowFeedback (action) {
 export default function* modules () {
   yield [
     takeLatest(A.WORKFLOW_CREATE, createWorkflow),
+    takeLatest(A.WORKFLOW_UPDATE, updateWorkflow),
     takeLatest(A.WORKFLOW_SEARCH_MODULES, searchModules),
     takeLatest(A.WORKFLOWS_INIT, initWorkflows),
     takeLatest(A.WORKFLOW_INIT, initWorkflow),

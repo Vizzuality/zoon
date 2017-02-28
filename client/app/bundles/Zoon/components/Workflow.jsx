@@ -53,7 +53,7 @@ class Workflow extends React.Component {
 
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-duplicate">
-              <a href={this.props.entity && this.props.entity.url} target="_blank" className="button">
+              <a href={this.props.entity && this.props.entity.url} className="button">
                 Duplicate this workflow
               </a>
             </p>
@@ -91,6 +91,13 @@ class Workflow extends React.Component {
               <p>{Math.round((new Date() - new Date(this.props.entity.created_at)) / 86400 / 1000)} days ago by</p>
               <p><img src={this.user().avatar_url} /> {this.user().name} </p>
             </div>
+            { this.props.entity && this.props.entity.update_path && (
+              <p className="module-duplicate">
+                <Link to={`/workflows/${this.props.entity.id}/edit`} className="button">
+                  Edit this workflow
+                </Link>
+              </p>
+            )}
 
             <div className="module-tags">
               <Tags
@@ -141,4 +148,3 @@ export default connect(
     goBack,
   }
 )(Workflow)
-

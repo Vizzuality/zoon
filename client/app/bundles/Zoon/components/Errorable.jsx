@@ -5,9 +5,15 @@ export default class Errorable extends React.Component {
   static propTypes = {
     state: React.PropTypes.string.isRequired,
     errorMessage: React.PropTypes.string,
+    children: React.PropTypes.oneOfType([
+      React.PropTypes.arrayOf(React.PropTypes.element),
+      React.PropTypes.element,
+    ]).isRequired,
   }
 
   render () {
+    const s = this.props.state
+
     return {
       error: (
         <F.Column>
@@ -25,6 +31,11 @@ export default class Errorable extends React.Component {
           Fetching info from server.
         </F.Column>
       ),
-    }[this.props.state] || this.props.children
+      ok: (
+        <span>
+          {this.props.children}
+        </span>
+      ),
+    }[s] || `Unknown state: ${s}`
   }
 }

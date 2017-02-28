@@ -13,7 +13,7 @@ const config = {
     "es5-shim/es5-shim",
     "es5-shim/es5-sham",
     "babel-polyfill",
-    "./client/app/bundles/Zoon/startup/registration",
+    "./client/app/bundles/Zoon/react_on_rails",
   ],
 
   output: {

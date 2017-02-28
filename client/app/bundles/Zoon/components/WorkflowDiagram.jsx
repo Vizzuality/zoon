@@ -22,12 +22,13 @@ const SelectedItem = ({ item, sharedProps }) => (
     <i
       className="fa fa-times-circle"
       style={{marginLeft: "0.25em"}}
+      onMouseDown={(ev) => ev.stopPropagation()}
       onClick={() => sharedProps.removeModule(item)}
     />
   </div>
 )
 
-export default ({
+export default WorkflowDiagram = ({
   expandedFamilies,
   compositionTypes,
   modules,

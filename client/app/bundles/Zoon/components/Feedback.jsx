@@ -36,7 +36,7 @@ class FeedbackBox extends React.Component {
     let cf = this.props.entity.current_feedback
     this.state = {
       rating: cf && cf.rating,
-      comment: cf && cf.comment,
+      comment: cf && cf.comment || "",
     }
 
     this.updateComment = this.updateComment.bind(this)
@@ -49,7 +49,7 @@ class FeedbackBox extends React.Component {
 
     this.setState({
       rating: cf && cf.rating,
-      comment: cf && cf.comment,
+      comment: cf && cf.comment || "",
     })
   }
 

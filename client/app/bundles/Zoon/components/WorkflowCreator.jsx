@@ -22,27 +22,79 @@ function objectFromPairs (pairs) {
 }
 
 class WorkflowCreator extends React.Component {
+  static propTypes = {
+    workflow: React.PropTypes.shape({
+      title: React.PropTypes.string,
+      description: React.PropTypes.string,
+      modules: React.PropTypes.objectOf(
+        React.PropTypes.arrayOf(React.PropTypes.object)
+      ).isRequired,
+      composition_types: React.PropTypes.objectOf(
+        React.PropTypes.oneOf(["list", "chain"]),
+      ).isRequired,
+    }),
+    families: React.PropTypes.arrayOf(React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+    })).isRequired,
+    entities: React.PropTypes.array.isRequired,
+    workflowErrors: React.PropTypes.string,
+
+    createWorkflow: React.PropTypes.func.isRequired,
+    updateWorkflow: React.PropTypes.func.isRequired,
+    searchModules: React.PropTypes.func.isRequired,
+  }
+
   constructor (props) {
     super(props)
 
     this.state = {
+      id: null,
+      title: "",
+      description: "",
+      modules: {
+        ...objectFromPairs(
+          this.families().map((family) => [family, []])
+        ),
+      },
+      compositionTypes: {
+        ...objectFromPairs(
+          this.families().map((family) => [family, "list"])
+        ),
+      },
+
       selectedFamily: this.families()[0],
-      modules: objectFromPairs(
-        this.families().map((family) => [family, []])
-      ),
-      compositionTypes: objectFromPairs(
-        this.families().map((family) => [family, "list"])
-      ),
+    }
+
+    const w = this.props.workflow
+    if (w) {
+      this.state = {
+        ...this.state,
+        id: w.id,
+        title: w.title,
+        description: w.description,
+        modules: {
+          ...this.state.modules,
+          ...w.modules,
+        },
+        compositionTypes: {
+          ...this.state.composition_types,
+          ...w.composition_types,
+        },
+      }
     }
   }
 
-  createWorkflow = (ev) => {
+  saveWorkflow = (ev) => {
     ev.preventDefault()
 
-    this.props.createWorkflow({
-      title: this.state.title,
-      description: this.state.description,
-      compositionTypes: this.state.compositionTypes,
+    const {id, title, description, compositionTypes} = this.state
+    const saver = this.state.id ? this.props.updateWorkflow : this.props.createWorkflow
+
+    saver({
+      id,
+      title,
+      description,
+      compositionTypes,
       modules: Object
         .values(this.state.modules)
         .reduce((acc, v) => acc.concat(v))
@@ -75,8 +127,7 @@ class WorkflowCreator extends React.Component {
       modules: {
         ...this.state.modules,
         [module.family]: this
-          .state
-          .modules[module.family]
+          .state.modules[module.family]
           .concat([module])
           .filter(onlyUnique),
       },
@@ -151,7 +202,7 @@ class WorkflowCreator extends React.Component {
             expandedFamilies={{[this.state.selectedFamily]: true}}
             compositionTypes={this.state.compositionTypes}
             modules={this.state.modules}
-            editable="true"
+            editable
             selectFamily={this.selectFamily}
             changeCompositionType={this.changeCompositionType}
             removeModule={this.removeModule}
@@ -159,15 +210,17 @@ class WorkflowCreator extends React.Component {
           />
           {
             this.isComplete() &&
-            <form onSubmit={this.createWorkflow}>
+            <form onSubmit={this.saveWorkflow}>
               <Errors errors={this.props.workflowErrors} />
               <input
                 type="text"
                 placeholder="Title"
+                value={this.state.title}
                 onChange={(ev) => this.onFieldChange("title", ev)}
               />
               <textarea
                 placeholder="Description"
+                value={this.state.description}
                 onChange={(ev) => this.onFieldChange("description", ev)}
               />
               <input type="submit" placeholder="Save" />
@@ -183,7 +236,7 @@ export default connect(
   (state) => ({
     families: state.families.entities,
     workflowErrors: state.workflows.errors,
-    ...state.modules,
+    entities: state.modules.entities,
   }),
   {
     ...workflowsActions,

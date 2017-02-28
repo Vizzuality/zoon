@@ -19,6 +19,12 @@ export default (state = defaultState, action) => {
         ...action.result,
       }
 
+    case A.WORKFLOW_INIT:
+      return {
+        ...state,
+        state: "fetching",
+      }
+
     default:
       return {
         ...defaultState,

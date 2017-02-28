@@ -10,6 +10,7 @@ import Modules from "./components/Modules"
 import Module from "./components/Module"
 import Workflows from "./components/Workflows"
 import WorkflowCreator from "./components/WorkflowCreator"
+import WorkflowEdit from "./components/WorkflowEdit"
 import Workflow from "./components/Workflow"
 import SignIn from "./components/SignIn"
 import SignUp from "./components/SignUp"
@@ -22,26 +23,25 @@ const ZoonApp = (props, _railsContext) => {
   let store = configureStore(props)
   let history = syncHistoryWithStore(browserHistory, store)
 
-  return (
-    <Provider store={store}>
-      <Router history={history}>
-        <Route path="/" component={Layout}>
-          <IndexRoute component={Home} />
-          <Route path="/modules" component={Modules} />
-          <Route path="/modules/:id" component={Module} />
-          <Route path="/workflows/new" component={WorkflowCreator} />
-          <Route path="/workflows" component={Workflows} />
-          <Route path="/workflows/:id" component={Workflow} />
-          <Route path="/users/sign_in" component={SignIn} />
-          <Route path="/users/sign_up" component={SignUp} />
-          <Route path="/account" component={Account} />
-          <Route path="/recover_password" component={RecoverPassword} />
-          <Route path="/users/password/edit" component={ChangePassword} />
-          <Route path="*" component={NotFound} />
-        </Route>
-      </Router>
-    </Provider>
-  )
+  return <Provider store={store}>
+    <Router history={history}>
+      <Route path="/" component={Layout}>
+        <IndexRoute component={Home} />
+        <Route path="/modules" component={Modules} />
+        <Route path="/modules/:id" component={Module} />
+        <Route path="/workflows/new" component={WorkflowCreator} />
+        <Route path="/workflows" component={Workflows} />
+        <Route path="/workflows/:id" component={Workflow} />
+        <Route path="/workflows/:id/edit" component={WorkflowEdit} />
+        <Route path="/users/sign_in" component={SignIn} />
+        <Route path="/users/sign_up" component={SignUp} />
+        <Route path="/account" component={Account} />
+        <Route path="/recover_password" component={RecoverPassword} />
+        <Route path="/users/password/edit" component={ChangePassword} />
+        <Route path="*" component={NotFound} />
+      </Route>
+    </Router>
+  </Provider>
 }
 
 export default ZoonApp

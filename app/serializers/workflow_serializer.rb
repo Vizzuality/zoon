@@ -29,13 +29,13 @@ class WorkflowSerializer < ApplicationSerializer
         @workflow.feedbacks.find_by(user_id: @user.id),
       ).serialize
 
-      json["create_tag_path"] = routes.create_tag_api_workflow_path(
-        @workflow,
-      )
+      json["create_tag_path"] = routes.create_tag_api_workflow_path(@workflow)
 
-      json["feedback_path"] = routes.feedback_api_workflow_path(
-        @workflow,
-      )
+      json["feedback_path"] = routes.feedback_api_workflow_path(@workflow)
+
+      if @user == @workflow.user
+        json["update_path"] = routes.api_workflow_path(@workflow)
+      end
     else
       json['current_feedback'] = {}
     end

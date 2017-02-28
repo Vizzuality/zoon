@@ -4,7 +4,7 @@ import Reorder from "react-reorder"
 const families = ["occurrence", "covariate", "process", "model", "output"]
 
 const Switch = ({ id, checked, onChange }) => (
-  <div className="switch tiny">
+  <span className="switch tiny" style={{"margin": "0em 0.5em"}}>
     <input
       type="checkbox"
       className="switch-input"
@@ -13,14 +13,15 @@ const Switch = ({ id, checked, onChange }) => (
       onChange={onChange}
     />
     <label className="switch-paddle" htmlFor={id} />
-  </div>
+  </span>
 )
 
 const SelectedItem = ({ item, sharedProps }) => (
-  <div style={{"height": "100px"}}>
+  <div style={{whiteSpace: "nowrap"}}>
     {item.title}
     <i
       className="fa fa-times-circle"
+      style={{marginLeft: "0.25em"}}
       onClick={() => sharedProps.removeModule(item)}
     />
   </div>
@@ -30,7 +31,7 @@ export default ({
   expandedFamilies,
   compositionTypes,
   modules,
-  editable,
+  editable = false,
   selectFamily,
   changeCompositionType,
   removeModule,
@@ -42,8 +43,12 @@ export default ({
         <div>
           {family}
           {
-            !expandedFamilies[family] &&
-            <i onClick={() => selectFamily(family)} className="fa fa-edit" />
+            !expandedFamilies[family] && editable &&
+            <i
+              onClick={() => selectFamily(family)}
+              style={{marginLeft: "0.25em"}}
+              className="fa fa-edit"
+            />
           }
         </div>
 

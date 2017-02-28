@@ -5,6 +5,11 @@ export const createWorkflow = (workflow) => ({
   workflow,
 })
 
+export const updateWorkflow = (workflow) => ({
+  type: A.WORKFLOW_UPDATE,
+  workflow,
+})
+
 export const searchModules = (family) => ({
   type: A.WORKFLOW_SEARCH_MODULES,
   family,

@@ -9,6 +9,7 @@ class Workflow < ApplicationRecord
     inverse_of: :workflow,
     dependent: :destroy,
   )
+  accepts_nested_attributes_for :workflow_modules
 
   has_many :zoon_modules, through: :workflow_modules
 
@@ -23,8 +24,6 @@ class Workflow < ApplicationRecord
     -> { comments },
     as: :feedbackable,
     class_name: 'Feedback'
-
-  accepts_nested_attributes_for :workflow_modules
 
   FAMILIES = ["occurrence", "covariate", "process", "model", "output"]
 

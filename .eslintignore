@@ -1,0 +1,7 @@
+# /node_modules/* and /bower_components/* ignored by default
+
+app/assets/webpack/webpack-bundle.js
+client/app/bundles/Zoon/continentsData.js
+client/app/bundles/Zoon/continentsMap.js
+client/app/bundles/Zoon/countriesData.js
+client/app/bundles/Zoon/countriesMap.js

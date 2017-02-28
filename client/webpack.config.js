@@ -13,12 +13,12 @@ const config = {
     "es5-shim/es5-shim",
     "es5-shim/es5-sham",
     "babel-polyfill",
-    "./app/bundles/Zoon/startup/registration",
+    "./client/app/bundles/Zoon/startup/registration",
   ],
 
   output: {
     filename: "webpack-bundle.js",
-    path: "../app/assets/webpack",
+    path: "./app/assets/webpack",
   },
 
   externals: [

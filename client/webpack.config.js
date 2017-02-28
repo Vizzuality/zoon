@@ -78,6 +78,14 @@ if (devBuild) {
     }
   )
   module.exports.plugins.push(new webpack.NoErrorsPlugin())
+  module.exports.plugins.push(
+    function() {
+      this.plugin('watch-run', function(watching, callback) {
+        console.log('Began compiling at ' + new Date());
+        callback();
+      })
+    }
+  )
 } else {
   config.plugins.push(
     new webpack.optimize.DedupePlugin()

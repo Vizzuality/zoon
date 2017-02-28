@@ -151,7 +151,7 @@ class WorkflowCreator extends React.Component {
             expandedFamilies={{[this.state.selectedFamily]: true}}
             compositionTypes={this.state.compositionTypes}
             modules={this.state.modules}
-            editable="true"
+            editable
             selectFamily={this.selectFamily}
             changeCompositionType={this.changeCompositionType}
             removeModule={this.removeModule}

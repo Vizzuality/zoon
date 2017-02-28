@@ -65,7 +65,6 @@ class Workflow extends React.Component {
             expandedFamilies={{}}
             compositionTypes={this.props.entity.compositionTypes || {}}
             modules={this.props.entity.modules || {}}
-            editable="true"
           />
         </F.Row>
 

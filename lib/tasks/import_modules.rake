@@ -39,6 +39,7 @@ namespace :import do
       modules = Hash[
         ZoonModule.unscoped.all.map do |m|
           m.visible = false
+          m.save!
           [m.name, m]
         end
       ]

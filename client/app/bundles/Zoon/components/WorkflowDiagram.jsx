@@ -28,7 +28,7 @@ const SelectedItem = ({ item, sharedProps }) => (
   </div>
 )
 
-export default WorkflowDiagram = ({
+const WorkflowDiagram = ({
   expandedFamilies,
   compositionTypes,
   modules,
@@ -89,3 +89,4 @@ export default WorkflowDiagram = ({
     ))}
   </ol>
 )
+export default WorkflowDiagram

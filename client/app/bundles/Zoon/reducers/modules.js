@@ -5,8 +5,6 @@ const defaultState = {
   errorMessage: "",
   shownEntityId: null,
   entities: [],
-  pageCount: null,
-  currentPage: null,
 }
 
 const modules = (state = defaultState, action) => {

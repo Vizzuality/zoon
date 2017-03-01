@@ -6,8 +6,6 @@ const defaultState = {
   errors: null,
   shownEntityId: null,
   entities: [],
-  pageCount: null,
-  currentPage: null,
 }
 
 export default (state = defaultState, action) => {

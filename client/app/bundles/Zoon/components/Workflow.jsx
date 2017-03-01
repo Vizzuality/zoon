@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { Link } from "react-router"
 import { goBack } from "react-router-redux"
 import * as F from "react-foundation"
+import qs from "qs"
 
 import * as workflowActions from "../actions/workflows"
 import Errorable from "./Errorable"
@@ -12,6 +13,11 @@ import Tags from "./Tags"
 import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
+
+const encodeWorkflowQuerystring = (workflow) => {
+  const {title, description, modules, composition_types} = workflow
+  return qs.stringify({title, description, modules, composition_types})
+}
 
 class Workflow extends React.Component {
   componentDidMount () {
@@ -53,9 +59,9 @@ class Workflow extends React.Component {
 
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-duplicate">
-              <a href={this.props.entity && this.props.entity.url} className="button">
+              <Link to={`/workflows/new?${encodeWorkflowQuerystring(this.props.entity)}`} className="button">
                 Duplicate this workflow
-              </a>
+              </Link>
             </p>
           </F.Column>
         </F.Row>

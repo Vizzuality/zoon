@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import * as F from "react-foundation"
+import qs from "qs"
 
 import * as workflowsActions from "../actions/workflows"
 import ModuleCard from "./ModuleCard"
@@ -24,8 +25,9 @@ function objectFromPairs (pairs) {
 class WorkflowCreator extends React.Component {
   static propTypes = {
     workflow: React.PropTypes.shape({
-      title: React.PropTypes.string,
-      description: React.PropTypes.string,
+      id: React.PropTypes.number,
+      title: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired,
       modules: React.PropTypes.objectOf(
         React.PropTypes.arrayOf(React.PropTypes.object)
       ).isRequired,
@@ -33,6 +35,7 @@ class WorkflowCreator extends React.Component {
         React.PropTypes.oneOf(["list", "chain"]),
       ).isRequired,
     }),
+
     families: React.PropTypes.arrayOf(React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
     })).isRequired,
@@ -65,11 +68,11 @@ class WorkflowCreator extends React.Component {
       selectedFamily: this.families()[0],
     }
 
-    const w = this.props.workflow
+    const w = this.props.workflow || this.grabValuesFromLocationSearch()
     if (w) {
       this.state = {
         ...this.state,
-        id: w.id,
+        id: w.id || null,
         title: w.title,
         description: w.description,
         modules: {
@@ -82,6 +85,14 @@ class WorkflowCreator extends React.Component {
         },
       }
     }
+  }
+
+  grabValuesFromLocationSearch = () => {
+    let s = this.props.location.search
+    if (s[0] === "?") {
+      s = s.slice(1)
+    }
+    return qs.parse(s)
   }
 
   saveWorkflow = (ev) => {

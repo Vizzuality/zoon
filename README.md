@@ -18,3 +18,7 @@ Get a modules dump from the ES server. Then, run somerthing like `rails import:m
 You can also use `-` as the path to use stdin instead. For prod, you can do
 something like `cat path/to/modules.json | heroku run rake rails import:modules[-]`
 
+## Seeding
+* `git checkout db/schema.rb; rake db:reset; rake db:migrate`
+* Get a `modules.json` (from Pivotal Track, ES, etc)
+* Run `rails import:modules[path/to/modules.json]`

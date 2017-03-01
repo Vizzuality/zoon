@@ -76,7 +76,7 @@ const WorkflowDiagram = ({
               list={modules[family]}
               template={SelectedItem}
               callback={(a, b, c, d, list) => reorderModules(family, list)}
-              sharedProps={{"removeModule": removeModule}}
+              sharedProps={{removeModule}}
             />
 
             Add a module

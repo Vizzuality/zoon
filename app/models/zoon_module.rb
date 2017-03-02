@@ -26,7 +26,7 @@ class ZoonModule < ApplicationRecord
     else
       modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, word|
         all.where(
-          "zoon_modules.name ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
+          "zoon_modules.name ILIKE ? OR zoon_modules.description ILIKE ? OR LOWER(tags.name) = ?",
           "%#{word}%",
           "%#{word}%",
           word.downcase,

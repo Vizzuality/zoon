@@ -55,6 +55,7 @@ class WorkflowCreator extends React.Component {
           this.families().map((family) => [family, "list"])
         ),
       },
+      update_path: null,
 
       selectedFamily: this.families()[0],
     }
@@ -74,6 +75,7 @@ class WorkflowCreator extends React.Component {
           ...this.state.compositionTypes,
           ...w.composition_types,
         },
+        update_path: w.update_path,
       }
     }
   }
@@ -89,7 +91,7 @@ class WorkflowCreator extends React.Component {
   saveWorkflow = (ev) => {
     ev.preventDefault()
 
-    const {id, title, description, compositionTypes} = this.state
+    const {id, title, description, update_path, compositionTypes} = this.state
     const saver = this.state.id ? this.props.updateWorkflow : this.props.createWorkflow
 
     saver({
@@ -97,6 +99,7 @@ class WorkflowCreator extends React.Component {
       title,
       description,
       compositionTypes,
+      update_path,
       modules: Object
         .values(this.state.modules)
         .reduce((acc, v) => acc.concat(v))

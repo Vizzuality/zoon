@@ -26,7 +26,10 @@ class Api::ZoonModulesController < ApplicationController
   end
 
   def index
-    zoon_modules = ZoonModule.order(:name).search params[:searchQuery], params[:searchTags].split(',')
+    zoon_modules = ZoonModule.order(:name).search(
+      params.fetch(:searchQuery, ''),
+      params.fetch(:searchTags, '').split(','),
+    )
 
     if searchFamily = params[:searchFamily].presence
       zoon_modules = zoon_modules.filter_by_family searchFamily

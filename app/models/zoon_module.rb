@@ -21,20 +21,24 @@ class ZoonModule < ApplicationRecord
   default_scope { where(visible: true) }
 
   scope :search, -> (query, tags) {
-    modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, word|
-      all.where(
-        "zoon_modules.name ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
-        "%#{word}%",
-        "%#{word}%",
-        word.downcase,
-      )
-    end
+    if query.empty? and tags.empty?
+      all
+    else
+      modules = query.split(/\s+/).reduce(left_outer_joins(:tags)) do |all, word|
+        all.where(
+          "zoon_modules.name ILIKE ? OR zoon_modules.description ILIKE ? OR tags.name = ?",
+          "%#{word}%",
+          "%#{word}%",
+          word.downcase,
+        )
+      end
 
-    if not tags.empty?
-      modules = modules.where("LOWER(tags.name) IN (?)", tags.map(&:downcase))
-    end
+      if not tags.empty?
+        modules = modules.where("LOWER(tags.name) IN (?)", tags.map(&:downcase))
+      end
 
-    modules.
+      modules
+    end.
       select('distinct on (zoon_modules.name) zoon_modules.*').
       reorder('zoon_modules.name')
   }

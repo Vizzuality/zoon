@@ -115,6 +115,7 @@ body {
         .module-family-background {
           background: image-url('module_#{$type}.png');
           background-size: contain;
+          background-repeat: no-repeat;
         }
 
         &.module-family-background-color,

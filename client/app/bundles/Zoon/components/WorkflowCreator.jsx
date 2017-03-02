@@ -194,49 +194,53 @@ class WorkflowCreator extends React.Component {
   render () {
     return (
       <span>
-        <F.Row>
-          <div className="mosaic">
-            {this.props.entities.map(m => <ModuleCard
-              key={m.id}
-              m={m}
-              onClick={() => this.addModule(m)}
-            />)}
-          </div>
+        <F.Row className="workflow-module-list">
+          <F.Column small={12}>
+            <div className="mosaic">
+              {this.props.entities.map(m => <ModuleCard
+                key={m.id}
+                m={m}
+                onClick={() => this.addModule(m)}
+              />)}
+            </div>
+          </F.Column>
         </F.Row>
-        <F.Row>
-          <h3>
-            {this.currentStep()}/{this.totalSteps()} {
-            } Select a {this.state.selectedFamily} module
-          </h3>
+        <F.Row className="workflow-creator">
+          <F.Column small={12}>
+            <div className="workflow-status">
+              {this.currentStep()}/{this.totalSteps()} {
+              } Select a {this.state.selectedFamily} module
+            </div>
 
-          <WorkflowDiagram
-            expandedFamilies={{[this.state.selectedFamily]: true}}
-            compositionTypes={this.state.compositionTypes}
-            modules={this.state.modules}
-            editable
-            selectFamily={this.selectFamily}
-            changeCompositionType={this.changeCompositionType}
-            removeModule={this.removeModule}
-            reorderModules={this.reorder}
-          />
-          {
-            this.isComplete() &&
-            <form onSubmit={this.saveWorkflow}>
-              <Errors errors={this.props.workflowErrors} />
-              <input
-                type="text"
-                placeholder="Title"
-                value={this.state.title}
-                onChange={(ev) => this.onFieldChange("title", ev)}
-              />
-              <textarea
-                placeholder="Description"
-                value={this.state.description}
-                onChange={(ev) => this.onFieldChange("description", ev)}
-              />
-              <input type="submit" placeholder="Save" />
-            </form>
-          }
+            <WorkflowDiagram
+              expandedFamilies={{[this.state.selectedFamily]: true}}
+              compositionTypes={this.state.compositionTypes}
+              modules={this.state.modules}
+              editable
+              selectFamily={this.selectFamily}
+              changeCompositionType={this.changeCompositionType}
+              removeModule={this.removeModule}
+              reorderModules={this.reorder}
+            />
+            {
+              this.isComplete() &&
+              <form onSubmit={this.saveWorkflow}>
+                <Errors errors={this.props.workflowErrors} />
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={this.state.title}
+                  onChange={(ev) => this.onFieldChange("title", ev)}
+                />
+                <textarea
+                  placeholder="Description"
+                  value={this.state.description}
+                  onChange={(ev) => this.onFieldChange("description", ev)}
+                />
+                <input type="submit" placeholder="Save" />
+              </form>
+            }
+          </F.Column>
         </F.Row>
       </span>
     )

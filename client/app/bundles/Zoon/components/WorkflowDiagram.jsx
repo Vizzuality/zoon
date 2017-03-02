@@ -17,11 +17,10 @@ const Switch = ({ id, checked, onChange }) => (
 )
 
 const SelectedItem = ({ item, sharedProps }) => (
-  <div style={{whiteSpace: "nowrap"}}>
+  <div className="module-list__list__item">
     {item.title}
     <i
       className="fa fa-times-circle"
-      style={{marginLeft: "0.25em"}}
       onMouseDown={(ev) => ev.stopPropagation()}
       onClick={() => sharedProps.removeModule(item)}
     />
@@ -38,53 +37,66 @@ const WorkflowDiagram = ({
   removeModule,
   reorderModules,
 }) => (
-  <ol style={{"display": "flex"}}>
+  <ol className="workflow-diagram">
     {families.map((family) => (
-      <li key={family} className="module-card" style={{"width": "240px"}}>
+      <li key={family}>
         <div>
-          {family}
-          {
-            !expandedFamilies[family] && editable &&
-            <i
-              onClick={() => selectFamily(family)}
-              style={{marginLeft: "0.25em"}}
-              className="fa fa-edit"
-            />
-          }
-        </div>
-
-        {
-          expandedFamilies[family] &&
-          <div>
-            <div>
-              List
-              <Switch
-                id={`switch-${family}`}
-                checked={compositionTypes[family] === "chain"}
-                onChange={(ev) => changeCompositionType(
-                  family,
-                  ev.target.checked ? "chain" : "list",
-                )}
-              />
-              Chain
+          <div className="module-list">
+            <div className="module-list__header">
+              <span className={`module-family-${family} module-family-background`}>
+                {family}
+              </span>
+              {
+                !expandedFamilies[family] && editable &&
+                <i
+                  onClick={() => selectFamily(family)}
+                  className="fa fa-pencil"
+                />
+              }
             </div>
 
-            <Reorder
-              lock="horizontal"
-              itemKey="id"
-              disableReorder={!editable}
-              list={modules[family]}
-              template={SelectedItem}
-              callback={(a, b, c, d, list) => reorderModules(family, list)}
-              sharedProps={{removeModule}}
-            />
+            {
+              expandedFamilies[family] &&
+              <div>
+                <span className={`module-family-${family} module-family-background-color`} />
+                <div className="module-list__chaining">
+                  <span className={compositionTypes[family] !== "chain" ? "selected" : ""}>List</span>
+                  <Switch
+                    id={`switch-${family}`}
+                    checked={compositionTypes[family] === "chain"}
+                    onChange={(ev) => changeCompositionType(
+                      family,
+                      ev.target.checked ? "chain" : "list",
+                    )}
+                  />
+                  <span className={compositionTypes[family] === "chain" ? "selected" : ""}>Chain</span>
+                </div>
 
-            Add a module
-          </div> ||
-          <div>
-            {(modules[family] || []).length} modules selected
+                {
+                  modules[family].length > 0 &&
+                  <Reorder
+                    lock="horizontal"
+                    itemKey="id"
+                    disableReorder={!editable}
+                    listClass="module-list__list"
+                    list={modules[family]}
+                    template={SelectedItem}
+                    callback={(a, b, c, d, list) => reorderModules(family, list)}
+                    sharedProps={{removeModule}}
+                  />
+                }
+
+              </div>
+            }
           </div>
-        }
+          {
+            expandedFamilies[family] &&
+            <p className="add-module-cta">Add a module</p> ||
+            <p className="n-modules-selected">
+              {(modules[family] || []).length} modules selected
+            </p>
+          }
+        </div>
       </li>
     ))}
   </ol>

@@ -7,19 +7,10 @@ import * as workflowsActions from "../actions/workflows"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
 import Errors from "./Errors"
+import {objectFromPairs} from "../utils"
 
 function onlyUnique (value, index, self) {
   return self.indexOf(value) === index
-}
-
-function objectFromPairs (pairs) {
-  let obj = {}
-
-  pairs.forEach((pair) => {
-    obj[pair[0]] = pair[1]
-  })
-
-  return obj
 }
 
 class WorkflowCreator extends React.Component {

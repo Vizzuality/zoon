@@ -13,10 +13,32 @@ import Tags from "./Tags"
 import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
+import {objectFromPairs} from "../utils"
 
 const encodeWorkflowQuerystring = (workflow) => {
+  if (!workflow.id) { return "" }
+
   const {title, description, modules, composition_types} = workflow
-  return qs.stringify({title, description, modules, composition_types})
+  return qs.stringify({
+    title,
+    description,
+    modules: objectFromPairs(Object.entries(modules).map(
+      ([f, ms]) => [
+        f,
+        ms.map(m => {
+          if (!m.visible) { return null }
+
+          return {
+            id: m.id,
+            name: m.name,
+            title: m.title,
+            family: m.family,
+          }
+        }).filter(e => !!e),
+      ],
+    )),
+    composition_types,
+  })
 }
 
 class Workflow extends React.Component {

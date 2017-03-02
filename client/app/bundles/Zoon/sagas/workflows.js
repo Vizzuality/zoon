@@ -8,11 +8,11 @@ import * as workflowAPI from "../api/workflows"
 import * as moduleAPI from "../api/modules"
 import * as tagAPI from "../api/tags"
 
-function* createWorkflow (action) {
+function* createWorkflow ({workflow}) {
   const state = yield select()
 
   let json = yield workflowAPI.createWorkflow(
-    action.workflow,
+    workflow,
     state.auth.csrf,
   )
 
@@ -26,11 +26,11 @@ function* createWorkflow (action) {
   }
 }
 
-function* updateWorkflow (action) {
+function* updateWorkflow ({workflow}) {
   const state = yield select()
 
   let json = yield workflowAPI.updateWorkflow(
-    action.workflow,
+    workflow,
     state.auth.csrf,
   )
 
@@ -44,8 +44,8 @@ function* updateWorkflow (action) {
   }
 }
 
-function* searchModules (action) {
-  const json = yield moduleAPI.searchModules(action.family, "", [])
+function* searchModules ({family}) {
+  const json = yield moduleAPI.searchModules(family, "", [])
 
   if (json.errors) {
   } else {
@@ -71,10 +71,10 @@ function* initWorkflows (action) {
   }
 }
 
-function* initWorkflow (action) {
+function* initWorkflow ({id}) {
   const state = yield select()
 
-  const json = yield workflowAPI.getWorkflow(action.id, state.auth.csrf)
+  const json = yield workflowAPI.getWorkflow(id, state.auth.csrf)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -89,9 +89,8 @@ function* initWorkflow (action) {
   }
 }
 
-function* createWorkflowTag (action) {
+function* createWorkflowTag ({tagCreatePath, tag}) {
   const state = yield select()
-  let { tagCreatePath, tag } = action
 
   let json = yield tagAPI.createTag(tagCreatePath, tag, state.auth.csrf)
 
@@ -105,9 +104,8 @@ function* createWorkflowTag (action) {
   }
 }
 
-function* deleteWorkflowTag (action) {
+function* deleteWorkflowTag ({tagDeletePath}) {
   const state = yield select()
-  let { tagDeletePath } = action
 
   let json = yield tagAPI.deleteTag(tagDeletePath, state.auth.csrf)
 
@@ -121,15 +119,12 @@ function* deleteWorkflowTag (action) {
   }
 }
 
-function* submitWorkflowFeedback (action) {
+function* submitWorkflowFeedback ({workflow, rating, comment}) {
   const state = yield select()
 
   let json = yield workflowAPI.submitWorkflowFeedback(
-    action.workflow,
-    {
-      rating: action.rating,
-      comment: action.comment,
-    },
+    workflow,
+    {rating, comment},
     state.auth.csrf,
   )
 

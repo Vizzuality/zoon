@@ -73,8 +73,8 @@ class WorkflowCreator extends React.Component {
       this.state = {
         ...this.state,
         id: w.id || null,
-        title: w.title,
-        description: w.description,
+        title: w.title || "",
+        description: w.description || "",
         modules: {
           ...this.state.modules,
           ...w.modules,
@@ -127,9 +127,9 @@ class WorkflowCreator extends React.Component {
       .every((modules) => (modules.length > 0))
   }
 
-  onFieldChange (key, ev) {
+  onFieldChange = (ev) => {
     this.setState({
-      [key]: ev.target.value,
+      [ev.target.name]: ev.target.value,
     })
   }
 
@@ -228,14 +228,16 @@ class WorkflowCreator extends React.Component {
                 <Errors errors={this.props.workflowErrors} />
                 <input
                   type="text"
+                  name="title"
                   placeholder="Title"
                   value={this.state.title}
-                  onChange={(ev) => this.onFieldChange("title", ev)}
+                  onChange={this.onFieldChange}
                 />
                 <textarea
+                  name="description"
                   placeholder="Description"
                   value={this.state.description}
-                  onChange={(ev) => this.onFieldChange("description", ev)}
+                  onChange={this.onFieldChange}
                 />
                 <input type="submit" placeholder="Save" />
               </form>

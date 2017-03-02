@@ -115,19 +115,6 @@ class Modules extends React.Component {
     this.props.modulesFetchList(this.state)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const qp = extractQueryParams(nextProps.router.location.query)
-    if (JSON.stringify(qp) !== JSON.stringify(this.state)) {
-      this.setState(qp)
-
-      if (serializeQueryData(qp) !== serializeQueryData(this.state)) {
-        // Introducing or removing keys isn't relevant it they're empty.
-        // Demand a change in value to fire a request.
-        this.props.modulesFetchList(qp)
-      }
-    }
-  }
-
   componentWillUnmount () {
     this.props.clearModules()
   }
@@ -139,7 +126,7 @@ class Modules extends React.Component {
     }
 
     this.props.push(buildUrl(
-      "/modules",
+      this.props.location.pathname,
       {
         queryParams: filterAbsentValues({
           searchFamily,
@@ -149,6 +136,19 @@ class Modules extends React.Component {
         }),
       },
     ))
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const qp = extractQueryParams(nextProps.router.location.query)
+    if (JSON.stringify(qp) !== JSON.stringify(this.state)) {
+      this.setState(qp)
+
+      if (serializeQueryData(qp) !== serializeQueryData(this.state)) {
+        // Introducing or removing keys isn't relevant it they're empty.
+        // Demand a change in value to fire a request.
+        this.props.modulesFetchList(qp)
+      }
+    }
   }
 
   updateFamilyFilter = (value) => {
@@ -261,9 +261,7 @@ class Modules extends React.Component {
             errorMessage={this.props.errorMessage}
           >
             { this.props.entities.length === 0 ? (
-              <F.Column>
-                  No results. Try another search.
-                </F.Column>
+              <F.Column>No results. Try another search.</F.Column>
             ) : (
               <F.Column small={12}>
                 <div className="mosaic">

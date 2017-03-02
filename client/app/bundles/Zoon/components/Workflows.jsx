@@ -25,9 +25,7 @@ class Workflows extends React.Component {
               </F.Column>
             ) : (
               <F.Column small={12}>
-                <div className="mosaic">
-                  {this.props.entities.map(w => <WorkflowCard key={w.id} w={w} />)}
-                </div>
+                {this.props.entities.map(w => <WorkflowCard key={w.id} w={w} />)}
               </F.Column>
             ) }
           </Errorable>

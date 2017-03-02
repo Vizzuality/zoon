@@ -1,31 +1,26 @@
 import React from "react"
 import { Link } from "react-router"
-import Rating from "react-rating"
+import WorkflowDiagram from "./WorkflowDiagram"
 
 export default ({ w }) => {
   return (
-    <Link to={`/workflows/${w.id}`} className="entity-wrapper" key={w.id}>
-      <div className={`entity-card entity-family-${w.family}`}>
-        <div className="entity-content">
-          <p className="entity-title">{w.title}</p>
-          <div className="entity-version-and-ratings module-family-color">
-            <span className="entity-rating">
-              <Rating
-                readonly
-                initialRate={Math.round(w.average_rating * 2) / 2}
-                empty="fa fa-star-o"
-                full="fa fa-star"
-                fractions={2}
-                step={1}
-                stop={5} />
-            </span>
-          </div>
-          <p className="entity-description">{w.description}</p>
+    <div className="workflow-card-wrapper" key={w.id}>
+      <div className="workflow-card">
+        <div className="meta">
+          <p className="meta__title"><Link to={`/workflows/${w.id}`}>{w.title}</Link></p>
+          <p className="meta__description">{w.description}</p>
         </div>
-        <div className="entity-footer module-family-background-color">
-          <span>{w.tags.map((tag) => (tag.name)).join(", ")}</span>
+        <div className="actions">
+          <Link to={`/workflows/${w.id}/edit`} className="button hollow">Edit</Link>
+          <a href="javascript:void(0)"><i className="fa fa-trash" /></a>
         </div>
       </div>
-    </Link>
+
+      <WorkflowDiagram
+        expandedFamilies={{}}
+        compositionTypes={w.compositionTypes || {}}
+        modules={w.modules || {}}
+      />
+    </div>
   )
 }

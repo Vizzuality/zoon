@@ -1,0 +1,57 @@
+@import 'colors';
+
+.workflow-card-wrapper {
+  margin-bottom: 2em;
+
+  .workflow-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: $zoon-white;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+
+    .meta {
+      width: 50%;
+
+      p.meta__title {
+        a {
+          font-size: 1.6em;
+          font-weight: normal;
+          line-height: 1.8em;
+          word-break: break-word;
+          white-space: pre-wrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-bottom: 0.25em;
+        }
+      }
+
+      p.meta__description {
+        color: scale-color($zoon-black, $lightness: +40%);
+      }
+    }
+
+    .actions {
+      a {
+        margin-right: 1em;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .workflow-diagram {
+    font-size: 0.8em;
+
+    li {
+      .module-list {
+        box-shadow: none;
+        background: none;
+      }
+
+      &:after {
+        content: "";
+      }
+    }
+  }
+}

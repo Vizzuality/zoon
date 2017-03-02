@@ -80,7 +80,7 @@ class WorkflowCreator extends React.Component {
           ...w.modules,
         },
         compositionTypes: {
-          ...this.state.composition_types,
+          ...this.state.compositionTypes,
           ...w.composition_types,
         },
       }

@@ -16,20 +16,26 @@ export default class Errorable extends React.Component {
 
     return {
       error: (
-        <F.Column>
-        Oops! There seems to be something wrong! <br />
-          {this.props.errorMessage}
-        </F.Column>
+        <F.Row>
+          <F.Column>
+          Oops! There seems to be something wrong! <br />
+            {this.props.errorMessage}
+          </F.Column>
+        </F.Row>
       ),
       uninitialized: (
-        <F.Column>
-        Initializing.
-        </F.Column>
+        <F.Row>
+          <F.Column>
+          Initializing.
+          </F.Column>
+        </F.Row>
       ),
       fetching: (
-        <F.Column>
-          Fetching info from server.
-        </F.Column>
+        <F.Row>
+          <F.Column>
+            Fetching info from server.
+          </F.Column>
+        </F.Row>
       ),
       ok: (
         <span>

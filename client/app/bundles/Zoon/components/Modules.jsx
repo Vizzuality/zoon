@@ -255,22 +255,24 @@ class Modules extends React.Component {
           </F.Column>
         </F.Row> }
 
-        <F.Row>
-          <Errorable
-            state={this.props.state}
-            errorMessage={this.props.errorMessage}
-          >
-            { this.props.entities.length === 0 ? (
+        <Errorable
+          state={this.props.state}
+          errorMessage={this.props.errorMessage}
+        >
+          { this.props.entities.length === 0 ? (
+            <F.Row>
               <F.Column>No results. Try another search.</F.Column>
-            ) : (
+            </F.Row>
+          ) : (
+            <F.Row>
               <F.Column small={12}>
                 <div className="mosaic">
                   {this.props.entities.map(m => <ModuleCard key={m.id} m={m} />)}
                 </div>
               </F.Column>
-            ) }
-          </Errorable>
-        </F.Row>
+            </F.Row>
+          ) }
+        </Errorable>
 
       </span>
     )

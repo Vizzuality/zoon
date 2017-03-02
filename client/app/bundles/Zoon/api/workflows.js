@@ -1,4 +1,5 @@
 import { jsonFetch } from "./helpers"
+import buildUrl from "build-url"
 
 export const createWorkflow = function (workflow, csrf) {
   return jsonFetch("/api/workflows", {
@@ -26,15 +27,17 @@ export const updateWorkflow = function (workflow, csrf) {
   })
 }
 
-export const listWorkflows = function (csrf) {
-  return jsonFetch("/api/workflows", {
-    credentials: "same-origin",
-    headers: new Headers({
-      "X-CSRF-TOKEN": csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  })
+export const listWorkflows = function (searchQuery, selectedGeos) {
+  return jsonFetch(
+    buildUrl("/api/workflows", {queryParams: {searchQuery, selectedGeos}}),
+    {
+      credentials: "same-origin",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      }),
+    },
+  )
 }
 
 export const getWorkflow = function (id, csrf) {

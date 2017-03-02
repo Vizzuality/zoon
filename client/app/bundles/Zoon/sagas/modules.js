@@ -29,11 +29,15 @@ function* initModule ({id}) {
   }
 }
 
-function* modulesFetchList ({searchFamily, searchQuery, searchTags}) {
+function* modulesFetchList ({
+  searchFamily = "",
+  searchQuery = "",
+  selectedGeos = [],
+}) {
   const json = yield moduleAPI.searchModules(
-    searchFamily || "",
-    searchQuery || "",
-    searchTags || [],
+    searchFamily,
+    searchQuery,
+    selectedGeos,
   )
 
   if (json.errors) {

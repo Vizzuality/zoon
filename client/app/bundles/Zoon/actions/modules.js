@@ -1,10 +1,10 @@
 import * as A from "../action_types"
 
-export const modulesFetchList = ({searchFamily, searchQuery, searchTags}) => ({
+export const modulesFetchList = ({searchFamily, searchQuery, selectedGeos}) => ({
   type: A.MODULES_FETCH_LIST,
   searchFamily,
   searchQuery,
-  searchTags,
+  selectedGeos,
 })
 
 export const finishModuleFetch = (result) => ({

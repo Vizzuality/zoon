@@ -28,7 +28,7 @@ class Api::ZoonModulesController < ApplicationController
   def index
     zoon_modules = ZoonModule.order(:name).search(
       params.fetch(:searchQuery, ''),
-      params.fetch(:searchTags, '').split(','),
+      params.fetch(:selectedGeos, '').split(','),
     )
 
     if searchFamily = params[:searchFamily].presence

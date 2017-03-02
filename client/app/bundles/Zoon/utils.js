@@ -7,3 +7,39 @@ export function objectFromPairs (pairs) {
 
   return obj
 }
+
+export function filterAbsentValues (obj) {
+  let result = {}
+  for (var k in obj) {
+    const v = obj[k]
+    if (v === null || v === undefined) {
+      continue
+    }
+
+    result[k] = v
+  }
+  return result
+}
+
+export function filterEmptyValues (obj) {
+  let result = {}
+  for (var k in obj) {
+    const v = obj[k]
+    if (
+      v === null ||
+      v === undefined ||
+      v === "" ||
+      (Array.isArray(v) && v.length === 0)
+    ) {
+      continue
+    }
+
+    result[k] = v
+  }
+  return result
+}
+
+export function zip (...arrays) {
+  const length = Math.min(...arrays.map(a => a.length))
+  return Array.from({ length }, (_, i) => arrays.map(a => a[i]))
+}

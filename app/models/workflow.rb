@@ -38,6 +38,8 @@ class Workflow < ApplicationRecord
     }, _suffix: true
   end
 
+  scope :search, generate_search_scope(:workflows, ['title', 'description'])
+
   def composition_types
     FAMILIES.map do |family|
       [family, send("#{family}_composition_type")]

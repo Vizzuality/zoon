@@ -1,7 +1,12 @@
 class Api::WorkflowsController < ApplicationController
   def index
+    workflows = Workflow.search(
+      params.fetch(:searchQuery, ''),
+      params.fetch(:selectedGeos, '').split(','),
+    ).order(:title)
+
     render json: {
-      entities: Workflow.all.map do |workflow|
+      entities: workflows.map do |workflow|
         WorkflowSerializer.new(
           user: current_user,
           workflow: workflow,

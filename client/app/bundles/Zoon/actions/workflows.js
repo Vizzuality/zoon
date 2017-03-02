@@ -15,8 +15,10 @@ export const searchModules = (family) => ({
   family,
 })
 
-export const initWorkflows = () => ({
-  type: A.WORKFLOWS_INIT,
+export const workflowsFetchList = ({searchQuery, selectedGeos}) => ({
+  type: A.WORKFLOWS_FETCH_LIST,
+  searchQuery,
+  selectedGeos,
 })
 
 export const initWorkflow = (id) => ({

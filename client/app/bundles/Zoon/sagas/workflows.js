@@ -53,10 +53,8 @@ function* searchModules ({family}) {
   }
 }
 
-function* initWorkflows (action) {
-  const state = yield select()
-
-  const json = yield workflowAPI.listWorkflows(state.auth.csrf)
+function* workflowsFetchList ({searchQuery = "", selectedGeos = []}) {
+  const json = yield workflowAPI.listWorkflows(searchQuery, selectedGeos)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -146,7 +144,7 @@ export default function* modules () {
     takeLatest(A.WORKFLOW_CREATE, createWorkflow),
     takeLatest(A.WORKFLOW_UPDATE, updateWorkflow),
     takeLatest(A.WORKFLOW_SEARCH_MODULES, searchModules),
-    takeLatest(A.WORKFLOWS_INIT, initWorkflows),
+    takeLatest(A.WORKFLOWS_FETCH_LIST, workflowsFetchList),
     takeLatest(A.WORKFLOW_INIT, initWorkflow),
     takeLatest(A.WORKFLOW_CREATE_TAG, createWorkflowTag),
     takeLatest(A.WORKFLOW_DELETE_TAG, deleteWorkflowTag),

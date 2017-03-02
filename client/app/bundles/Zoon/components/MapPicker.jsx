@@ -110,7 +110,10 @@ class MapPicker extends React.Component {
   }
 
   pickMapGranularity (granularity) {
-    this.props.onSelect(granularity, this.state[granularity])
+    this.props.onSelect({
+      granularity,
+      selectedGeos: this.state[granularity],
+    })
   }
 
   onGeoSelected (ev) {
@@ -124,7 +127,10 @@ class MapPicker extends React.Component {
       this.props.selectedGeos,
     ))
 
-    this.props.onSelect(this.props.granularity, selectedGeos)
+    this.props.onSelect({
+      granularity: this.props.granularity,
+      selectedGeos,
+    })
   }
 
   onGeoUnselected (ev) {
@@ -138,7 +144,10 @@ class MapPicker extends React.Component {
       this.props.selectedGeos,
     ))
 
-    this.props.onSelect(this.props.granularity, selectedGeos)
+    this.props.onSelect({
+      granularity: this.props.granularity,
+      selectedGeos,
+    })
   }
 
   render () {

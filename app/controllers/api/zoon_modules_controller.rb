@@ -37,12 +37,18 @@ class Api::ZoonModulesController < ApplicationController
 
     render json: {
       state: :ok,
-      entities: zoon_modules.map do |zoon_module|
-        ZoonModulesSerializer.new(
-          user: current_user,
-          zoon_module: zoon_module,
-        ).serialize
-      end
+      entities: zoon_modules.
+        includes(
+          :tags,
+          :screenshots,
+          :feedbacks,
+        ).
+        map do |zoon_module|
+          ZoonModulesSerializer.new(
+            user: current_user,
+            zoon_module: zoon_module,
+          ).serialize
+        end
     }
   end
 

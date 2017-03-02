@@ -18,7 +18,7 @@ class ZoonModule < ApplicationRecord
 
   validates :name, uniqueness: [:path]
 
-  default_scope { where(visible: true) }
+  default_scope { where(visible: true).order(:name) }
 
   scope :search, -> (query, tags) {
     if query.empty? and tags.empty?

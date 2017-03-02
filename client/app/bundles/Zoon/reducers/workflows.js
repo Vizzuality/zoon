@@ -17,6 +17,7 @@ export default (state = defaultState, action) => {
         ...action.result,
       }
 
+    case A.WORKFLOWS_INIT:
     case A.WORKFLOW_INIT:
       return {
         ...state,

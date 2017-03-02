@@ -89,11 +89,13 @@ class Workflow extends React.Component {
         </F.Row>
 
         <F.Row>
-          <WorkflowDiagram
-            expandedFamilies={{}}
-            compositionTypes={this.props.entity.compositionTypes || {}}
-            modules={this.props.entity.modules || {}}
-          />
+          <F.Column small={12}>
+            <WorkflowDiagram
+              expandedFamilies={{}}
+              compositionTypes={this.props.entity.compositionTypes || {}}
+              modules={this.props.entity.modules || {}}
+            />
+          </F.Column>
         </F.Row>
 
         <F.Row className="module-family-workflow">
@@ -144,16 +146,18 @@ class Workflow extends React.Component {
           </F.Column>
         </F.Row>
 
-        <F.Row>
-          <h2>Modules used in this workflow</h2>
+        <div className="modules-used">
+          <F.Row>
+            <p className="modules-used__title">Modules used in this workflow</p>
 
-          <div className="mosaic">
-            {[].concat.apply([], Object.values(this.props.entity.modules || {})).map(m => <ModuleCard
-              key={m.id}
-              m={m}
-            />)}
-          </div>
-        </F.Row>
+            <div className="mosaic">
+              {[].concat.apply([], Object.values(this.props.entity.modules || {})).map(m => <ModuleCard
+                key={m.id}
+                m={m}
+              />)}
+            </div>
+          </F.Row>
+        </div>
       </div>
     )
   }

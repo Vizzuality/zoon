@@ -233,7 +233,7 @@ class WorkflowCreator extends React.Component {
                   value={this.state.description}
                   onChange={this.onFieldChange}
                 />
-                <input type="submit" placeholder="Save" />
+                <input className="button" type="submit" />
               </form>
             }
           </F.Column>

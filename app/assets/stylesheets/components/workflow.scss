@@ -1,0 +1,15 @@
+@import 'colors';
+
+.module {
+  .modules-used {
+    background: $zoon-medium-grey;
+    box-shadow: inset 0px 5px 15px -10px $zoon-black;
+    padding: 1em;
+    margin-top: 3rem;
+
+    .modules-used__title {
+      font-size: 1.2em;
+      color: scale-color($zoon-black, $lightness: +40%);
+    }
+  }
+}

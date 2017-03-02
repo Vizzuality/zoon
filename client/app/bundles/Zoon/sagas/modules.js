@@ -1,7 +1,5 @@
 import { put, takeLatest, select } from "redux-saga/effects"
 import "isomorphic-fetch"
-import buildUrl from "build-url"
-import { push } from "react-router-redux"
 
 import * as A from "../action_types"
 import * as moduleActions from "../actions/modules"
@@ -9,26 +7,15 @@ import { exceptionToErrors, errorToErrors } from "./helpers"
 import * as moduleAPI from "../api/modules"
 import * as tagAPI from "../api/tags"
 
-function filterEmptyValues (obj) {
-  let result = {}
-  for (var k in obj) {
-    if (obj[k] === null ||
-        obj[k] === undefined ||
-        obj[k] === "" ||
-        (Array.isArray(obj[k]) && obj[k].length === 0)) {
-      continue
-    }
-    result[k] = obj[k]
-  }
-  return result
-}
-
 function* initModule ({id}) {
   try {
     const json = yield (
-      fetch(buildUrl("/api/modules/" + id), {
-        credentials: "same-origin",
-      })
+      fetch(
+        "/api/modules/" + id,
+        {
+          credentials: "same-origin",
+        },
+      )
       .catch((e) => { throw e })
       .then((r) => r.json())
     )
@@ -42,21 +29,11 @@ function* initModule ({id}) {
   }
 }
 
-function* fetchModulesList () {
-  const state = yield select()
-  const q = state.routing.locationBeforeTransitions.query
-
-  let {searchFamily, searchQuery, granularity, searchTags} = state.modules
-
-  searchFamily = searchFamily || q.searchFamily || ""
-  searchQuery = searchQuery || q.searchQuery || ""
-  granularity = granularity || q.granularity || "continents"
-  searchTags = searchTags || q.searchTags || []
-
+function* modulesFetchList ({searchFamily, searchQuery, searchTags}) {
   const json = yield moduleAPI.searchModules(
-    searchFamily,
-    searchQuery,
-    searchTags
+    searchFamily || "",
+    searchQuery || "",
+    searchTags || [],
   )
 
   if (json.errors) {
@@ -67,12 +44,6 @@ function* fetchModulesList () {
   } else {
     yield put(moduleActions.finishModuleFetch(json))
   }
-
-  yield put(push(
-    buildUrl("/modules", {
-      queryParams: filterEmptyValues({searchFamily, searchQuery, granularity, searchTags}),
-    })
-  ))
 }
 
 function* uploadModuleScreenshot (action) {
@@ -184,14 +155,11 @@ function* submitFeedback (action) {
 
 export default function* modules () {
   yield [
-    takeLatest(A.MODULES_UPDATE_SEARCH_QUERY, fetchModulesList),
-    takeLatest(A.MODULES_UPDATE_FAMILY_FILTER, fetchModulesList),
-    takeLatest(A.MODULES_UPDATE_SEARCH_TAGS, fetchModulesList),
     takeLatest(A.MODULES_UPLOAD_SCREENSHOT, uploadModuleScreenshot),
     takeLatest(A.MODULES_DELETE_SCREENSHOT, deleteModuleScreenshot),
     takeLatest(A.MODULES_CREATE_TAG, createModuleTag),
     takeLatest(A.MODULES_DELETE_TAG, deleteModuleTag),
-    takeLatest(A.MODULES_INIT, fetchModulesList),
+    takeLatest(A.MODULES_FETCH_LIST, modulesFetchList),
     takeLatest(A.MODULE_INIT, initModule),
     takeLatest(A.MODULE_SUBMIT_FEEDBACK, submitFeedback),
   ]

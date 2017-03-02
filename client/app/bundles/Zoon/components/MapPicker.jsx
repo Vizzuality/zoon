@@ -164,8 +164,4 @@ class MapPicker extends React.Component {
   }
 }
 
-export default connect(
-  (state) => ({
-  }),
-  {
-  })(MapPicker)
+export default MapPicker

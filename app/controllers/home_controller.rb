@@ -8,12 +8,6 @@ class HomeController < ApplicationController
           reset_password_token: params[:reset_password_token],
       ),
       families: families,
-      modules: {
-        searchFamily: params[:searchFamily] || '',
-        searchQuery: params[:searchQuery] || '',
-        searchTags: (params[:searchTags] || '').split(',').reject(&:empty?),
-        granularity: params[:granularity].presence || 'continents',
-      },
     }
   end
 

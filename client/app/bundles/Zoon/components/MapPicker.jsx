@@ -1,6 +1,5 @@
 import React from "react"
 import * as F from "react-foundation"
-import { connect } from "react-redux"
 import ReactHighmaps from "react-highcharts/ReactHighmaps"
 import countriesMap from "../countriesMap"
 import countriesData from "../countriesData"

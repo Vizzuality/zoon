@@ -11,7 +11,11 @@ class Workflow < ApplicationRecord
   )
   accepts_nested_attributes_for :workflow_modules
 
-  has_many :zoon_modules, through: :workflow_modules
+  has_many(
+    :zoon_modules,
+    -> { unscope(where: :visible) },
+    through: :workflow_modules,
+  )
 
   has_many :feedbacks,
     -> {

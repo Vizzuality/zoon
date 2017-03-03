@@ -75,7 +75,6 @@ class Workflow extends React.Component {
       plotOptions: {
         series: {
           color: "#BBBBBB",
-          className: "derp",
           states: {
             normal: {
               animation: false,

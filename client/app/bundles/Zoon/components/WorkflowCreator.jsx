@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import * as F from "react-foundation"
+import { Link } from "react-router"
 import qs from "qs"
 
 import * as workflowsActions from "../actions/workflows"
@@ -27,6 +28,7 @@ class WorkflowCreator extends React.Component {
       ).isRequired,
     }),
 
+    user: React.PropTypes.object.isRequired,
     families: React.PropTypes.arrayOf(React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
     })).isRequired,
@@ -188,6 +190,14 @@ class WorkflowCreator extends React.Component {
   render () {
     return (
       <span>
+        { !this.props.user.id && <F.Row>
+          <F.Column small={12}>
+            You need to be logged in to save workflows. Want
+            to <Link to="/users/sign_in">Sign In</Link> {" "}
+            or <Link to="/users/sign_up">Sign Up</Link>?
+          </F.Column>
+        </F.Row> }
+
         <F.Row className="workflow-module-list">
           <F.Column small={12}>
             <div className="mosaic">
@@ -199,6 +209,7 @@ class WorkflowCreator extends React.Component {
             </div>
           </F.Column>
         </F.Row>
+
         <F.Row className="workflow-creator">
           <F.Column small={12}>
             <div className="workflow-status">
@@ -217,7 +228,7 @@ class WorkflowCreator extends React.Component {
               reorderModules={this.reorder}
             />
             {
-              this.isComplete() &&
+              this.props.user.id && this.isComplete() &&
               <form onSubmit={this.saveWorkflow}>
                 <Errors errors={this.props.workflowErrors} />
                 <input
@@ -245,6 +256,7 @@ class WorkflowCreator extends React.Component {
 
 export default connect(
   (state) => ({
+    user: state.auth,
     families: state.families.entities,
     workflowErrors: state.workflows.errors,
     entities: state.modules.entities,

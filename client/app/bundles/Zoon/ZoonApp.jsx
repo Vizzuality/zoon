@@ -30,8 +30,12 @@ const ZoonApp = (props, _railsContext) => {
   let store = configureStore(props)
   let history = syncHistoryWithStore(browserHistory, store)
 
+  const scroller = useScroll((prevRouterProps, { location }) => (
+    prevRouterProps && location.pathname !== prevRouterProps.location.pathname
+  ))
+
   return <Provider store={store}>
-    <Router history={history} render={applyRouterMiddleware(useScroll())}>
+    <Router history={history} render={applyRouterMiddleware(scroller)}>
       <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="/modules" component={Modules} />

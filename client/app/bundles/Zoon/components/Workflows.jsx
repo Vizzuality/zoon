@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import * as F from "react-foundation"
 import buildUrl from "build-url"
-import { push } from "react-router-redux"
+import { replace } from "react-router-redux"
 
 import * as workflowActions from "../actions/workflows"
 import Errorable from "./Errorable"
@@ -51,7 +51,7 @@ class Workflows extends React.Component {
       ...extras,
     }
 
-    this.props.push(buildUrl(
+    this.props.replace(buildUrl(
       this.props.location.pathname,
       {
         queryParams: filterAbsentValues({
@@ -128,7 +128,7 @@ export default connect(
     ...state.workflows,
   }),
   {
-    push,
+    replace,
     ...workflowActions,
   }
 )(Workflows)

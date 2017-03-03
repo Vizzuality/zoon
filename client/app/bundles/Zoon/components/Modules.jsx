@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import * as F from "react-foundation"
 import buildUrl from "build-url"
-import { push } from "react-router-redux"
+import { replace } from "react-router-redux"
 
 import * as modulesActions from "../actions/modules"
 import ModuleCard from "./ModuleCard"
@@ -77,6 +77,7 @@ class Modules extends React.Component {
 
     modulesFetchList: React.PropTypes.func.isRequired,
     clearModules: React.PropTypes.func.isRequired,
+    replace: React.PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -102,7 +103,7 @@ class Modules extends React.Component {
       ...extras,
     }
 
-    this.props.push(buildUrl(
+    this.props.replace(buildUrl(
       this.props.location.pathname,
       {
         queryParams: filterAbsentValues({
@@ -207,7 +208,7 @@ export default connect(
     ...state.modules,
   }),
   {
-    push,
+    replace,
     ...modulesActions,
   }
 )(Modules)

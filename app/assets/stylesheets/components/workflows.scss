@@ -1,0 +1,27 @@
+$icon-size: 50px;
+
+.workflows {
+  ul.filter-toggle {
+    list-style: none;
+    margin: 0 0 2em 0;
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin: 0;
+      height: $icon-size;
+      width: $icon-size;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    li:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  .map-picker {
+    margin-bottom: 2em;
+  }
+}

@@ -97,21 +97,22 @@ class Workflows extends React.Component {
           selectedGeos={this.state.selectedGeos}
           updateGeo={this.commitState}
         />
-        <F.Row>
-          <Errorable
-            state={this.props.state}
-            errorMessage={this.props.errorMessage}
-          >
-            { this.props.entities.length === 0 ? (
+        <Errorable
+          state={this.props.state}
+          errorMessage={this.props.errorMessage}
+        >
+          { this.props.entities.length === 0 ? (
+            <F.Row>
               <F.Column>No results. Try another search.</F.Column>
-            ) : (
+            </F.Row>
+          ) : (
+            <F.Row>
               <F.Column small={12}>
                 {this.props.entities.map(w => <WorkflowCard key={w.id} w={w} />)}
               </F.Column>
-            ) }
-          </Errorable>
-        </F.Row>
-
+            </F.Row>
+          ) }
+        </Errorable>
       </span>
     )
   };

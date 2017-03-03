@@ -17,6 +17,10 @@ class Account extends React.Component {
     }
   }
 
+  componentWillMount () {
+    this.props.authClearMessages()
+  }
+
   onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,

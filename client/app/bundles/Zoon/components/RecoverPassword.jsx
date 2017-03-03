@@ -16,10 +16,6 @@ class RecoverPassword extends React.Component {
     this.props.authClearMessages()
   }
 
-  componentWillUnmount () {
-    this.props.authClearMessages()
-  }
-
   isSubmitDisabled () {
     const isUserDataFilled =
       this.state.email

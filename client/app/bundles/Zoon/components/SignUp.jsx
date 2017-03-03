@@ -12,6 +12,10 @@ class SignUp extends React.Component {
     this.state = {}
   }
 
+  componentWillMount () {
+    this.props.authClearMessages()
+  }
+
   onFieldChange (key, ev) {
     this.setState({
       [key]: ev.target.value,

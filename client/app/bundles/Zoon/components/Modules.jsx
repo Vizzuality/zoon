@@ -27,9 +27,14 @@ const FamilySwitch = ({
     <a
       className={isCurrent ? "selected" : ""}
       onClick={() => {
-        committer({selectedFamily: isCurrent ? null : targetFamily.name})
+        committer({searchFamily: isCurrent ? null : targetFamily.name})
       }}>
-      <span className={`module-family-${targetFamily.name} module-family-background`} />
+      <span
+        className={[
+          `module-family-${targetFamily.name}`,
+          "module-family-background",
+        ].join(" ")}
+      />
       <span rel={targetFamily.name}>{targetFamily.name}</span>
     </a>
   )

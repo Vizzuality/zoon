@@ -158,7 +158,7 @@ class MapPicker extends React.Component {
           {["continents", "countries"].map((granularity) => (
             <F.Button
               key={granularity}
-              isHollow={this.props.granularity === granularity}
+              isHollow={this.props.granularity !== granularity}
               onClick={() => this.pickMapGranularity(granularity)}>
               {granularity}
             </F.Button>

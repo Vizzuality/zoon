@@ -26,7 +26,7 @@ class FilterToggle extends React.Component {
   render () {
     const {faIconName, values} = this.props
 
-    return <F.Button isHollow={values[0] !== undefined} onClick={this.toggle}>
+    return <F.Button isHollow={values[0] === undefined} onClick={this.toggle}>
       <i className={`fa fa-${faIconName}`} />
     </F.Button>
   }

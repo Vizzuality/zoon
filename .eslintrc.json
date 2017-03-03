@@ -14,6 +14,7 @@
   ],
   "rules": {
     "react/prop-types": ["off"],
+    "no-debugger": ["off"],
     "comma-dangle": ["error", "always-multiline"],
     "quotes": ["error", "double", { "avoidEscape": true }],
     "jsx-quotes": ["error", "prefer-double"],

@@ -1,7 +1,14 @@
 import React from "react" // pkoch: to render the jsx.
 import { Provider } from "react-redux"
-import { Router, Route, IndexRoute, browserHistory } from "react-router"
+import {
+  IndexRoute,
+  Route,
+  Router,
+  applyRouterMiddleware,
+  browserHistory,
+} from "react-router"
 import { syncHistoryWithStore } from "react-router-redux"
+import useScroll from "react-router-scroll/lib/useScroll"
 
 import configureStore from "./store"
 import Layout from "./components/Layout"
@@ -24,7 +31,7 @@ const ZoonApp = (props, _railsContext) => {
   let history = syncHistoryWithStore(browserHistory, store)
 
   return <Provider store={store}>
-    <Router history={history}>
+    <Router history={history} render={applyRouterMiddleware(useScroll())}>
       <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="/modules" component={Modules} />

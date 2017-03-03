@@ -27,6 +27,18 @@ export const updateWorkflow = function (workflow, csrf) {
   })
 }
 
+export const deleteWorkflow = function (workflow, csrf) {
+  return jsonFetch(workflow.delete_path, {
+    method: "DELETE",
+    credentials: "same-origin",
+    headers: new Headers({
+      "X-CSRF-TOKEN": csrf,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    }),
+  })
+}
+
 export const listWorkflows = function (searchQuery, selectedGeos) {
   return jsonFetch(
     buildUrl("/api/workflows", {queryParams: {searchQuery, selectedGeos}}),

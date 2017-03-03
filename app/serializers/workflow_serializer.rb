@@ -35,6 +35,7 @@ class WorkflowSerializer < ApplicationSerializer
 
       if @user == @workflow.user
         json["update_path"] = routes.api_workflow_path(@workflow)
+        json["delete_path"] = routes.api_workflow_path(@workflow)
       end
     else
       json['current_feedback'] = {}

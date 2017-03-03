@@ -10,6 +10,11 @@ export const updateWorkflow = (workflow) => ({
   workflow,
 })
 
+export const deleteWorkflow = (workflow) => ({
+  type: A.WORKFLOW_DELETE,
+  workflow,
+})
+
 export const searchModules = (family) => ({
   type: A.WORKFLOW_SEARCH_MODULES,
   family,

@@ -44,6 +44,27 @@ function* updateWorkflow ({workflow}) {
   }
 }
 
+function* deleteWorkflow ({workflow}) {
+  const state = yield select()
+
+  let json = yield workflowAPI.deleteWorkflow(
+    workflow,
+    state.auth.csrf,
+  )
+
+  if (json.errors) {
+    yield put(workflowActions.finishWorkflowFetch({
+      state: "error",
+      errorMessage: json.errors,
+    }))
+  } else {
+    yield put(workflowActions.finishWorkflowFetch({
+      state: "ok",
+      entities: state.workflows.entities.filter((w) => w.id !== workflow.id),
+    }))
+  }
+}
+
 function* searchModules ({family}) {
   const json = yield moduleAPI.searchModules(family, "", [])
 
@@ -143,6 +164,7 @@ export default function* modules () {
   yield [
     takeLatest(A.WORKFLOW_CREATE, createWorkflow),
     takeLatest(A.WORKFLOW_UPDATE, updateWorkflow),
+    takeLatest(A.WORKFLOW_DELETE, deleteWorkflow),
     takeLatest(A.WORKFLOW_SEARCH_MODULES, searchModules),
     takeLatest(A.WORKFLOWS_FETCH_LIST, workflowsFetchList),
     takeLatest(A.WORKFLOW_INIT, initWorkflow),

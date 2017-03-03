@@ -38,6 +38,18 @@ class Api::WorkflowsController < ApplicationController
     render_workflow workflow
   end
 
+  def destroy
+    w = Workflow.find params[:id].to_i
+
+    if w.user != current_user
+      return render status: :unauthorized, json: { error: ['Unauthorized']}
+    end
+
+    w.destroy!
+
+    head :no_content
+  end
+
   def create_tag
     workflow = Workflow.find params[:id].to_i
     tag = params[:name]

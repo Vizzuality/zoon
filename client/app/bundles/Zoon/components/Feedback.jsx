@@ -38,10 +38,6 @@ class FeedbackBox extends React.Component {
       rating: cf && cf.rating,
       comment: cf && cf.comment || "",
     }
-
-    this.updateComment = this.updateComment.bind(this)
-    this.updateRating = this.updateRating.bind(this)
-    this.submitFeedback = this.submitFeedback.bind(this)
   }
 
   componentWillReceiveProps (newProps) {
@@ -78,15 +74,15 @@ class FeedbackBox extends React.Component {
     )
   }
 
-  updateComment (ev) {
+  updateComment = (ev) => {
     this.setState({comment: ev.target.value})
   }
 
-  updateRating (value) {
+  updateRating = (value) => {
     this.setState({rating: value})
   }
 
-  submitFeedback (ev) {
+  submitFeedback = (ev) => {
     ev.preventDefault()
     ev.stopPropagation()
 
@@ -106,7 +102,7 @@ const FeedbackList = ({
     <div className="comments-list">
       { comments.map((c) => (
         <div key={c.id} className="comment">
-          <img src={c.avatar_url || "https://avatars2.githubusercontent.com/u/111554?v=3&s=460"} />
+          <img src={c.user.avatar_url} />
           <div className="comment-body">
             <p>
               {c.user.name}

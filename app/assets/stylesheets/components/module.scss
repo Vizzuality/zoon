@@ -58,6 +58,37 @@
     }
   }
 
+  .module-map {
+    height: 0;
+    width: 100%;
+    padding-bottom: 50%;
+    position: relative;
+    margin-bottom: 2rem;
+
+    [data-highcharts-chart] {
+      top: 1em;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+
+      .highcharts-point-select {
+        stroke: transparent;
+      }
+    }
+
+    $type_list: map-keys($zoon-module-colors);
+    @each $type in $type_list {
+      &.module-family-#{$type} {
+        .highcharts-point-select {
+          fill: map-get($zoon-module-colors, $type);
+        }
+      }
+    }
+  }
+
   .module-github {
     .button {
       margin: 0;

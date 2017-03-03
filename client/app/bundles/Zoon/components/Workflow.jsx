@@ -14,6 +14,9 @@ import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
 import {objectFromPairs} from "../utils"
+import ReactHighmaps from "react-highcharts/ReactHighmaps"
+import continentsMap from "../continentsMap"
+import continentsData from "../continentsData"
 
 const encodeWorkflowQuerystring = (workflow) => {
   if (!workflow.id) { return "" }
@@ -51,6 +54,49 @@ class Workflow extends React.Component {
   }
 
   render () {
+    this.mapConfig = this.props.entity.id && {
+      title: null,
+      chart: {
+        backgroundColor: "transparent",
+        spacingBottom: 0,
+        spacingTop: 0,
+        spacingLeft: 0,
+        spacingRight: 0,
+      },
+      series: [{
+        data: continentsData.map((elem) => (
+          {
+            ...elem,
+            selected: this.props.entity.tags.map((tag) => { return tag.name }).includes(elem.value.toLowerCase()),
+          }
+        )),
+        mapData: continentsMap,
+      }],
+      plotOptions: {
+        series: {
+          color: "#BBBBBB",
+          className: "derp",
+          states: {
+            normal: {
+              animation: false,
+            },
+            hover: {
+              enabled: false,
+            },
+            select: {
+              color: "#000000",
+            },
+          },
+        },
+      },
+      legend: {
+        enabled: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    }
+
     return (
       <div className="module">
         <F.Row className="module-family-workflow">
@@ -141,6 +187,13 @@ class Workflow extends React.Component {
                 }
                 delete={this.props.deleteTag} />
             </div>
+
+            { this.mapConfig &&
+              <div className="module-map">
+                <h5>Coverage</h5>
+                <ReactHighmaps isPureConfig config={this.mapConfig} />
+              </div>
+            }
 
             <Errors errors={this.props.errors} />
           </F.Column>

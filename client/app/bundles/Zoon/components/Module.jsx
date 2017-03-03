@@ -10,6 +10,9 @@ import Errorable from "./Errorable"
 import Errors from "./Errors"
 import Feedback from "./Feedback"
 import Tags from "./Tags"
+import ReactHighmaps from "react-highcharts/ReactHighmaps"
+import continentsMap from "../continentsMap"
+import continentsData from "../continentsData"
 
 class Screenshots extends React.Component {
   render () {
@@ -66,6 +69,49 @@ class Module extends React.Component {
   }
 
   render () {
+    this.mapConfig = this.props.entity.id && {
+      title: null,
+      chart: {
+        backgroundColor: "transparent",
+        spacingBottom: 0,
+        spacingTop: 0,
+        spacingLeft: 0,
+        spacingRight: 0,
+      },
+      series: [{
+        data: continentsData.map((elem) => (
+          {
+            ...elem,
+            selected: this.props.entity.tags.map((tag) => { return tag.name }).includes(elem.value.toLowerCase()),
+          }
+        )),
+        mapData: continentsMap,
+      }],
+      plotOptions: {
+        series: {
+          color: "#BBBBBB",
+          className: "derp",
+          states: {
+            normal: {
+              animation: false,
+            },
+            hover: {
+              enabled: false,
+            },
+            select: {
+              color: "#000000",
+            },
+          },
+        },
+      },
+      legend: {
+        enabled: false,
+      },
+      tooltip: {
+        enabled: false,
+      },
+    }
+
     return (
       <div className={`module module-family-${this.props.entity.family}`}>
         <F.Row>
@@ -132,6 +178,13 @@ class Module extends React.Component {
                 }
                 delete={this.props.deleteTag} />
             </div>
+
+            { this.mapConfig &&
+              <div className={`module-map module-family-${this.props.entity.family}`}>
+                <h5>Coverage</h5>
+                <ReactHighmaps isPureConfig config={this.mapConfig} />
+              </div>
+            }
 
             <h5>Screeshots</h5>
             <Errors errors={this.props.errors} />

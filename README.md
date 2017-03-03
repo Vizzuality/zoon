@@ -18,7 +18,17 @@ Get a modules dump from the ES server. Then, run somerthing like `rails import:m
 You can also use `-` as the path to use stdin instead. For prod, you can do
 something like `cat path/to/modules.json | heroku run rake rails import:modules[-]`
 
+* Running
+`foreman start -f Procfile.dev`
+
 ## Seeding
 * `git checkout db/schema.rb; rake db:reset; rake db:migrate`
 * Get a `modules.json` (from Pivotal Track, ES, etc)
 * Run `rails import:modules[path/to/modules.json]`
+
+## Linting
+We have linting on webpack loading. If this cramps your style for some reason,
+you can run webpack with no linting and call the linter manually.
+
+No lint on build: `ZOON_SKIP_LINT=1 foreman start -f Procfile.dev`
+Linting manually: `npm run lint`

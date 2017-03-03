@@ -66,23 +66,25 @@ module.exports = config
 if (devBuild) {
   console.log("Webpack dev build for Rails") // eslint-disable-line no-console
   module.exports.devtool = "eval-source-map"
-  module.exports.module.loaders.push(
-    {
-      enforce: "pre",
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: "eslint-loader",
-      options: {
-        cache: true
+  if (!process.env.ZOON_SKIP_LINT) {
+    module.exports.module.loaders.push(
+      {
+        enforce: "pre",
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+        options: {
+          cache: true
+        }
       }
-    }
-  )
+    )
+  }
   module.exports.plugins.push(new webpack.NoErrorsPlugin())
   module.exports.plugins.push(
-    function() {
-      this.plugin('watch-run', function(watching, callback) {
-        console.log('Began compiling at ' + new Date());
-        callback();
+    function () {
+      this.plugin("watch-run", function (watching, callback) {
+        console.log("Began compiling at " + new Date())
+        callback()
       })
     }
   )

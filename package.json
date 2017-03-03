@@ -9,7 +9,8 @@
   "scripts": {
     "build:test": "webpack --config client/webpack.config.js",
     "build:production": "NODE_ENV=production webpack --config client/webpack.config.js",
-    "build:development": "webpack -w --config client/webpack.config.js"
+    "build:development": "webpack -w --config client/webpack.config.js",
+    "lint": "eslint --fix --cache ."
   },
   "dependencies": {
     "babel-cli": "^6.18.0",

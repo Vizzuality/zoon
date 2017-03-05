@@ -51,6 +51,7 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-i18n (0.1.0)
     concurrent-ruby (1.0.4)
     connection_pool (2.2.1)
     debug_inspector (0.0.2)
@@ -211,6 +212,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   carrierwave (~> 1.0)
+  carrierwave-i18n
   devise
   dotenv-rails
   fog-aws

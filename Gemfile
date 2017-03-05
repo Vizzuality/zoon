@@ -43,6 +43,7 @@ gem 'devise'
 gem 'dotenv-rails', :groups => [:development, :test]
 
 gem 'carrierwave', '~> 1.0'
+gem 'carrierwave-i18n'
 gem 'fog-aws'
 gem 'mini_magick'
 

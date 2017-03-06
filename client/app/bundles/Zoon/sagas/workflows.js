@@ -114,8 +114,12 @@ function* deleteTag ({tagDeletePath}) {
   }
 }
 
-function* sumitFeedback ({path, rating, comment}) {
-  let json = yield workflowAPI.sumitFeedback(path, rating, comment)
+function* sumitFeedback ({submitFeedbackPath, rating, comment}) {
+  let json = yield workflowAPI.sumitFeedback(
+    submitFeedbackPath,
+    rating,
+    comment,
+  )
 
   if (json.errors) {
     yield put(workflowActions.submitFeedbackFinished({

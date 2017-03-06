@@ -57,9 +57,9 @@ export const clearModule = () => ({
   type: A.MODULE_CLEAR,
 })
 
-export const submitFeedback = (module, rating, comment) => ({
+export const submitFeedback = (path, rating, comment) => ({
   type: A.MODULE_SUBMIT_FEEDBACK,
-  module,
+  path,
   rating,
   comment,
 })

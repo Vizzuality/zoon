@@ -10,7 +10,6 @@ class Api::ZoonModulesController < ApplicationController
     render json: {
       state: :error,
       errorMessage: "Can't find module.",
-      error: "Can't find module.",
     }
   end
 

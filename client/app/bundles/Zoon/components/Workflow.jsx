@@ -28,15 +28,11 @@ const encodeWorkflowQuerystring = (workflow) => {
     modules: objectFromPairs(Object.entries(modules).map(
       ([f, ms]) => [
         f,
-        ms.map(m => {
-          if (!m.visible) { return null }
-
-          return {
-            id: m.id,
-            name: m.name,
-            title: m.title,
-            family: m.family,
-          }
+        ms.map(m => !m.visible && null || {
+          id: m.id,
+          name: m.name,
+          title: m.title,
+          family: m.family,
         }).filter(e => !!e),
       ],
     )),
@@ -158,7 +154,8 @@ class Workflow extends React.Component {
             <Feedback
               entity={this.props.entity}
               currentUser={this.props.currentUser}
-              submitFeedback={this.props.submitFeedback} />
+              submitFeedback={this.props.submitFeedback}
+            />
           </F.Column>
 
           <F.Column small={4} offsetOnSmall={1}>

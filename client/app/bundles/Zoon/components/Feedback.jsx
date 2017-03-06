@@ -18,9 +18,10 @@ const Feedback = ({
       <span>{entity.rating_count} ratings</span>
       <span>{entity.comment_count} comments</span>
     </div>
-    { currentUser.id && (
+    { entity.submit_feedback_path && (
       <FeedbackBox
-        entity={entity}
+        submitFeedbackPath={entity.submit_feedback_path}
+        currentFeedback={entity.current_feedback}
         currentUser={currentUser}
         submitFeedback={submitFeedback}
       />
@@ -33,7 +34,7 @@ class FeedbackBox extends React.Component {
   constructor (props) {
     super(props)
 
-    let cf = this.props.entity.current_feedback
+    let cf = this.props.currentFeedback
     this.state = {
       rating: cf && cf.rating,
       comment: cf && cf.comment || "",
@@ -41,7 +42,7 @@ class FeedbackBox extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    const cf = newProps.entity.current_feedback
+    const cf = newProps.currentFeedback
 
     this.setState({
       rating: cf && cf.rating,
@@ -87,7 +88,7 @@ class FeedbackBox extends React.Component {
     ev.stopPropagation()
 
     this.props.submitFeedback(
-      this.props.entity,
+      this.props.submitFeedbackPath,
       this.state.rating,
       this.state.comment,
     )
@@ -110,7 +111,7 @@ const FeedbackList = ({
                 {Math.round((new Date() - new Date(c.created_at)) / 86400 / 1000)} days ago
               </span>
               { c.created_at !== c.updated_at &&
-                <span className="days-ago-updated">(last updated {Math.round((new Date() - new Date(c.created_at)) / 86400 / 1000)} days ago)</span>
+                <span className="days-ago-updated">(last updated {Math.round((new Date() - new Date(c.updated_at)) / 86400 / 1000)} days ago)</span>
               }
             </p>
             <p>

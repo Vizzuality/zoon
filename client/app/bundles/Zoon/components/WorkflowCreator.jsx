@@ -11,7 +11,7 @@ import Errors from "./Errors"
 import {objectFromPairs} from "../utils"
 
 function onlyUnique (value, index, self) {
-  return self.indexOf(value) === index
+  return self.indexOf(self.find(e => e.id === value.id)) === index
 }
 
 class WorkflowCreator extends React.Component {

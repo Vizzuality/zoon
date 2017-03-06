@@ -34,6 +34,7 @@ class ChangePassword extends React.Component {
 
     this.props.authChangePassword(
       this.state.password,
+      this.props.location.query.reset_password_token
     )
   }
 

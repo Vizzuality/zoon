@@ -4,7 +4,6 @@ class HomeController < ApplicationController
   def index
     @state = {
       auth: (current_user || User.new).as_json.merge(
-          csrf: form_authenticity_token,
           reset_password_token: params[:reset_password_token],
       ),
       families: families,

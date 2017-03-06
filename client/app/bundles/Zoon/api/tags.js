@@ -1,26 +1,25 @@
-import { jsonFetch } from "./helpers"
+import axios from "axios"
+import {errorToErrors} from "./helpers"
 
-export const createTag = function (path, tagname, csrf) {
-  return jsonFetch(path, {
-    method: "POST",
-    credentials: "same-origin",
-    body: JSON.stringify({ name: tagname }),
-    headers: new Headers({
-      "X-CSRF-TOKEN": csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  })
+export const create = function (path, name) {
+  return errorToErrors(axios({
+    method: "post",
+    url: path,
+    data: {name},
+  }))
 }
 
-export const deleteTag = function (path, csrf) {
-  return jsonFetch(path, {
-    method: "DELETE",
-    credentials: "same-origin",
-    headers: new Headers({
-      "X-CSRF-TOKEN": csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  })
+export const remove = function (path) {
+  return errorToErrors(axios({
+    method: "delete",
+    url: path,
+  }))
+}
+
+export const search = (search) => {
+  return errorToErrors(axios({
+    method: "get",
+    url: "/api/tags",
+    params: {search},
+  }))
 }

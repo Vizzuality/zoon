@@ -47,9 +47,9 @@ export const deleteTag = (tagDeletePath) => ({
   tagDeletePath,
 })
 
-export const submitFeedback = (workflow, rating, comment) => ({
+export const submitFeedback = (submitFeedbackPath, rating, comment) => ({
   type: A.WORKFLOW_SUBMIT_FEEDBACK,
-  workflow,
+  submitFeedbackPath,
   rating,
   comment,
 })

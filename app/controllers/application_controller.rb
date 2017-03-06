@@ -3,10 +3,13 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   after_action do
-    headers["X-CSRF-Token"] = form_authenticity_token
+    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
   end
 
   protected
+  def verified_request?
+    super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
+  end
 
   def configure_permitted_parameters
     [:sign_up, :account_update].each do |action|

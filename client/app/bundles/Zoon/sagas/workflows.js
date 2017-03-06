@@ -8,13 +8,8 @@ import * as workflowAPI from "../api/workflows"
 import * as moduleAPI from "../api/modules"
 import * as tagAPI from "../api/tags"
 
-function* createWorkflow ({workflow}) {
-  const state = yield select()
-
-  let json = yield workflowAPI.createWorkflow(
-    workflow,
-    state.auth.csrf,
-  )
+function* create ({workflow}) {
+  let json = yield workflowAPI.create(workflow)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -26,13 +21,8 @@ function* createWorkflow ({workflow}) {
   }
 }
 
-function* updateWorkflow ({workflow}) {
-  const state = yield select()
-
-  let json = yield workflowAPI.updateWorkflow(
-    workflow,
-    state.auth.csrf,
-  )
+function* update ({workflow}) {
+  let json = yield workflowAPI.update(workflow)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -44,13 +34,8 @@ function* updateWorkflow ({workflow}) {
   }
 }
 
-function* deleteWorkflow ({workflow}) {
-  const state = yield select()
-
-  let json = yield workflowAPI.deleteWorkflow(
-    workflow,
-    state.auth.csrf,
-  )
+function* remove ({workflow}) {
+  let json = yield workflowAPI.remove(workflow)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -58,6 +43,7 @@ function* deleteWorkflow ({workflow}) {
       errorMessage: json.errors,
     }))
   } else {
+    const state = yield select()
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
       entities: state.workflows.entities.filter((w) => w.id !== workflow.id),
@@ -66,16 +52,12 @@ function* deleteWorkflow ({workflow}) {
 }
 
 function* searchModules ({family}) {
-  const json = yield moduleAPI.searchModules(family, "", [])
-
-  if (json.errors) {
-  } else {
-    yield put(moduleActions.finishModuleFetch(json))
-  }
+  const json = yield moduleAPI.searchModules(family)
+  yield put(moduleActions.finishModuleFetch(json))
 }
 
-function* workflowsFetchList ({searchQuery = "", selectedGeos = []}) {
-  const json = yield workflowAPI.listWorkflows(searchQuery, selectedGeos)
+function* search ({searchQuery, selectedGeos}) {
+  const json = yield workflowAPI.search(searchQuery, selectedGeos)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -90,10 +72,8 @@ function* workflowsFetchList ({searchQuery = "", selectedGeos = []}) {
   }
 }
 
-function* initWorkflow ({id}) {
-  const state = yield select()
-
-  const json = yield workflowAPI.getWorkflow(id, state.auth.csrf)
+function* get ({id}) {
+  const json = yield workflowAPI.get(id)
 
   if (json.errors) {
     yield put(workflowActions.finishWorkflowFetch({
@@ -108,10 +88,8 @@ function* initWorkflow ({id}) {
   }
 }
 
-function* createWorkflowTag ({tagCreatePath, tag}) {
-  const state = yield select()
-
-  let json = yield tagAPI.createTag(tagCreatePath, tag, state.auth.csrf)
+function* createTag ({tagCreatePath, tag}) {
+  let json = yield tagAPI.create(tagCreatePath, tag)
 
   if (json.errors) {
     yield put(moduleActions.tagError(json.errors))
@@ -123,10 +101,8 @@ function* createWorkflowTag ({tagCreatePath, tag}) {
   }
 }
 
-function* deleteWorkflowTag ({tagDeletePath}) {
-  const state = yield select()
-
-  let json = yield tagAPI.deleteTag(tagDeletePath, state.auth.csrf)
+function* deleteTag ({tagDeletePath}) {
+  let json = yield tagAPI.remove(tagDeletePath)
 
   if (json.errors) {
     yield put(moduleActions.tagError(json.errors))
@@ -138,14 +114,8 @@ function* deleteWorkflowTag ({tagDeletePath}) {
   }
 }
 
-function* submitWorkflowFeedback ({workflow, rating, comment}) {
-  const state = yield select()
-
-  let json = yield workflowAPI.submitWorkflowFeedback(
-    workflow,
-    {rating, comment},
-    state.auth.csrf,
-  )
+function* sumitFeedback ({path, rating, comment}) {
+  let json = yield workflowAPI.sumitFeedback(path, rating, comment)
 
   if (json.errors) {
     yield put(workflowActions.submitFeedbackFinished({
@@ -162,14 +132,14 @@ function* submitWorkflowFeedback ({workflow, rating, comment}) {
 
 export default function* modules () {
   yield [
-    takeLatest(A.WORKFLOW_CREATE, createWorkflow),
-    takeLatest(A.WORKFLOW_UPDATE, updateWorkflow),
-    takeLatest(A.WORKFLOW_DELETE, deleteWorkflow),
+    takeLatest(A.WORKFLOW_CREATE, create),
+    takeLatest(A.WORKFLOW_UPDATE, update),
+    takeLatest(A.WORKFLOW_DELETE, remove),
     takeLatest(A.WORKFLOW_SEARCH_MODULES, searchModules),
-    takeLatest(A.WORKFLOWS_FETCH_LIST, workflowsFetchList),
-    takeLatest(A.WORKFLOW_INIT, initWorkflow),
-    takeLatest(A.WORKFLOW_CREATE_TAG, createWorkflowTag),
-    takeLatest(A.WORKFLOW_DELETE_TAG, deleteWorkflowTag),
-    takeLatest(A.WORKFLOW_SUBMIT_FEEDBACK, submitWorkflowFeedback),
+    takeLatest(A.WORKFLOWS_FETCH_LIST, search),
+    takeLatest(A.WORKFLOW_INIT, get),
+    takeLatest(A.WORKFLOW_CREATE_TAG, createTag),
+    takeLatest(A.WORKFLOW_DELETE_TAG, deleteTag),
+    takeLatest(A.WORKFLOW_SUBMIT_FEEDBACK, sumitFeedback),
   ]
 };

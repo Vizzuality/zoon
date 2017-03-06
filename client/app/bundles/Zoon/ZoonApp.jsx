@@ -9,6 +9,7 @@ import {
 } from "react-router"
 import { syncHistoryWithStore } from "react-router-redux"
 import useScroll from "react-router-scroll/lib/useScroll"
+import axios from "axios"
 
 import configureStore from "./store"
 import Layout from "./components/Layout"
@@ -25,6 +26,8 @@ import Account from "./components/Account"
 import RecoverPassword from "./components/RecoverPassword"
 import ChangePassword from "./components/ChangePassword"
 import NotFound from "./components/NotFound"
+
+axios.defaults.headers.common["Accept"] = "application/json"
 
 const ZoonApp = (props, _railsContext) => {
   let store = configureStore(props)

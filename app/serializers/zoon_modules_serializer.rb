@@ -32,6 +32,10 @@ class ZoonModulesSerializer < ApplicationSerializer
       json["create_tag_path"] = routes.create_tag_api_module_path(
         @zoon_module,
       )
+
+      json["submit_feedback_path"] = routes.feedback_api_module_path(
+        @zoon_module,
+      )
     else
       json['current_feedback'] = {}
     end

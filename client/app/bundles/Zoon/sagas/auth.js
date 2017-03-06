@@ -1,42 +1,18 @@
-import { put, takeLatest, select } from "redux-saga/effects"
+import { put, takeLatest } from "redux-saga/effects"
 import { push, goBack } from "react-router-redux"
-import "isomorphic-fetch"
 
 import * as A from "../action_types"
 import * as authActions from "../actions/auth"
+import * as authAPI from "../api/auth"
 
 function* signIn ({email, password}) {
-  let state = yield select()
+  let result = yield authAPI.signIn(email, password)
 
-  let result = yield fetch("/users/sign_in", {
-    method: "POST",
-    credentials: "same-origin",
-    body: JSON.stringify({
-      user: {
-        email,
-        password,
-        remember_me: 1,
-      },
-    }),
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      return response.json().then((json) => ({
-        ...json,
-        csrf: response.headers.get("X-CSRF-Token"),
-      }))
-    } else {
-      return response.json().then((json) => ({
-        errors: {login: [json.error]},
-      }))
-    }
-  }).catch((e) => ({ errors: {error: [e.message]} }))
+  if (result.error) {
+    result = {errors: {login: [result.error]}}
+  }
 
-  yield put(authActions.authFinished({ ...result }))
+  yield put(authActions.authFinished(result))
 
   if (!result.errors) {
     yield put(goBack())
@@ -44,109 +20,42 @@ function* signIn ({email, password}) {
 }
 
 function* signUp ({user}) {
-  let state = yield select()
+  let result = yield authAPI.signUp(user)
 
-  let result = yield fetch("/users", {
-    method: "POST",
-    credentials: "same-origin",
-    body: JSON.stringify({ user }),
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      return response.json().then((json) => ({
-        ...json,
-        csrf: response.headers.get("X-CSRF-Token"),
-      }))
-    } else {
-      return response.json()
-    }
-  }).catch((e) => ({ errors: {error: [e.message]} }))
-
-  yield put(authActions.authFinished({ ...result }))
+  yield put(authActions.authFinished(result))
 
   if (!result.errors) {
-    yield put(push("/"))
+    yield put(goBack())
   }
 }
 
 function* update ({user}) {
-  let state = yield select()
+  let result = yield authAPI.update(user)
 
-  let result = yield fetch("/users", {
-    method: "PUT",
-    credentials: "same-origin",
-    body: JSON.stringify({ user }),
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      let updatedUser = {...user}
-      delete updatedUser.current_password
-      return updatedUser
-    } else {
-      return response.json()
+  if (!result.errors) {
+    result = {
+      message: "Updated successfully!",
+      errors: null,
     }
-  }).catch((e) => ({ errors: {error: [e.message]} }))
+  }
 
-  yield put(authActions.authFinished({ ...result }))
+  yield put(authActions.authFinished(result))
 }
 
 function* recover ({email}) {
-  let state = yield select()
+  let result = yield authAPI.recoverPassword(email)
 
-  let result = yield fetch("/users/password", {
-    method: "POST",
-    credentials: "same-origin",
-    body: JSON.stringify({user: {email}}),
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      return {message: "Email sent! Check your inbox."}
-    } else {
-      return response.json()
-    }
-  }).catch((e) => ({ errors: {error: [e.message]} }))
+  if (!result.errors) {
+    result = {message: "Email sent! Check your inbox."}
+  }
 
-  yield put(authActions.authFinished({ ...result }))
+  yield put(authActions.authFinished(result))
 }
 
-function* changePassword ({password}) {
-  let state = yield select()
+function* changePassword ({password, resetPasswordToken}) {
+  let result = yield authAPI.changePassword(password, resetPasswordToken)
 
-  let result = yield fetch("/users/password", {
-    method: "PUT",
-    credentials: "same-origin",
-    body: JSON.stringify({
-      user: {
-        password,
-        reset_password_token: state.auth.reset_password_token,
-      },
-    }),
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      return {}
-    } else {
-      return response.json()
-    }
-  }).catch((e) => ({ errors: {error: [e.message]} }))
-
-  yield put(authActions.authFinished({ ...result }))
+  yield put(authActions.authFinished(result))
 
   if (!result.errors) {
     yield put(push("/"))
@@ -154,29 +63,11 @@ function* changePassword ({password}) {
 }
 
 function* signOut () {
-  let state = yield select()
+  let result = yield authAPI.signOut()
 
-  let result = yield fetch("/users/sign_out", {
-    method: "DELETE",
-    credentials: "same-origin",
-    headers: new Headers({
-      "X-CSRF-Token": state.auth.csrf,
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    }),
-  }).then((response) => {
-    if (response.ok) {
-      return {
-        csrf: response.headers.get("X-CSRF-Token"),
-      }
-    } else {
-      return {}
-    }
-  }).catch((e) => ({ error: e.message }))
+  yield put(authActions.authLogoutFinished(result))
 
-  yield put(authActions.authLogoutFinished({ ...result }))
-
-  if (!result.error) {
+  if (!result.errors) {
     yield put(push("/"))
   }
 }

@@ -1,21 +1,16 @@
-import "isomorphic-fetch"
+export const errorToErrorMessage = (promise) => {
+  return promise.then(r => r.data).catch(
+    e => e.response && e.response.data || {
+      state: "error",
+      errorMessage: e.message,
+    }
+  )
+}
 
-export const jsonFetch = function (url, opts) {
-  return fetch(url, opts)
-    .then((response) => {
-      if (response.status === 204) {
-        return {}
-      }
-
-      return response.json().then((json) => {
-        if (json.errors) {
-          return { errors: json.errors }
-        } else if (json.error) {
-          return { errors: { error: [json.error] } }
-        } else {
-          return json
-        }
-      })
-    })
-    .catch((e) => ({ error: [e.message] }))
+export const errorToErrors = (promise) => {
+  return promise.then(r => r.data).catch(
+    e => e.response && e.response.data || {
+      errors: {error: [e.message]},
+    }
+  )
 }

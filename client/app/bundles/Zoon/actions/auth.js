@@ -21,9 +21,10 @@ export const authRecover = (email) => ({
   email,
 })
 
-export const authChangePassword = (password) => ({
+export const authChangePassword = (password, resetPasswordToken) => ({
   type: A.AUTH_CHANGE_PASSWORD,
   password,
+  resetPasswordToken,
 })
 
 export const authFinished = (payload) => ({

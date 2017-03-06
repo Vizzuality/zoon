@@ -1,14 +1,44 @@
-import { jsonFetch } from "./helpers"
-import buildUrl from "build-url"
+import axios from "axios"
+import {errorToErrorMessage} from "./helpers"
 
-export const searchModules = function (searchFamily, searchQuery, selectedGeos) {
-  return jsonFetch(
-    buildUrl(
-      "/api/modules",
-      {queryParams: { searchFamily, searchQuery, selectedGeos }},
-    ),
-    {
-      credentials: "same-origin",
-    },
-  )
+export const fetchModule = (id) => errorToErrorMessage(axios({
+  method: "get",
+  url: "/api/modules/" + id,
+}))
+
+export const searchModules = (
+  searchFamily = "",
+  searchQuery = "",
+  selectedGeos = [],
+) => errorToErrorMessage(axios({
+  method: "get",
+  url: "/api/modules",
+  params: {searchFamily, searchQuery, selectedGeos},
+}))
+
+export const uploadScreenshot = (
+  createPath,
+  image,
+) => {
+  const formData = new FormData()
+  formData.append("screenshot[image]", image)
+
+  return errorToErrorMessage(axios({
+    method: "post",
+    url: createPath,
+    data: formData,
+  }))
 }
+
+export const deleteScreenshot = (deletePath) => errorToErrorMessage(axios({
+  method: "delete",
+  url: deletePath,
+}))
+
+export const submitFeedback = (path, rating, comment) => (
+  errorToErrorMessage(axios({
+    method: "post",
+    url: path,
+    data: {rating, comment},
+  }))
+)

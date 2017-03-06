@@ -148,7 +148,8 @@ class Module extends React.Component {
             <Feedback
               entity={this.props.entity}
               currentUser={this.props.currentUser}
-              submitFeedback={this.props.submitFeedback} />
+              submitFeedback={this.props.submitFeedback}
+            />
           </F.Column>
 
           <F.Column small={4} offsetOnSmall={1}>
@@ -192,9 +193,9 @@ class Module extends React.Component {
               screenshots={this.props.entity.screenshots}
               upload={
                 this.props.entity.create_screenshot_path &&
-                ((screenshot) => this.props.uploadScreenshot(
+                ((screenshot) => screenshot && this.props.uploadScreenshot(
                   this.props.entity.create_screenshot_path,
-                  screenshot
+                  screenshot,
                 ))
               }
               delete={this.props.deleteScreenshot}

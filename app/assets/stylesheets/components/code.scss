@@ -23,3 +23,28 @@
     }
   }
 }
+
+.tooltip-context {
+  position: relative;
+}
+
+.tooltip-context .tooltip {
+  display: block;
+  background-color: $zoon-white;
+  left: calc(200% + 5px);
+  top: -70%;
+  opacity: 0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-25%);
+  transition: all .25s ease-out;
+  box-shadow: 0 1px 1px 1px scale-color($zoon-black, $lightness: +70%);
+}
+
+.tooltip-context .tooltip.on {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0px);
+}

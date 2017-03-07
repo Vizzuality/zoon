@@ -37,6 +37,7 @@ class SignIn extends React.Component {
     this.props.authLogin(
       this.state.email,
       this.state.password,
+      this.props.state.nextPage,
     )
   }
 
@@ -45,7 +46,11 @@ class SignIn extends React.Component {
       <F.Row>
         <F.Column small={12} large={8}>
           <Errors errors={this.props.state.errors} />
-
+          { this.props.state.message && (
+            <div>
+              <p>{this.props.state.message}</p>
+            </div>
+          )}
           <form onSubmit={this.submit}>
             <p>
               <input

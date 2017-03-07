@@ -4,6 +4,7 @@ const defaultState = {
   errorMessage: null,
   message: null,
   errors: null,
+  pending: false,
 }
 
 const auth = (state = defaultState, action) => {
@@ -11,7 +12,7 @@ const auth = (state = defaultState, action) => {
     case A.AUTH_UPDATE:
     case A.AUTH_LOGIN:
       return {
-        ...state,
+        ...defaultState,
         pending: true,
       }
 

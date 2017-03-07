@@ -52,9 +52,11 @@ class Account extends React.Component {
         <F.Column small={12} large={8}>
           <Errors errors={this.props.auth.errors} />
 
-          { this.props.auth.message && <div>
-            {this.props.auth.message}
-          </div>}
+          { this.props.auth.message && (
+            <div>
+              <p>{this.props.auth.message}</p>
+            </div>
+          )}
           <form onSubmit={this.submit}>
             <p>
               <input

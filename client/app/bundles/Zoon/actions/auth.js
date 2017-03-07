@@ -1,9 +1,10 @@
 import * as A from "../action_types"
 
-export const authLogin = (email, password) => ({
+export const authLogin = (email, password, nextPage) => ({
   type: A.AUTH_LOGIN,
   email,
   password,
+  nextPage,
 })
 
 export const authSignup = (user) => ({

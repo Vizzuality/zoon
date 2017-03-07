@@ -5,7 +5,7 @@ import * as A from "../action_types"
 import * as authActions from "../actions/auth"
 import * as authAPI from "../api/auth"
 
-function* signIn ({email, password}) {
+function* signIn ({email, password, nextPage}) {
   let result = yield authAPI.signIn(email, password)
 
   if (result.error) {
@@ -15,7 +15,8 @@ function* signIn ({email, password}) {
   yield put(authActions.authFinished(result))
 
   if (!result.errors) {
-    yield put(goBack())
+    yield put(authActions.authFinished({nextPage: null}))
+    yield put(nextPage && push(nextPage) || goBack())
   }
 }
 
@@ -25,7 +26,10 @@ function* signUp ({user}) {
   yield put(authActions.authFinished(result))
 
   if (!result.errors) {
-    yield put(goBack())
+    yield put(push("/users/sign_in"))
+    yield put(authActions.authFinished({
+      message: "Siged up successfully! Let's try signing in.",
+    }))
   }
 }
 
@@ -58,7 +62,11 @@ function* changePassword ({password, resetPasswordToken}) {
   yield put(authActions.authFinished(result))
 
   if (!result.errors) {
-    yield put(push("/"))
+    yield put(push("/users/sign_in"))
+    yield put(authActions.authFinished({
+      message: "Changed password! Let's try signing in.",
+      nextPage: "/",
+    }))
   }
 }
 

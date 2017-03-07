@@ -1,5 +1,13 @@
 .screenshots {
   .file-upload {
+    width: 10.5rem;
+    height: 1.8rem;
+    text-align: left;
+
+    progress {
+      width: 100%;
+    }
+
     input {
       display: none;
     }

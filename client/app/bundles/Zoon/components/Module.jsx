@@ -21,8 +21,18 @@ class Screenshots extends React.Component {
         {this.props.upload &&
           <div>
             <label className="file-upload button tiny">
-              <i className="fa fa-upload" /> Upload new screenshot
-              <input type="file" onChange={(ev) => this.props.upload(ev.target.files[0])} />
+              { this.props.uploadProgress ? (
+                <F.NativeProgress value={this.props.uploadProgress} />
+              ) : (
+                <span>
+                  <i className="fa fa-upload" />{" "}
+                  Upload new screenshot
+                  <input
+                    type="file"
+                    onChange={(e) => this.props.upload(e.target.files[0])}
+                  />
+                </span>
+              ) }
             </label>
           </div>
         }
@@ -191,6 +201,7 @@ class Module extends React.Component {
 
             <Screenshots
               screenshots={this.props.entity.screenshots}
+              uploadProgress={this.props.uploadProgress}
               upload={
                 this.props.entity.create_screenshot_path &&
                 ((screenshot) => screenshot && this.props.uploadScreenshot(
@@ -214,6 +225,7 @@ export default connect(
       errorMessage: state.modules.errorMessage,
       errors: state.modules.errors,
       currentUser: state.auth,
+      uploadProgress: state.modules.screenshotUploadProgress,
 
       urlId: ownProps.routeParams.id,
       entity: state.modules.entities[0] || {},

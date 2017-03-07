@@ -1,4 +1,5 @@
-import { put, takeLatest } from "redux-saga/effects"
+import { eventChannel, END } from "redux-saga"
+import { fork, put, take, takeLatest } from "redux-saga/effects"
 
 import * as A from "../action_types"
 import * as moduleActions from "../actions/modules"
@@ -20,7 +21,26 @@ function* searchModules ({searchFamily, searchQuery, selectedGeos}) {
 }
 
 function* uploadScreenshot ({screenshotCreatePath, screenshot}) {
-  let json = yield moduleAPI.uploadScreenshot(screenshotCreatePath, screenshot)
+  // Have a subsaga dispatching progresses
+  let emit
+  const chan = eventChannel(emitter => {
+    emit = emitter
+    return () => {}
+  })
+  yield fork(
+    function* () {
+      while (true) {
+        const data = yield take(chan)
+        yield put(moduleActions.screenshotUploadProgress(data))
+      }
+    },
+  )
+
+  let json = yield moduleAPI.uploadScreenshot(
+    screenshotCreatePath,
+    screenshot,
+    emit,
+  ).then(r => { emit(END); return r })
 
   if (json.errors || json.error) {
     yield put(moduleActions.screenshotError(json))

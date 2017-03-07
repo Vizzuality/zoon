@@ -19,6 +19,7 @@ export const searchModules = (
 export const uploadScreenshot = (
   createPath,
   image,
+  progressCallback,
 ) => {
   const formData = new FormData()
   formData.append("screenshot[image]", image)
@@ -27,6 +28,9 @@ export const uploadScreenshot = (
     method: "post",
     url: createPath,
     data: formData,
+    onUploadProgress: progressCallback && function (e) {
+      progressCallback(Math.round(100 * e.loaded / e.total))
+    },
   }))
 }
 

@@ -68,3 +68,8 @@ export const submitFeedbackFinished = (result) => ({
   type: A.MODULE_SUBMIT_FEEDBACK_FINISHED,
   result,
 })
+
+export const screenshotUploadProgress = (percentage) => ({
+  type: A.MODULE_SCREENSHOT_UPLOAD_PROGRESS,
+  percentage,
+})

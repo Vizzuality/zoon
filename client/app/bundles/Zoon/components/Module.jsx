@@ -22,7 +22,10 @@ class Screenshots extends React.Component {
           <div>
             <label className="file-upload button tiny">
               { this.props.uploadProgress ? (
-                <F.NativeProgress value={this.props.uploadProgress} />
+                <F.NativeProgress
+                  value={this.props.uploadProgress}
+                  max={100}
+                />
               ) : (
                 <span>
                   <i className="fa fa-upload" />{" "}
@@ -196,7 +199,7 @@ class Module extends React.Component {
               </div>
             }
 
-            <h5>Screeshots</h5>
+            <h5>Screenshots</h5>
             <Errors errors={this.props.errors} />
 
             <Screenshots

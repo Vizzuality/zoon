@@ -13,7 +13,11 @@ export const searchModules = (
 ) => errorToErrorMessage(axios({
   method: "get",
   url: "/api/modules",
-  params: {searchFamily, searchQuery, selectedGeos},
+  params: {
+    searchFamily,
+    searchQuery,
+    selectedGeos: selectedGeos.join(","),
+  },
 }))
 
 export const uploadScreenshot = (

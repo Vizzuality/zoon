@@ -1,0 +1,20 @@
+{
+  "name": "zoon",
+  "tests": "./e2e/tests/*.js",
+  "output": "./e2e/output",
+  "bootstrap": "./e2e/bootstrap_and_teardown.js",
+  "teardown": "./e2e/bootstrap_and_teardown.js",
+  "helpers": {
+    "Nightmare": {
+      "url": "http://localhost:3000",
+      "show": false
+    },
+    "ExternalCommand": {
+      "require": "./e2e/helpers/ExternalCommand.js"
+    }
+  },
+  "include": {
+    "I": "./e2e/steps/I.js"
+  },
+  "mocha": {}
+}

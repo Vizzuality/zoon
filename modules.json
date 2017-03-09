@@ -1,0 +1,386 @@
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 62,
+    "max_score" : 1.0,
+    "hits" : [ {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBY",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"LocalOccurrenceData","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"occurrence","parameters":{"occurrenceType":"What type data is it? One of 'presence', \n'presence/absence', 'abundance', 'probability'","columns":"Which columns in the spreadsheet relate to longitude, latitude\nand response value? Takes a named character vector e.g.\nc(long = 'longitude', lat = 'latitude', value = 'responseVals'). If an\nunnamed character vector is given, the order is assumed to be \nlong, lat, value.","filename":"The path to the spreadsheet. The spreadsheet should have a \nheader giving column names. The column names should be 'longitude', 'latitude',\nand 'value'. 'value' is a numeric such as a proportion, count or presence/absence\n(1/0). The file can be .csv, .tab, .tsv, or .xlsx","externalValidation":"Logical indicating whether this data is external\nvalidation data. Cross validation is handled elsewhere and this argument \nshould be left as FALSE for data that will be used in cross validation."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Occurrence module to format local occurrence data to be used with zoon. \n Must be a .csv file with three columns longitude, latitude and value \n in that order."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBc",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"QuickGRaF","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"l":"lengthscale parameter, a positive number controlling the complexity\nof the fitted model with respect to each covariate.\nCan either be a single number (in which case it is used for all covariates),\na vector of numbers of the same length as the number of covariates,\nor \\code{NULL} in which case GRaF will calculate a fixed approximation to\na sensible lengthscale."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a quick GRaF model, without parameter optimisation."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBh",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Bioclim_future","version":"1.0.0","authors":[{"authorName":"F. Rodriguez-Sanchez","email":"zoonproject@gmail.com"},{"authorName":"E. Van Loon","email":""}],"submitted":"2016-06-15","type":"covariate","parameters":{"rcp":"numeric. Representative Concentration Pathways, or greenhouse gases concentration trajectories (see \\url{https://en.wikipedia.org/wiki/Representative_Concentration_Pathways}. Should be one of 26, 45, 60, or 85.","model":"character. General Circulation Model. Should be one of \"AC\", \"BC\", \"CC\", \"CE\", \"CN\", \"GF\", \"GD\", \"GS\", \"HD\", \"HG\", \"HE\", \"IN\", \"IP\", \"MI\", \"MR\", \"MC\", \"MP\", \"MG\", or \"NO\".","extent":"Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude.","layers":"which bioclim layers to obtain, a vector of integers between 1 and 19. See \\url{http://www.worldclim.org/bioclim}.","year":"numeric. Time period. Should be either 50 (which represents the period 2041-2060) or 70 (which represents the period 2061-2080).","resolution":"Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Get worldclim data for the future (CMIP5). Downloads then stores locally."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBm",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"RandomForest","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{},"returnValues":["A model object with a valid predict method"],"location":"Local fs","source":null,"descriptions":["Model module to fit a simple RandomForest classification model"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBr",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"PerformanceMeasures","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-06-15","type":"output","parameters":{"threshold":"A chosen threshold value for measures that need 0/1 predictions \nIf NULL, the proportion of occurrences in the occurrence data is used."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Calculate a suite of performance metrics on either crossvalidation, external validation data or (at your own risk) in-sample validation."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBw",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"BiomodModel","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"modelType":"A character to describe models to use. Select from\n'GLM','GBM','GAM','CTA','ANN','SRE','FDA','MARS','RF','MAXENT'"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module wrapper for the biomod2 function BIOMOD_Modeling()"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB1",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"MaxLike","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a simple MaxLike model"],"references":"J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of Maxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225."}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB6",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"LocalRaster","version":"1.1","authors":[{"authorName":"Tim Lucas","email":"timcdlucas@gmail.com"},{"authorName":"Samuel Bosch","email":"mail@samuelbosch.com"}],"submitted":"2016-03-04","type":"covariate","parameters":{"rasters":"Either a string of the filename of the raster layer, a list or vector of strings of filenames to rasters that will be stacked, a RasterLayer or a RasterStack object."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["LocalRaster: Read in a single raster or a list of rasters and stack them."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCB",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"GBM","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"max.trees":"The maximum number of trees to fit.\nThe number of trees is equivalent to the number of iterations and\n the number of basis functions in the additive expansion. The optimal\n number will be selected by cross-validation, but this sets an upper limit.","interaction.depth":"The maximum depth of variable interactions.\n1 implies an additive model, 2 implies a model with up to 2-way interactions,\n etc.","shrinkage":"a shrinkage parameter applied to each tree in the expansion.\nAlso known as the learning rate or step-size reduction."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a generalized boosted regression (aka boosted regression\ntrees) model"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCG",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Transform","version":"0.1","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-06-15","type":"process","parameters":{"replace":"a logical, determining whether to overwrite the values of the named layers with the transformed values (if \\code{replace = TRUE}), or to add extra layers with the transformed covariates. If additional layers are added, they will be renamed accoring to the \\code{raster} package's renaming conventions. This normally involves adding a '.2' at the end of the name.","trans":"a function defining a transformation to apply to each pixel in the covariate(s) raster. This can be a definition (e.g. \\code{function(x) x^2} for a square) or a function defined in base R (e.g. \\code{log1p} for the log(x + 1) transformation). The default transformation does nothing.#'","which_cov":"a character vector naming all of the covariates in the RasterStack to which the new transformation should be applied.#'"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Apply a tranformation function (e.g. square, log, something else) to one or more covariates, pixelwise. These can either overwrite the named covariates, or be added to the covariate set."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCL",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"MyMaxLike","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a simple MyMaxLike model"],"references":"J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of MyMaxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225."}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCQ",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"CarolinaWrenPO","version":"0","authors":[{"authorName":"Nick Golding","email":"nick.golding.research@gmail.com"}],"submitted":"2016-05-21","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Occurrence locations for the Carolina Wren \\emph{Thryothorus ludovicianus} at Breeding Bird Survey transects in 2006. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the module \\code{CarolinaWrenPA} for the presence-absence version. This module loads the data, drops absence data, transforms the coordinates to lat/longs and formats the data for use in a zoon workflow."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCV",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"UKBioclim","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"covariate","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Load Bioclim rasters at 5 degree resolution for the UK\n\t(extent \\code{c(-10, 10, 45, 65)})."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBZ",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Bootstrap","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-03-23","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}","n":"the number of points to sample. Defaults to the same number as the dataset"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Process module to generate random bootstraps of the \n  data."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBd",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"UKAnophelesPlumbeus","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Return some Anopheles plumbeus data that is bundled with package.\n Data taken from GBIF and has the extent \\code{c(-10, 10, 45, 65)}."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBi",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Crossvalidate","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}","k":"Positive integer number of folds to split the data into. Default is 5."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Run k fold crossvalidation. If presence absence, split presences and absences separately so folds have equally balanced data. Otherwise just sample."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBn",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"BackgroundAndCrossvalid","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}","k":"The number of folds you wish to have. Will later implement a leaveoneout opt"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Process module to generate up to 100 background records at random in\n     cells of ras and split all data in k folds for cross validation."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBs",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"OneHundredBackground","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Process module to generate up to 100 background records at random in\n     cells of ras and return these along with the presence only data."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBx",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NaiveRandomPresenceAbsence","version":"0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-06-03","type":"occurrence","parameters":{"extent":"A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK.","seed":"Used with set.seed to set a seed. Default NULL, no seed is used","pAbs":"The proportion of records that should be absences (default: 0.5)","n":"Numeric - the number of points to create"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Creates a random occurrence dataset within the extent given"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB2",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"SpOcc","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"occurrence","parameters":{"limit":"The maximum number of occurrence records to return.","species":"A character string giving the species name.\ne.g. 'Anopheles plumbeus'.","extent":"A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax.","databases":"A character vector giving the databases to use.\nChoose from \"gbif\", \"bison\", \"inat\", \"ebird\", \"ecoengine\", \"antweb\".\nDefaults to gbif. NB I have had some problems with databases other\nthan gbif.","type":"A string giving the type of occurrence data to treat these records as.\nMust be one of \\code{'presence'} (the default and most common use case),\n\\code{'absence'} or \\code{'background'} (which may be used to implement\na 'target background group' approach for overcoming observation bias)."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Occurrence module to collect occurrence data from a number of data bases."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB7",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"SurfaceMap","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"output","parameters":{"dir":"Directory where plots are saved. If NULL (default) then plots are not saved."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Make a png of a map of predicted surface."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB-",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NaiveRandomPresence","version":"0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-05-31","type":"occurrence","parameters":{"extent":"A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK.","seed":"Used with set.seed to set a seed. Default NULL, no seed is used","n":"Numeric - the number of points to create"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Creates a random occurrence dataset within the extent given"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB_",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Clean","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-03-21","type":"process","parameters":{"which":"A numeric or character vector describing which data cleaning processes to use (see details)."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Do some data cleaning on occurrence points"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCC",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"MaxEnt","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"args":"Additional arguments to pass to MaxEnt to modify model fitting,\nin the form of flags to the java executable.\nUnfortunately these are a bit cryptic and the maxent\nhelp files, which list all of the options, aren't available on the web.\nYou could try the MaxEnt graphical user interface, otherwise there is a list\n(which may or may not be up-to-date) in this forum:\n\\url{https://groups.google.com/d/msg/maxent/yRBlvZ1_9rQ/Fj8Two0lmHIJ}."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit MaxEnt model via the dismo package"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCH",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NATrees","version":"0.5","authors":[{"authorName":"Matt Talluto","email":"mtalluto@gmail.com"}],"submitted":"2016-06-16","type":"occurrence","parameters":{"dateRange":"Optional 2-item numeric vector giving the years to use; default is the full range of the data (1960-2013)","species":"Which species should be extracted, with format genus_species (all lowercase); allowable values are: abies_balsamea acer_rubrum acer_saccharum betula_alleghaniensis betula_papyrifera fagus_grandifolia fraxinus_americana fraxinus_nigra larix_laricina picea_glauca picea_mariana picea_rubens pinus_banksiana pinus_resinosa pinus_strobus populus_grandidentata populous_tremuloides quercus_macrocarpa quercus_rubra thuja_occidentalis tsuga_canadensis"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Retrieves occurrences for 21 trees from eastern North America. Data originally sourced from USGS FIA forest inventory database, collected in the QUICC-FOR project ($URL). This dataset was originally published in $REF. Extent for this dataset is c(-97,-67,25,50)"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCM",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"OneThousandBackground","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Process module to generate up to 1000 background records at random in\n     cells of the covariate raster and return these along with the occurrence data."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCR",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"CarolinaWrenPA","version":"0","authors":[{"authorName":"Nick Golding","email":"nick.golding.research@gmail.com"}],"submitted":"2016-05-21","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Presence/absence of the Carolina Wren \\emph{Thryothorus ludovicianus} at Breeding Bird Survey transects in 2006. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details. This module loads them data transform the coordinates to lat/longs and formats the data for use in a zoon workflow."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBe",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Appify","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"Tom August"}],"submitted":"2016-05-05","type":"output","parameters":{"run_App":"Logical, should the app be run automatically. Not recommended for workflows containing lists. Default is FALSE","directory":"(Optional) a string giving the path to a directory within which to save the shiny app. This directory must exist.#'"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The Appify module builds a shiny app that displays dynamic graphical and tabular representations of the input data (occurrence and covarite) as well as model predictions."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBj",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"VariableImportance","version":"0","authors":[{"authorName":"Tom August","email":"tomaug@ceh.ac.uk"}],"submitted":"2016-06-15","type":"output","parameters":{"print":"If true then the data are returned to console as well as outputted"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["This module outputs a simple report of the coefficents/importance measures from the model"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBo",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"LogisticRegression","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a simple logistic regression model"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBt",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"CarolinaWrenRasters","version":"0","authors":[{"authorName":"Nick Golding","email":"nick.golding.research@gmail.com"}],"submitted":"2016-05-21","type":"covariate","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Land cover and coordinate covariate data for the USA, used in the Carolina Wren MaxLike analysis. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the modules \\code{CarolinaWrenPA} and \\code{CarolinaWrenPO} for corresponding occurrence data. This module loads the data, converts them into a \\code{RasterStack} object and transforms the coordinates to lat/longs."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBy",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"addInteraction","version":"0","authors":[{"authorName":"Alison Johnston","email":"alison.johnston@bto.org"},{"authorName":"Carsten F. Dormann","email":""}],"submitted":"2016-06-15","type":"process","parameters":{"exclude":"For option 'pairs', exclude the covariates named from interactions.","which_covs":"List with vector(s) of names of covariates to interact, e.g. list(c('A', 'C', 'D')), or 'pairs' for all pairwise interactions."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The module constructs new covariates torepresent interactions (and possibly polynomial terms)."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB3",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"ROCcurve","version":"0","authors":[{"authorName":"E.E. van Loon","email":"e.e.vanloonD@uva.nl"}],"submitted":"2016-06-15","type":"output","parameters":{"newwin":"logical indicator (default: true) to specify whether the plot should be made in a new window"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The module retrieves output from a presence only, or presence-absence model and outputs an ROC-curve with the AUC-value above it  it uses the evaluate function from dismo."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB8",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"JitterOccurrence","version":"0.1","authors":[{"authorName":"Nick Golding","email":"nick.golding.research@gmail.com"}],"submitted":"2016-06-16","type":"process","parameters":{"sd":"standard deviation of the gaussian noise to add the the coordinates of each ocurrence record"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Often the geographic coordinates of occurrence records are subject to uncertainty. One approach ot accounting for that uncertainty in an SDM analysis is to run several analyses, each time sampling a different location from a probability distribution over the likely \"true\" coordinates. \\code{JitterOccurrence} generates one such sample, under an assumption that the distribution is an isotropic Gaussian with standard deviation \\code{sd}"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCD",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"PartitionDisc","version":"1.0","authors":[{"authorName":"Tom August","email":"tomaug@ceh.ac.uk"}],"submitted":"2015-11-13","type":"process","parameters":{"buffer":"Numeric, the size of the buffer zone in degrees","seed":"Numeric used with \\code{\\link[sperrorest]{partition.disc}}","radius":"Numeric the radius of the disc, in degrees"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["This process module partitions the sample into training and tests set by selecting circular test areas (possibly surrounded by an exclusion buffer) and using the remaining samples as training samples. See function partition.disc in package sperrorest for more details"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCI",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"OptGRaF","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a (slow) GRaF model, with parameter optimisation."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCN",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"StandardiseCov","version":"0","authors":[{"authorName":"Alison Johnston","email":"alison.johnston@bto.org"},{"authorName":"Carsten F. Dormann","email":""}],"submitted":"2016-06-16","type":"process","parameters":{"exclude":"Variable names of numeric variables to exclude from standardisation","Gelman":"Option to divide by two rather than one standard deviation."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The module by default scales all numeric covariates. By default conducts a regular standardisation: minus the mean and divide by the standard deviation. If Gelman = TRUE then divides by 2 sd as suggested by Gelman. Excluded covariates are not standardised."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCS",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Lorem_ipsum_UK","version":"0","authors":[{"authorName":"A.B. Ceidi","email":"ABCD@anemail.com"}],"submitted":"2016-06-13","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The module retrieves a dataset ofLorem ipsum records from figshare. This dataset containsprecence only data and was collected between 1990 and2000 by members of to Lorem ipsum appreciation society"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBa",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"mgcv","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"bs":"a two letter character string indicating the (penalized)\nsmoothing basis to use. (eg \"tp\" for thin plate regression spline,\n \"cr\" for cubic regression spline). See \\code{\\link{mgcv::smooth.terms}}\n for an overview of what is available.","k":"the dimension of the basis used to represent the smooth term.\nThe default depends on the number of variables that the smooth is a\n function of. k should not be less than the dimension of the null space\n  of the penalty for the term (see \\code{\\link{mgcv::null.space.dimension}}),\n  but will be reset if it is. See \\code{\\link{mgcv::choose.k}} for further\n  information"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a generalized additive model using generalized\ncrossvalidation via the mgcv R package."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBf",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"InteractiveMap","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"output","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Plot a zoomable and scrollable map of the predicted distribution\nand training data. Clicking on a point reveals additional information."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBk",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"PredictNewRasterMap","version":"1.0.1","authors":[{"authorName":"Zoon developers (modified by F. Rodriguez-Sanchez)","email":"zoonproject@gmail.com"}],"submitted":"2016-06-15","type":"output","parameters":{"newraster":"Raster* object to make predictions onto.","extent":"Numeric vector of length 4 giving (in this order) the min x, max x, min y, max y, the the new area to be mapped. Must be within the covariate data collected in the covariate module.","plot":"Logical, if \\code{TRUE} (default) the prediction map is plotted."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Output module. Predict a model across a new area or time period."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBp",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"SugarMaple","version":"0.2","authors":[{"authorName":"Matt Talluto","email":"mtalluto@gmail.com"},{"authorName":"Nick Golding","email":""}],"submitted":"2016-06-15","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Presence/absence of Sugar Maple (\\emph{Acer saccharum}) in North America. Each record corresponds to the centroid of a 0.5 degree cell."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBu",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NCEP","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"covariate","parameters":{"status.bar":"Logical. Should a status bar be shown indicating the percentage of completion?","extent":"A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax.","variables":"Character vector of which variables to select.\nSee NCEP.gather for more options but basic options are\n      *'air'*    Air Temperature                 deg K    \n      *'hgt'*    Geopotential Height             m        \n      *'rhum'*   Relative Humidity               %        \n      *'shum'*   Specific Humidity               kg/kg    \n      *'omega'*  Omega [Vertical Velocity]       Pascal/s \n      *'uwnd'*   U-Wind Component [East/West]    m/s      \n      *'vwnd'*   V-Wind Component [North/South]  m/s"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Covariate module to grab coarse resolution environmental data from NCEP"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBz",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NoProcess","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"process","parameters":{},"returnValues":["a Raster object (class from the raster package) with the gridded\n     covariates used to train and predict from the SDM."],"location":"Local fs","source":null,"descriptions":["Process module that does nothing. A place holder for if nothing should be\ndone to the data before modelling."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB4",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NBNdataByName","version":"0.1","authors":[{"authorName":"Tom August","email":"tomaug@ceh.ac.uk"}],"submitted":"2016-06-16","type":"occurrence","parameters":{"silent":"if TRUE information returned to console is reduced","endYear":"a 4 digit integer year","VC":"a string giving a vice-county name (see listVCs in the rnbn package)","username":"your NBN username","species":"The latin name of a species to search for, or a vector of such names.","startYear":"a 4 digit integer year","acceptTandC":"if set to TRUE you accept the NBN gateway terms and conditions and privacy policy. These can be found at https://data.nbn.org.uk/Terms. Accepting the terms and conditions supresses the corresponding warning message.","datasets":"a list of dataset keys which are strings of 8 alphanumeric characters. Look up datasets here: https://data.nbn.org.uk/Datasets","gridRef":"a string giving a UK gridreference in which to search for occurrences","attributes":"if FALSE then attribute data is not returned, this may improve the speed of large requests.","group":"a string giving the name of a group (see listGroups in the rnbn package). Using group will retireve data for all TVKs in this group. for example using group \"reptile\" will search using over 150 TVKs including TVKs for higher taxonomic groups such families within reptiles. Therefore it may be preferrable to search using a vector of species","password":"your NBN password"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["This module supplies occurrence data from the UK NBN gateway. To get access to data you must first register at https://data.nbn.org.uk/User/Register. You will need your username and password when running this module. You can specify the data to retrieve by dataset, species, time, location and/or group."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB9",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"ResponseCurveViz","version":"0","authors":[{"authorName":"G. McInerny","email":"gmcinerny@hotmail.com"}],"submitted":"2016-06-15","type":"output","parameters":{"cov":"Covariates"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Basic conditional plots in one column"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCE",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"StochasticLogisticRegression","version":"0.1","authors":[{"authorName":"Nick Golding","email":"nick.golding.research@gmail.com"}],"submitted":"2016-06-16","type":"model","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Fits a simple logistic regression model, but then samples a single draw of the model coefficients (with probability proportional to their likelihood) and uses these for future prediction"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCJ",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"SameTimePlaceMap","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"output","parameters":{},"returnValues":["A Raster object giving the probabilistic model predictions for each\n     cell of ras"],"location":"Local fs","source":null,"descriptions":["Output module. A function for outputing the raster of the predictions from an analysis"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCO",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Bioclim","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"covariate","parameters":{"extent":"Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude.","layers":"which bioclim layers to obtain, a vector of integers between 1 and 19.","resolution":"Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Get worldclim environment data. Downloads then stores locally."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCT",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NoOutput","version":"0.1","authors":[{"authorName":"Tim Lucas","email":"timcdlucas@gmail.com"}],"submitted":"2016-06-15","type":"output","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["No output is created"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBb",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"ResponseCurve","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"output","parameters":{"cov":"which of the covariates to plot the response against.\nIf \\code{NULL}, the function is executed for all covariates, one after another.\nElse it should be a single numeric identifying the covariate to plot."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Plot a detailed conditional response curve from the model\nagainst one covariate."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBg",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"InteractiveCovariateMap","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"output","parameters":{"which":"which covariate to plot.\nA single numeric giving the index of the covariate to plot"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Plot a zoomable and scrollable map of a covariate layer."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBl",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"CWBZimbabwe","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"occurrence","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Presence/absence survey data for the coffee white stem borer\n in Zimbabwe."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBq",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"NaiveRandomRaster","version":"0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-06-02","type":"covariate","parameters":{"res":"Numeric giving the resolution of the raster to produce. 1 is one cell per degree, 0.5 means one cell per half degree.","extent":"A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the raaster. order: xmin, xmax, ymin, ymax. By default the extent of the UK","seed":"Used with set.seed to set a seed. Default NULL, no seed is used"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Creates a random raster layer within the extent given"],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRBv",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"MESSMask","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-03-23","type":"process","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Calculate the multivariate environmental similarity surface \n  and mask areas with values outside the range of variability in the \n  training region."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB0",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"AnophelesPlumbeus","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"occurrence","parameters":{"extent":"A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax. By default the extent of the UK."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Occurrence module to grab *Anopheles plumbeus* (a mosquito) presence\n      (presence-only) data from GBIF, in the area bounded by extent."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRB5",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"PrintMap","version":"1.1","authors":[{"authorName":"ZOON Developers","email":"James Campbell"}],"submitted":"2016-04-02","type":"output","parameters":{"res":"The output resolution in ppi when writing to a png file.","dir":"Directory where plots are saved. If \\code{NULL} (default) then plots are\nnot saved.","points":"If \\code{TRUE} the training points will be plotted over the prediction surface","size":"A vector containing the width and height of the output figure when writing to a png file. Example: c(800,600).","plot":"If \\code{TRUE} the plot will be displayed in the device"},"returnValues":["A Raster object giving the probabilistic model predictions for each\ncell of covariate raster layer"],"location":"Local fs","source":null,"descriptions":["Plot a map of predicted surface."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCA",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"Background","version":"1.1","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2016-03-23","type":"process","parameters":{"seed":"Numeric used with \\code{\\link[base]{set.seed}}","n":"the number of background points to sample","bias":"optional \\code{RasterLayer} with cells giving the relative\nprobability of a background record being sampled there. Alternatively,\na length one numeric giving a radius (in KM) around presence points to take \nbackground points from. If \\code{bias = NULL} (the default) then no \nbiasing is applied, and all non-missing cells are equally likely to be selected."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Process module to generate random (optionally biased) background\n  records in cells of the covariate raster and return these along with the\n  presence only data."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCF",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"MachineLearn","version":"1.0","authors":[{"authorName":"Tim CD Lucas","email":"timcdlucas@gmail.com"}],"submitted":"2015-11-13","type":"model","parameters":{"metric":"a string that specifies what summary metric will be used to\nselect the optimal model. Options are \"ROC\", \"Accuracy\" and\n\"Kappa\".","tuneGrid":"Explicitely pass a data frame of tuning/hyperparameter combinations. If\nNULL, tuneLength will be used instead.","number":"How many folds to use in cross validation.","tuneLength":"How many values of each tuning/hyperparameter should be tried?","method":"The machine learning method to use. Common examples are \"glm\", \n\"nnet\", \"gbm\", \"glmnet\", \"rf\". See \nhttp://topepo.github.io/caret/modelList.html for a full list. Only \nclassification or dual use models are useable.","repeats":"How many times should the entire cross validation process be \nrepeated. Increasing this will reduce instability in your model performace,\nbut will take longer to run.","trControl":"A named list of further arguments to pass to trainControl. See \n\\code{\\link[caret]{trainControl}} for details."},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Model module to fit a very large number of machine learning models."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCK",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"AirNCEP","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"covariate","parameters":{"quiet":"Logical. If TRUE (default) the progress of downloads is not shown"},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Covariate module to grab a coarse resolution mean air temperature raster from\n January-February 2001-2002 for the UK."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCP",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"SeparatePA","version":"0","authors":[{"authorName":"E.E. van Loon","email":"e.e.vanloonD@uva.nl"}],"submitted":"2016-06-15","type":"output","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["The module retrieves output from a presence-absence model and outputs a simple figure with kernel-density estimated histrograms (left) and a boxplot (right)."],"references":""}
+    }, {
+      "_index" : "zoon",
+      "_type" : "module",
+      "_id" : "AVdM1EkHN3xmat9AgRCU",
+      "_score" : 1.0,
+      "_source":{"id":null,"name":"UKAir","version":"1.0","authors":[{"authorName":"ZOON Developers","email":"zoonproject@gmail.com"}],"submitted":"2015-11-13","type":"covariate","parameters":{},"returnValues":[],"location":"Local fs","source":null,"descriptions":["Return some UK air temperature data from NCEP. Data is bundled with package and has the extent \\code{c(-10, 10, 45, 65)}."],"references":""}
+    } ]
+  }
+}

@@ -1,7 +1,21 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+@simaob = User.create!(
+  name: "Simão Belchior",
+  email: "simao.belchior@vizzuality.com",
+  password: "programacao",
+  organization: "Vizzuality",
+  github_username: "simaob",
+)
+
+@pkoch = User.create!(
+  name: "Paulo Köch",
+  email: "pkoch@lifeonmars.pt",
+  password: "programacao",
+  organization: "Life on Mars",
+  github_username: "pkoch",
+)
+
+ZoonModuleLoader.load_es(File.read(File.join(
+  File.dirname(__FILE__),
+  '..',
+  'modules.json',
+)))

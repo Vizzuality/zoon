@@ -10,69 +10,59 @@ import WorkflowCard from "./WorkflowCard"
 import FilterTogglePair from "./FilterTogglePair"
 import MapPickerFilter from "./MapPickerFilter"
 import SearchQueryFilter from "./SearchQueryFilter"
-import {filterAbsentValues, filterEmptyValues} from "../utils"
-
-function extractQueryParams (src) {
-  let {searchFamily, searchQuery, granularity, selectedGeos} = src
-
-  if (typeof selectedGeos === "string" || selectedGeos instanceof String) {
-    selectedGeos = selectedGeos.split(",")
-  }
-
-  return {searchFamily, searchQuery, granularity, selectedGeos}
-}
-
-function serializeQueryData (src) {
-  // Not just params, but the actual data that'll influence the results
-  // returned from the server.
-  let {searchFamily, searchQuery, selectedGeos} = src
-  return JSON.stringify(
-    filterEmptyValues({searchFamily, searchQuery, selectedGeos}),
-  )
-}
+import {filterAbsentValues} from "../utils"
+import GatedDispatcher from "../lib/gated_dispatcher"
 
 class Workflows extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      ...extractQueryParams(this.props.router.location.query),
-      ...filterAbsentValues(extractQueryParams(this.props)),
-    }
+    this.gate = new GatedDispatcher(this.props.workflowsFetchList, {
+      searchQuery: {},
+      granularity: {
+        relevantForData: false,
+      },
+      selectedGeos: {
+        decode: v => {
+          if (typeof v !== "string" && !(v instanceof String)) {
+            return v
+          }
+
+          if (v === "") {
+            return []
+          }
+
+          return v.split(",")
+        },
+      },
+    })
+
+    this.gate.absorbValues(this.props.router.location.query)
+    this.gate.overlayValues(this.props)
+    this.state = {...this.gate.state}
   }
 
   componentDidMount () {
-    this.props.workflowsFetchList(this.state)
+    this.gate.fire()
   }
 
-  commitState = (extras = {}) => {
-    const {searchQuery, granularity, selectedGeos} = {
-      ...this.state,
-      ...extras,
-    }
+  commitState = (extra = {}) => {
+    this.gate.absorbValues(extra)
 
     this.props.replace(buildUrl(
       this.props.location.pathname,
-      {
-        queryParams: filterAbsentValues({
-          searchQuery,
-          granularity,
-          selectedGeos,
-        }),
-      },
+      {queryParams: filterAbsentValues(this.gate.state)},
     ))
   }
 
   componentWillReceiveProps (nextProps) {
-    const qp = extractQueryParams(nextProps.router.location.query)
-    if (JSON.stringify(qp) !== JSON.stringify(this.state)) {
-      this.setState(qp)
+    this.gate.absorbValues(nextProps.router.location.query)
+    this.gate.overlayValues(nextProps)
 
-      if (serializeQueryData(qp) !== serializeQueryData(this.state)) {
-        // Introducing or removing keys isn't relevant it they're empty.
-        // Demand a change in value to fire a request.
-        this.props.workflowsFetchList(qp)
-      }
+    if (JSON.stringify(this.gate.state) !== JSON.stringify(this.state)) {
+      this.setState(this.gate.state)
+
+      this.gate.maybeFire()
     }
   }
 

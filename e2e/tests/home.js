@@ -1,6 +1,9 @@
 Feature('Home');
 
-Scenario('Loads', (I) => {
+Background((I) => {
   I.amOnPage('/');
+});
+
+Scenario('Loads', (I) => {
   I.see('ZOON');
 });

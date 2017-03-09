@@ -11,6 +11,9 @@
     },
     "ExternalCommand": {
       "require": "./e2e/helpers/ExternalCommand.js"
+    },
+    "DatabaseReset": {
+      "require": "./e2e/helpers/DatabaseReset.js"
     }
   },
   "include": {

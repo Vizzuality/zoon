@@ -7,7 +7,7 @@ Things you may want to cover:
 
 * Ruby version 2.3.1 (declared in both the Gemfile and .ruby-version)
 
-* bundle && npm install
+* bundle && yarn install
 
 * Database: we're using PostgreSQL. Brew's default config will get you set.
 Otherwise, you might want to change some params in `config/database.yml`.
@@ -31,4 +31,4 @@ We have linting on webpack loading. If this cramps your style for some reason,
 you can run webpack with no linting and call the linter manually.
 
 No lint on build: `ZOON_SKIP_LINT=1 foreman start -f Procfile.dev`
-Linting manually: `npm run lint`
+Linting manually: `yarn run lint`

@@ -5,6 +5,7 @@ class ZoonModuleTest < ActiveSupport::TestCase
     @user = User.create! email: 'a@a.a', password: 'password'
     @another_user = User.create! email: 'b@a.a', password: 'password'
 
+    ZoonModule.destroy_all
     @zoon_module = ZoonModule.create! name: 'name'
   end
 

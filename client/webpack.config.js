@@ -86,6 +86,9 @@ if (devBuild) {
         console.log("Began compiling at " + new Date())
         callback()
       })
+      this.plugin('done', function() {
+        console.log("Done compiling at " + new Date())
+      });
     }
   )
 } else {

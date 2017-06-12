@@ -43,3 +43,5 @@ export function zip (...arrays) {
   const length = Math.min(...arrays.map(a => a.length))
   return Array.from({ length }, (_, i) => arrays.map(a => a[i]))
 }
+
+export const upFirstLetter = (s) => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()

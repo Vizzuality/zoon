@@ -1,20 +1,28 @@
 import React from "react"
 import Reorder from "react-reorder"
+import classnames from "classnames"
+
+import {upFirstLetter} from "../utils"
 
 const families = ["occurrence", "covariate", "process", "model", "output"]
+export const allCompositionTypes = ["list", "chain", "replicate"]
 
-const Switch = ({ id, checked, onChange }) => (
-  <span className="switch tiny" style={{"margin": "0em 0.5em"}}>
-    <input
-      type="checkbox"
-      className="switch-input"
-      id={id}
-      checked={checked}
-      onChange={onChange}
-    />
-    <label className="switch-paddle" htmlFor={id} />
-  </span>
-)
+const Switch = ({ value, onChange }) => <div className="module-list__switch">
+  {allCompositionTypes.map((compType) => {
+    const isSelected = value === compType
+    return <span key={compType} onClick={() => onChange(compType)}>
+      <i
+        className={classnames(
+          "fa",
+          isSelected ? "fa-dot-circle-o" : "fa-circle-o",
+        )}
+      />
+      <span className={classnames("name", {selected: isSelected})}>
+        {upFirstLetter(compType)}
+      </span>
+    </span>
+  })}
+</div>
 
 const SelectedItem = ({ item, sharedProps }) => (
   <div className="module-list__list__item">
@@ -59,18 +67,10 @@ const WorkflowDiagram = ({
               expandedFamilies[family] &&
               <div>
                 <span className={`module-family-${family} module-family-background-color`} />
-                <div className="module-list__chaining">
-                  <span className={compositionTypes[family] !== "chain" ? "selected" : ""}>List</span>
-                  <Switch
-                    id={`switch-${family}`}
-                    checked={compositionTypes[family] === "chain"}
-                    onChange={(ev) => changeCompositionType(
-                      family,
-                      ev.target.checked ? "chain" : "list",
-                    )}
-                  />
-                  <span className={compositionTypes[family] === "chain" ? "selected" : ""}>Chain</span>
-                </div>
+                <Switch
+                  value={compositionTypes[family]}
+                  onChange={(v) => changeCompositionType(family, v)}
+                />
 
                 {
                   modules[family].length > 0 &&

@@ -1,7 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
 import * as F from "react-foundation"
 import buildUrl from "build-url"
+import { connect } from "react-redux"
+import { Link } from "react-router"
+import React from "react"
 import { replace } from "react-router-redux"
 
 import * as workflowActions from "../actions/workflows"
@@ -69,6 +70,25 @@ class Workflows extends React.Component {
   render () {
     return (
       <span className="workflows">
+        <F.Row>
+          <F.Column small={9}>
+            <div>
+              <p>Spicy jalapeno bacon ipsum dolor amet landjaeger capicola meatloaf bresaola andouille, jowl sirloin leberkas tongue corned beef alcatra flank spare ribs. Short ribs beef ribs kevin meatloaf pork belly doner shankle bacon tail fatback jowl. Short loin burgdoggen ham hock pastrami venison tenderloin sirloin pork belly capicola corned beef frankfurter ball tip pork loin tail drumstick.</p>
+            </div>
+          </F.Column>
+          <F.Column
+            small={3}
+            style={{
+              display: "flex",
+              flexDirection: "row-reverse",
+            }}>
+            <p className="module-new">
+              <Link to={"/workflows/new"} className="button">
+                Create new workflow
+              </Link>
+            </p>
+          </F.Column>
+        </F.Row>
         <F.Row>
           <F.Column small={12}>
             <FilterTogglePair

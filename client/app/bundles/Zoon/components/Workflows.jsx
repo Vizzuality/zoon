@@ -71,12 +71,12 @@ class Workflows extends React.Component {
     return (
       <span className="workflows">
         <F.Row>
-          <F.Column small={9}>
+          <F.Column small={8}>
             <div>
               <p>Spicy jalapeno bacon ipsum dolor amet landjaeger capicola meatloaf bresaola andouille, jowl sirloin leberkas tongue corned beef alcatra flank spare ribs. Short ribs beef ribs kevin meatloaf pork belly doner shankle bacon tail fatback jowl. Short loin burgdoggen ham hock pastrami venison tenderloin sirloin pork belly capicola corned beef frankfurter ball tip pork loin tail drumstick.</p>
             </div>
           </F.Column>
-          <F.Column small={3} className="flex-flush-right">
+          <F.Column small={4} className="flex-flush-right">
             <p className="module-new">
               <Link to={"/workflows/new"} className="button">
                 Create new workflow

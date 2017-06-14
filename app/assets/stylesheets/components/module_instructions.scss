@@ -1,0 +1,49 @@
+.module-instructions {
+  .stage {
+    font-size: 24px;
+    letter-spacing: -0.6px;
+
+    .step {
+      background-repeat: no-repeat;
+      background-position: top center;
+    }
+
+    @each $n in "01", "02", "03" {
+      .step-#{$n} {
+        background-image: image-url('steps/#{$n}.png');
+      }
+    }
+  }
+
+  .pit {
+    .status {
+      .tab {
+        padding: 1.6em;
+        font-size: 13px;
+
+        &.active {
+          font-weight: 500;
+          border-bottom: 5px solid black;
+        }
+      }
+    }
+
+    .contents {
+      display: flex;
+      justify-content: center;
+      padding: 32px;
+
+      .button {
+        margin-bottom: 0;
+
+        &.need-help {
+          width: 290px;
+        }
+
+        &.continue {
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+}

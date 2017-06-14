@@ -76,12 +76,7 @@ class Workflows extends React.Component {
               <p>Spicy jalapeno bacon ipsum dolor amet landjaeger capicola meatloaf bresaola andouille, jowl sirloin leberkas tongue corned beef alcatra flank spare ribs. Short ribs beef ribs kevin meatloaf pork belly doner shankle bacon tail fatback jowl. Short loin burgdoggen ham hock pastrami venison tenderloin sirloin pork belly capicola corned beef frankfurter ball tip pork loin tail drumstick.</p>
             </div>
           </F.Column>
-          <F.Column
-            small={3}
-            style={{
-              display: "flex",
-              flexDirection: "row-reverse",
-            }}>
+          <F.Column small={3} className="flex-flush-right">
             <p className="module-new">
               <Link to={"/workflows/new"} className="button">
                 Create new workflow

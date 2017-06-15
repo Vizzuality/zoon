@@ -60,6 +60,7 @@ class WorkflowCreator extends React.Component {
       update_path: null,
 
       selectedFamily: this.families()[0],
+      showingModule: null,
     }
 
     const w = this.props.workflow || this.grabValuesFromLocationSearch()
@@ -187,6 +188,22 @@ class WorkflowCreator extends React.Component {
     return this.families().length
   }
 
+  showModuleLightbox = (moduleId) => {
+    if (!moduleId) {
+      this.setState({showingModule: null})
+      return
+    }
+
+    const showingModule = this.props.entities.find((m) => m.id === moduleId)
+    if (showingModule === undefined) {
+      console.error(`Trying to show unexisting module with id ${moduleId}`)
+      this.setState({showingModule: null})
+      return
+    }
+
+    this.setState({showingModule})
+  }
+
   render () {
     return (
       <span className="workflow-creator theatre">
@@ -208,6 +225,11 @@ class WorkflowCreator extends React.Component {
               />)}
             </div>
           </F.Column>
+          {this.state.showingModule && (
+            <div className="lightbox">
+              <ModuleCard m={this.state.showingModule} link={false} />
+            </div>
+          )}
         </F.Row>
 
         <F.Row className="pit">
@@ -226,6 +248,7 @@ class WorkflowCreator extends React.Component {
               changeCompositionType={this.changeCompositionType}
               removeModule={this.removeModule}
               reorderModules={this.reorder}
+              onModuleHover={this.showModuleLightbox}
             />
             {
               this.props.user.id && this.isComplete() &&

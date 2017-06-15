@@ -1,7 +1,27 @@
 .workflow-creator {
-  form {
-    textarea {
-      height: 5em;
+  .stage {
+    .lightbox {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      .entity-wrapper {
+        margin: 0 auto;
+        width: 32%;
+      }
+    }
+  }
+
+  .pit {
+    form {
+      textarea {
+        height: 5em;
+      }
     }
   }
 }

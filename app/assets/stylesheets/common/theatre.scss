@@ -2,8 +2,12 @@
 
 .theatre {
   .stage {
-    height: 45vh;
-    overflow-y: scroll;
+    position: relative;
+
+    .columns {
+      height: 45vh;
+      overflow-y: scroll;
+    }
   }
 
   .pit {

@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router"
 import Rating from "react-rating"
 
-export default ({ m, link = null, onClick = null }) => {
+export default ({ m, link = false, onClick = null }) => {
   const body = (
     <div className={`entity-card module-family-${m.family}`}>
       <div className="entity-content">
@@ -28,9 +28,6 @@ export default ({ m, link = null, onClick = null }) => {
     </div>
   )
 
-  if (link === null && !onClick) {
-    link = true
-  }
   if (link && onClick) {
     throw new Error("You can't use both link and onClick.")
   }

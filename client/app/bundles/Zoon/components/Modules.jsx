@@ -187,7 +187,7 @@ class Modules extends React.Component {
               <F.Column small={12}>
                 <div className="mosaic">
                   {this.props.entities.map(m =>
-                    <ModuleCard key={m.id} m={m} />
+                    <ModuleCard key={m.id} m={m} link={true} />
                   )}
                 </div>
               </F.Column>

@@ -16,7 +16,7 @@ const module = {
 
 describe("ModuleCard", () => {
   test("default usage", () => {
-    const r = shallow(<ModuleCard m={module} />)
+    const r = shallow(<ModuleCard m={module} link={true} />)
 
     expect(r.is("Link")).toBeTruthy()
     expect(r.props().to).toEqual(`/modules/${module.id}`)
@@ -25,7 +25,7 @@ describe("ModuleCard", () => {
   test("onClick", () => {
     const cb = jest.fn()
 
-    const r = shallow(<ModuleCard m={module} onClick={cb}/>)
+    const r = shallow(<ModuleCard m={module} onClick={cb} />)
     expect(r.is("div")).toBeTruthy()
 
     r.simulate('click')
@@ -33,14 +33,14 @@ describe("ModuleCard", () => {
   })
 
   test("no link", () => {
-    const r = shallow(<ModuleCard m={module} link={false}/>)
+    const r = shallow(<ModuleCard m={module} />)
 
     expect(r.is("div")).toBeTruthy()
   })
 
   test("raise on link=true and onClick=something", () => {
     expect(
-      () => shallow(<ModuleCard m={module} link={true} onClick={jest.fn()}/>),
+      () => shallow(<ModuleCard m={module} link={true} onClick={jest.fn()} />),
     ).toThrow()
   })
 })

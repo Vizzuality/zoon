@@ -126,3 +126,8 @@ body {
     }
   }
 }
+
+.flex-flush-right {
+  display: flex;
+  flex-direction: row-reverse;
+}

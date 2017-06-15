@@ -1,7 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
 import * as F from "react-foundation"
 import buildUrl from "build-url"
+import { connect } from "react-redux"
+import { Link } from "react-router"
+import React from "react"
 import { replace } from "react-router-redux"
 
 import * as modulesActions from "../actions/modules"
@@ -123,8 +124,15 @@ class Modules extends React.Component {
     return (
       <span className="modules">
         <F.Row>
-          <F.Column small={12} large={8}>
+          <F.Column small={8}>
             <p>Modelling isn’t always easy, but it could be easier. ZOON reduces the time and effort it takes to find data, create species distribution models, and share them with the world.</p>
+          </F.Column>
+          <F.Column small={4} className="flex-flush-right">
+            <p className="module-instructions">
+              <Link to={"/modules/instructions/1"} className="button">
+                Create new module
+              </Link>
+            </p>
           </F.Column>
         </F.Row>
 

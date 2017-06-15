@@ -189,7 +189,7 @@ class WorkflowCreator extends React.Component {
 
   render () {
     return (
-      <span>
+      <span className="workflow-creator theatre">
         { !this.props.user.id && <F.Row>
           <F.Column small={12}>
             You need to be logged in to save workflows. Want
@@ -198,7 +198,7 @@ class WorkflowCreator extends React.Component {
           </F.Column>
         </F.Row> }
 
-        <F.Row className="workflow-module-list">
+        <F.Row className="stage">
           <F.Column small={12}>
             <div className="mosaic">
               {this.props.entities.map(m => <ModuleCard
@@ -210,9 +210,9 @@ class WorkflowCreator extends React.Component {
           </F.Column>
         </F.Row>
 
-        <F.Row className="workflow-creator">
+        <F.Row className="pit">
           <F.Column small={12}>
-            <div className="workflow-status">
+            <div className="status">
               {this.currentStep()}/{this.totalSteps()} {
               } Select a {this.state.selectedFamily} module
             </div>

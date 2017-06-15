@@ -15,6 +15,7 @@ import configureStore from "./store"
 import Layout from "./components/Layout"
 import Home from "./components/Home"
 import Modules from "./components/Modules"
+import ModuleInstructions from "./components/ModuleInstructions"
 import Module from "./components/Module"
 import Workflows from "./components/Workflows"
 import WorkflowCreator from "./components/WorkflowCreator"
@@ -42,6 +43,7 @@ const ZoonApp = (props, _railsContext) => {
       <Route path="/" component={Layout}>
         <IndexRoute component={Home} />
         <Route path="/modules" component={Modules} />
+        <Route path="/modules/instructions(/:stepId)" component={ModuleInstructions} />
         <Route path="/modules/:id" component={Module} />
         <Route path="/workflows/new" component={WorkflowCreator} />
         <Route path="/workflows" component={Workflows} />

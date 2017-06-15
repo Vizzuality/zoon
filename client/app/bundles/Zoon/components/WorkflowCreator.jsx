@@ -5,10 +5,10 @@ import { Link } from "react-router"
 import qs from "qs"
 
 import * as workflowsActions from "../actions/workflows"
-import ModuleCard from "./ModuleCard"
-import WorkflowDiagram from "./WorkflowDiagram"
 import Errors from "./Errors"
+import ModuleCard from "./ModuleCard"
 import {objectFromPairs} from "../utils"
+import WorkflowDiagram, {allCompositionTypes} from "./WorkflowDiagram"
 
 function onlyUnique (value, index, self) {
   return self.indexOf(self.find(e => e.id === value.id)) === index
@@ -24,7 +24,7 @@ class WorkflowCreator extends React.Component {
         React.PropTypes.arrayOf(React.PropTypes.object)
       ).isRequired,
       composition_types: React.PropTypes.objectOf(
-        React.PropTypes.oneOf(["list", "chain"]),
+        React.PropTypes.oneOf(allCompositionTypes),
       ).isRequired,
     }),
 

@@ -42,16 +42,20 @@
           height: 4px;
         }
 
-        .module-list__chaining {
+        .module-list__switch {
           display: flex;
-          justify-content: center;
+          justify-content: space-evenly;
           align-items: center;
           font-size: 0.9em;
           color: scale-color($zoon-black, $lightness: +30%);
           padding: 1em;
 
-          span.selected {
-            font-weight: 700;
+          .name {
+            margin-left: 4px;
+
+            &.selected {
+              font-weight: 700;
+            }
           }
         }
 

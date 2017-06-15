@@ -35,6 +35,7 @@ class Workflow < ApplicationRecord
     enum "#{family}_composition_type" => {
       list: 0,
       chain: 1,
+      replicate: 2,
     }, _suffix: true
   end
 

@@ -7,22 +7,24 @@ import {upFirstLetter} from "../utils"
 const families = ["occurrence", "covariate", "process", "model", "output"]
 export const allCompositionTypes = ["list", "chain", "replicate"]
 
-const Switch = ({ value, onChange }) => <div className="module-list__switch">
-  {allCompositionTypes.map((compType) => {
-    const isSelected = value === compType
-    return <span key={compType} onClick={() => onChange(compType)}>
-      <i
-        className={classnames(
-          "fa",
-          isSelected ? "fa-dot-circle-o" : "fa-circle-o",
-        )}
-      />
-      <span className={classnames("name", {selected: isSelected})}>
-        {upFirstLetter(compType)}
+const Switch = ({ value, onChange }) => (
+  <div className="module-list__switch">
+    {allCompositionTypes.map((compType) => {
+      const isSelected = value === compType
+      return <span key={compType} onClick={() => onChange(compType)}>
+        <i
+          className={classnames(
+            "fa",
+            isSelected ? "fa-dot-circle-o" : "fa-circle-o",
+          )}
+        />
+        <span className={classnames("name", {selected: isSelected})}>
+          {upFirstLetter(compType)}
+        </span>
       </span>
-    </span>
-  })}
-</div>
+    })}
+  </div>
+)
 
 const SelectedItem = ({ item, sharedProps }) => (
   <div className="module-list__list__item">

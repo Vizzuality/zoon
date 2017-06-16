@@ -31,3 +31,18 @@ export const encodeWorkflowQuerystring = (workflow) => {
   })
 }
 
+export const usage = (workflow) => {
+  return [].concat(
+    ["workflow("],
+    Object.entries(workflow.modules).map(([family, modules]) => {
+      const composition = workflow.compositionTypes[family]
+      let moduleList = modules.map((m) => m.name).join(", ")
+      if (modules.length > 1) {
+        moduleList = `${composition}(${moduleList})`
+      }
+      return `  ${family} = ${moduleList},`
+    }),
+    ["  forceReproducible = FALSE"],
+    [")"],
+  ).join("\n")
+}

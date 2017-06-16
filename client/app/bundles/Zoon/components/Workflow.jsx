@@ -3,7 +3,6 @@ import { connect } from "react-redux"
 import { Link } from "react-router"
 import { goBack } from "react-router-redux"
 import * as F from "react-foundation"
-import qs from "qs"
 
 import * as workflowActions from "../actions/workflows"
 import Errorable from "./Errorable"
@@ -13,32 +12,12 @@ import Tags from "./Tags"
 import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
-import {objectFromPairs} from "../utils"
+import {encodeWorkflowQuerystring} from "../lib/workflow"
 import ReactHighmaps from "react-highcharts/ReactHighmaps"
 import continentsMap from "../continentsMap"
 import continentsData from "../continentsData"
 
-const encodeWorkflowQuerystring = (workflow) => {
-  if (!workflow.id) { return "" }
-
-  const {title, description, modules, composition_types} = workflow
-  return qs.stringify({
-    title,
-    description,
-    modules: objectFromPairs(Object.entries(modules).map(
-      ([f, ms]) => [
-        f,
-        ms.map(m => !m.visible && null || {
-          id: m.id,
-          name: m.name,
-          title: m.title,
-          family: m.family,
-        }).filter(e => !!e),
-      ],
-    )),
-    composition_types,
-  })
-}
+const sansId = (w) => ({...w, id: undefined})
 
 class Workflow extends React.Component {
   componentDidMount () {
@@ -122,7 +101,10 @@ class Workflow extends React.Component {
 
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-duplicate">
-              <Link to={`/workflows/new?${encodeWorkflowQuerystring(this.props.entity)}`} className="button">
+              <Link
+                to={this.props.entity.id ? `/workflows/new?${encodeWorkflowQuerystring(sansId(this.props.entity))}` : "#"}
+                className="button"
+              >
                 Duplicate this workflow
               </Link>
             </p>

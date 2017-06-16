@@ -1,0 +1,24 @@
+.workflow-save {
+  input[name="title"] {
+    padding: 9.5px 0px;
+    font-size: 30px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    margin-bottom: 0px;
+  }
+
+  .description-legend {
+    font-variant: small-caps;
+    margin-top: 42px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    line-height: 1.54;
+  }
+
+  textarea[name="description"] {
+    height: 456px;
+    padding: 30px 20px;
+    margin-bottom: 42px;
+  }
+}

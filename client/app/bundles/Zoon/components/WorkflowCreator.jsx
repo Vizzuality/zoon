@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
 import * as F from "react-foundation"
+import { connect } from "react-redux"
+import { goBack } from "react-router-redux"
 import { Link } from "react-router"
-import qs from "qs"
+import React from "react"
 
 import * as workflowsActions from "../actions/workflows"
-import Errors from "./Errors"
+import {encodeWorkflowQuerystring} from "../lib/workflow"
 import ModuleCard from "./ModuleCard"
-import {objectFromPairs} from "../utils"
+import {objectFromPairs, parseLocationSearch} from "../utils"
 import WorkflowDiagram, {allCompositionTypes} from "./WorkflowDiagram"
 
 function onlyUnique (value, index, self) {
@@ -33,10 +33,7 @@ class WorkflowCreator extends React.Component {
       name: React.PropTypes.string.isRequired,
     })).isRequired,
     entities: React.PropTypes.array.isRequired,
-    workflowErrors: React.PropTypes.string,
 
-    createWorkflow: React.PropTypes.func.isRequired,
-    updateWorkflow: React.PropTypes.func.isRequired,
     searchModules: React.PropTypes.func.isRequired,
   }
 
@@ -62,7 +59,7 @@ class WorkflowCreator extends React.Component {
       selectedFamily: this.families()[0],
     }
 
-    const w = this.props.workflow || this.grabValuesFromLocationSearch()
+    const w = this.props.workflow || parseLocationSearch(this.props.location.search)
     if (w) {
       this.state = {
         ...this.state,
@@ -82,33 +79,6 @@ class WorkflowCreator extends React.Component {
     }
   }
 
-  grabValuesFromLocationSearch = () => {
-    let s = this.props.location.search
-    if (s[0] === "?") {
-      s = s.slice(1)
-    }
-    return qs.parse(s)
-  }
-
-  saveWorkflow = (ev) => {
-    ev.preventDefault()
-
-    const {id, title, description, update_path, compositionTypes} = this.state
-    const saver = this.state.id ? this.props.updateWorkflow : this.props.createWorkflow
-
-    saver({
-      id,
-      title,
-      description,
-      compositionTypes,
-      update_path,
-      modules: Object
-        .values(this.state.modules)
-        .reduce((acc, v) => acc.concat(v))
-        .map((module) => module.id),
-    })
-  }
-
   componentDidMount () {
     this.props.searchModules(this.state.selectedFamily)
   }
@@ -121,12 +91,6 @@ class WorkflowCreator extends React.Component {
     return Object
       .values(this.state.modules)
       .every((modules) => (modules.length > 0))
-  }
-
-  onFieldChange = (ev) => {
-    this.setState({
-      [ev.target.name]: ev.target.value,
-    })
   }
 
   addModule (module) {
@@ -228,24 +192,18 @@ class WorkflowCreator extends React.Component {
               reorderModules={this.reorder}
             />
             {
-              this.props.user.id && this.isComplete() &&
-              <form onSubmit={this.saveWorkflow}>
-                <Errors errors={this.props.workflowErrors} />
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  value={this.state.title}
-                  onChange={this.onFieldChange}
-                />
-                <textarea
-                  name="description"
-                  placeholder="Description"
-                  value={this.state.description}
-                  onChange={this.onFieldChange}
-                />
-                <input className="button" type="submit" />
-              </form>
+              this.props.user.id && this.isComplete() && (
+                <span className="buttons">
+                  <F.Button className="hollow back" onClick={this.props.goBack}>
+                    Cancel
+                  </F.Button>
+                  <Link className="button continue"
+                    to={`/workflows/save?${encodeWorkflowQuerystring(this.state)}`}
+                  >
+                    Continue
+                  </Link>
+                </span>
+              )
             }
           </F.Column>
         </F.Row>
@@ -258,10 +216,10 @@ export default connect(
   (state) => ({
     user: state.auth,
     families: state.families.entities,
-    workflowErrors: state.workflows.errors,
     entities: state.modules.entities,
   }),
   {
     ...workflowsActions,
+    goBack,
   }
 )(WorkflowCreator)

@@ -1,3 +1,5 @@
+import qs from "qs"
+
 export function objectFromPairs (pairs) {
   let obj = {}
 
@@ -45,3 +47,10 @@ export function zip (...arrays) {
 }
 
 export const upFirstLetter = (s) => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
+
+export const parseLocationSearch = (search) => {
+  if (search[0] === "?") {
+    search = search.slice(1)
+  }
+  return qs.parse(search)
+}

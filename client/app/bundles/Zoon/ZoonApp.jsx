@@ -16,17 +16,18 @@ import Layout from "./components/Layout"
 import Home from "./components/Home"
 import Modules from "./components/Modules"
 import ModuleInstructions from "./components/ModuleInstructions"
+import Account from "./components/Account"
+import ChangePassword from "./components/ChangePassword"
 import Module from "./components/Module"
-import Workflows from "./components/Workflows"
+import NotFound from "./components/NotFound"
+import RecoverPassword from "./components/RecoverPassword"
+import SignIn from "./components/SignIn"
+import SignUp from "./components/SignUp"
 import WorkflowCreator from "./components/WorkflowCreator"
 import WorkflowEdit from "./components/WorkflowEdit"
 import Workflow from "./components/Workflow"
-import SignIn from "./components/SignIn"
-import SignUp from "./components/SignUp"
-import Account from "./components/Account"
-import RecoverPassword from "./components/RecoverPassword"
-import ChangePassword from "./components/ChangePassword"
-import NotFound from "./components/NotFound"
+import WorkflowSave from "./components/WorkflowSave"
+import Workflows from "./components/Workflows"
 
 axios.defaults.headers.common["Accept"] = "application/json"
 
@@ -47,6 +48,7 @@ const ZoonApp = (props, _railsContext) => {
         <Route path="/modules/:id" component={Module} />
         <Route path="/workflows/new" component={WorkflowCreator} />
         <Route path="/workflows" component={Workflows} />
+        <Route path="/workflows/save" component={WorkflowSave} />
         <Route path="/workflows/:id" component={Workflow} />
         <Route path="/workflows/:id/edit" component={WorkflowEdit} />
         <Route path="/users/sign_in" component={SignIn} />

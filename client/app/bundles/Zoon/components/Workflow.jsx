@@ -185,6 +185,7 @@ class Workflow extends React.Component {
               {[].concat.apply([], Object.values(this.props.entity.modules || {})).map(m => <ModuleCard
                 key={m.id}
                 m={m}
+                link={true}
               />)}
             </div>
           </F.Row>

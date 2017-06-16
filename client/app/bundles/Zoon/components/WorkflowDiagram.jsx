@@ -27,7 +27,11 @@ const Switch = ({ value, onChange }) => (
 )
 
 const SelectedItem = ({ item, sharedProps }) => (
-  <div className="module-list__list__item">
+  <div
+    className="module-list__list__item"
+    onMouseEnter={() => sharedProps.onModuleHover(item.id)}
+    onMouseLeave={() => sharedProps.onModuleHover(null)}
+  >
     {item.title}
     <i
       className="fa fa-times-circle"
@@ -46,6 +50,7 @@ const WorkflowDiagram = ({
   changeCompositionType,
   removeModule,
   reorderModules,
+  onModuleHover,
 }) => (
   <ol className="workflow-diagram">
     {families.map((family) => (
@@ -84,7 +89,7 @@ const WorkflowDiagram = ({
                     list={modules[family]}
                     template={SelectedItem}
                     callback={(a, b, c, d, list) => reorderModules(family, list)}
-                    sharedProps={{removeModule}}
+                    sharedProps={{removeModule, onModuleHover}}
                   />
                 }
 

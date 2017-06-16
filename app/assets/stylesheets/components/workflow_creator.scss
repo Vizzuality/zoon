@@ -1,7 +1,11 @@
 .workflow-creator {
-  form {
-    textarea {
-      height: 5em;
+  .buttons {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+
+    .continue {
+      margin-left: 24px;
     }
   }
 }

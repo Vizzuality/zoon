@@ -108,6 +108,7 @@ class WorkflowCreator extends React.Component {
 
   removeModule = (module) => {
     this.setState({
+      showingModule: null,
       modules: {
         ...this.state.modules,
         [module.family]: this

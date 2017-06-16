@@ -81,6 +81,7 @@ function* get ({id}) {
       errorMessage: "Error talking to the server.",
     }))
   } else {
+    json.workflow.compositionTypes = json.workflow.composition_types
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
       entities: [json.workflow],

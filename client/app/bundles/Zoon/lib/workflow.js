@@ -8,7 +8,6 @@ export const encodeWorkflowQuerystring = (workflow) => {
     description,
     modules,
     update_path,
-    composition_types,
     compositionTypes,
   } = workflow
 
@@ -28,7 +27,6 @@ export const encodeWorkflowQuerystring = (workflow) => {
       ],
     )),
     update_path,
-    composition_types,
     compositionTypes,
   })
 }

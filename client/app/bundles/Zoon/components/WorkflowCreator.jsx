@@ -23,7 +23,7 @@ class WorkflowCreator extends React.Component {
       modules: React.PropTypes.objectOf(
         React.PropTypes.arrayOf(React.PropTypes.object)
       ).isRequired,
-      composition_types: React.PropTypes.objectOf(
+      compositionTypes: React.PropTypes.objectOf(
         React.PropTypes.oneOf(allCompositionTypes),
       ).isRequired,
     }),
@@ -73,7 +73,7 @@ class WorkflowCreator extends React.Component {
         },
         compositionTypes: {
           ...this.state.compositionTypes,
-          ...w.composition_types,
+          ...w.compositionTypes,
         },
         update_path: w.update_path,
       }

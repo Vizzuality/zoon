@@ -10,6 +10,7 @@ import {encodeWorkflowQuerystring, usage} from "../lib/workflow"
 import ModuleCard from "./ModuleCard"
 import {objectFromPairs, parseLocationSearch} from "../utils"
 import WorkflowDiagram, {allCompositionTypes} from "./WorkflowDiagram"
+import {families} from "../lib/module"
 
 function onlyUnique (value, index, self) {
   return self.indexOf(self.find(e => e.id === value.id)) === index
@@ -30,9 +31,6 @@ class WorkflowCreator extends React.Component {
     }),
 
     user: React.PropTypes.object.isRequired,
-    families: React.PropTypes.arrayOf(React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-    })).isRequired,
     entities: React.PropTypes.array.isRequired,
 
     searchModules: React.PropTypes.func.isRequired,
@@ -47,17 +45,17 @@ class WorkflowCreator extends React.Component {
       description: "",
       modules: {
         ...objectFromPairs(
-          this.families().map((family) => [family, []])
+          families.map((family) => [family, []])
         ),
       },
       compositionTypes: {
         ...objectFromPairs(
-          this.families().map((family) => [family, "list"])
+          families.map((family) => [family, "list"])
         ),
       },
       update_path: null,
 
-      selectedFamily: this.families()[0],
+      selectedFamily: families[0],
       showingModule: null,
     }
 
@@ -83,10 +81,6 @@ class WorkflowCreator extends React.Component {
 
   componentDidMount () {
     this.props.searchModules(this.state.selectedFamily)
-  }
-
-  families () {
-    return this.props.families.map((family) => family.name)
   }
 
   isComplete () {
@@ -147,11 +141,11 @@ class WorkflowCreator extends React.Component {
   }
 
   currentStep () {
-    return this.families().indexOf(this.state.selectedFamily) + 1
+    return families.indexOf(this.state.selectedFamily) + 1
   }
 
   totalSteps () {
-    return this.families().length
+    return families.length
   }
 
   showModuleLightbox = (moduleId) => {
@@ -253,7 +247,6 @@ class WorkflowCreator extends React.Component {
 export default connect(
   (state) => ({
     user: state.auth,
-    families: state.families.entities,
     entities: state.modules.entities,
   }),
   {

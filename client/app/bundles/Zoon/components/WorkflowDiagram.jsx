@@ -3,8 +3,8 @@ import Reorder from "react-reorder"
 import classnames from "classnames"
 
 import {upFirstLetter} from "../utils"
+import {families} from "../lib/module"
 
-const families = ["occurrence", "covariate", "process", "model", "output"]
 export const allCompositionTypes = ["list", "chain", "replicate"]
 
 const Switch = ({ value, onChange }) => (

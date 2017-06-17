@@ -46,3 +46,5 @@ export const usage = (workflow) => {
     [")"],
   ).join("\n")
 }
+
+export const compositionTypes = ["list", "chain", "replicate"]

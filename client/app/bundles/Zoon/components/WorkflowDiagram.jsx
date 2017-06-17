@@ -4,8 +4,8 @@ import classnames from "classnames"
 
 import {upFirstLetter} from "../utils"
 import {families} from "../lib/module"
+import {compositionTypes as allCompositionTypes} from "../lib/workflow"
 
-export const allCompositionTypes = ["list", "chain", "replicate"]
 
 const Switch = ({ value, onChange }) => (
   <div className="module-list__switch">

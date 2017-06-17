@@ -206,7 +206,7 @@ class WorkflowCreator extends React.Component {
             </div>
 
             <WorkflowDiagram
-              expandedFamilies={{[this.state.selectedFamily]: true}}
+              expandedFamily={this.state.selectedFamily}
               compositionTypes={this.state.compositionTypes}
               modules={this.state.modules}
               editable

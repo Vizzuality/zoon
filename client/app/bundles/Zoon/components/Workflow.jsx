@@ -112,7 +112,6 @@ class Workflow extends React.Component {
         <F.Row>
           <F.Column small={12}>
             <WorkflowDiagram
-              expandedFamilies={{}}
               compositionTypes={this.props.entity.compositionTypes || {}}
               modules={this.props.entity.modules || {}}
             />

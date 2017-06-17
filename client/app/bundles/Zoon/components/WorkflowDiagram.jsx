@@ -42,7 +42,7 @@ const SelectedItem = ({ item, sharedProps }) => (
 )
 
 const WorkflowDiagram = ({
-  expandedFamilies,
+  expandedFamily,
   compositionTypes,
   modules,
   editable = false,
@@ -62,7 +62,7 @@ const WorkflowDiagram = ({
                 {family}
               </span>
               {
-                !expandedFamilies[family] && editable &&
+                expandedFamily !== family && editable &&
                 <i
                   onClick={() => selectFamily(family)}
                   className="fa fa-pencil"
@@ -71,7 +71,7 @@ const WorkflowDiagram = ({
             </div>
 
             {
-              expandedFamilies[family] &&
+              expandedFamily === family &&
               <div>
                 <span className={`module-family-${family} module-family-background-color`} />
                 <Switch
@@ -97,7 +97,7 @@ const WorkflowDiagram = ({
             }
           </div>
           {
-            expandedFamilies[family] &&
+            expandedFamily === family &&
             <p className="add-module-cta">Add a module</p> ||
             <p className="n-modules-selected">
               {(modules[family] || []).length} modules selected

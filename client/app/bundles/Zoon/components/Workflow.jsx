@@ -12,12 +12,10 @@ import Tags from "./Tags"
 import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
-import {encodeWorkflowQuerystring, usage} from "../lib/workflow"
+import {usage} from "../lib/workflow"
 import ReactHighmaps from "react-highcharts/ReactHighmaps"
 import continentsMap from "../continentsMap"
 import continentsData from "../continentsData"
-
-const sansId = (w) => ({...w, id: undefined})
 
 class Workflow extends React.Component {
   componentDidMount () {
@@ -102,7 +100,7 @@ class Workflow extends React.Component {
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-duplicate">
               <Link
-                to={this.props.entity.id ? `/workflows/new?${encodeWorkflowQuerystring(sansId(this.props.entity))}` : "#"}
+                to={this.props.entity.id ? `/workflows/?${this.props.entity.id}/duplicate` : "#"}
                 className="button"
               >
                 Duplicate this workflow

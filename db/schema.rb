@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225055114) do
+ActiveRecord::Schema.define(version: 20170620152605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,8 +107,8 @@ ActiveRecord::Schema.define(version: 20170225055114) do
     t.datetime "latest_import",  default: -> { "now()" }, null: false
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
-    t.json     "authors",        default: {},             null: false
-    t.json     "parameters",     default: {},             null: false
+    t.json     "authors",        default: [],             null: false
+    t.json     "parameters",     default: [],             null: false
     t.string   "location"
     t.text     "references"
     t.text     "return_value"

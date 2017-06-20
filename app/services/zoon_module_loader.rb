@@ -1,16 +1,4 @@
 class ZoonModuleLoader
-  def self.load_es contents
-    self.import self.filter_modules_from_es_results(
-      JSON.parse(contents),
-    )
-  end
-
-  def self.filter_modules_from_es_results entries
-    entries['hits']['hits'].
-      select{|e| e['_type'] == 'module'}.
-      map{|e| e['_source']}
-  end
-
   def self.import json_entries
     tags = [
       Tag.find_or_create_by!(name: "europe"),
@@ -40,21 +28,57 @@ class ZoonModuleLoader
 
         m.visible = true
         m.latest_import = DateTime.now
-        m.title = m.name
-        m.parameters = j['parameters']
-        m.return_value = j['returnValues'].join '\n'
-        m.date_submitted = Date.parse j['submitted']
-        m.version = j['version']
-        m.references = j['references']
-        m.location = j['location']
-        m.authors = j['authors']
-        m.family = j['type']
-        m.description = j['descriptions'].join '\n'
+        m.title = force_string(j, 'title')
+        m.parameters = force_list(j, 'param')
+        m.return_value = force_string(j, 'return')
+        m.date_submitted = Date.parse extract_section(j, 'Date submitted')
+        m.version = extract_section(j, 'Version')
+        m.references = force_string(j, 'references')
+        m.authors = make_authors(j)
+        m.family = j['family']
+        m.description = force_string(j, 'description')
 
         m.save!
 
         m.tags = tags.sample 3
       end
     end
+  end
+
+  def self.make_authors hash
+    force_list(hash, "author").flat_map do |l|
+      atoms = l.split(/, | & /) or []
+      return [] if atoms.empty?
+
+      email = /\\email\{([^}]*)\}/.match(atoms.last)&.[](1) and atoms.pop
+
+      return {authorName: email, email: email} if atoms.empty?
+
+      atoms.zip([email]).map{|(p, e)| {authorName: p, email: e}}
+    end
+  end
+
+  def self.force_list hash, prefix
+    hash.select do |k, _|
+      k.start_with?("#{prefix}.") || k == prefix
+    end.map do |(k, v)|
+      parts = k.split(".", 2)
+      [[parts[0], parts[1].to_i], v]
+    end.sort.map(&:last)
+  end
+
+  def self.force_string hash, prefix
+    force_list(hash, prefix).join("\n")
+  end
+
+  def self.extract_section hash, prefix, default=""
+    canon = lambda{|l| l.strip.downcase}
+    prefix_canon = canon.(prefix)
+
+    force_list(hash, "section").map do |l|
+      l.split(':')
+    end.find([nil, default]) do |(header, _)|
+      canon.(header) == prefix_canon
+    end.last.strip
   end
 end

@@ -14,8 +14,8 @@
   github_username: "pkoch",
 )
 
-ZoonModuleLoader.load_es(File.read(File.join(
+ZoonModuleLoader.import(JSON.parse(File.read(File.join(
   File.dirname(__FILE__),
   '..',
   'modules.json',
-)))
+))))

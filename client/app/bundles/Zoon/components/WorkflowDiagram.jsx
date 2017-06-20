@@ -32,7 +32,7 @@ const SelectedItem = ({ item, sharedProps }) => (
     onMouseEnter={() => sharedProps.onModuleHover(item.id)}
     onMouseLeave={() => sharedProps.onModuleHover(null)}
   >
-    {item.title}
+    {item.name}
     <i
       className="fa fa-times-circle"
       onMouseDown={(ev) => ev.stopPropagation()}

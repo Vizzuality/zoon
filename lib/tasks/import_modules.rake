@@ -15,9 +15,7 @@ namespace :import do
       contents = File.read(args[:filename])
     end
 
-    json_entries = ZoonModuleLoader.filter_modules_from_es_results(
-      JSON.parse(contents),
-    )
+    json_entries = JSON.parse(contents)
 
     puts "Loaded #{json_entries.length} entries from the JSON input"
     puts "Started with #{ZoonModule.count} visible in the DB"

@@ -147,8 +147,8 @@ class Module extends React.Component {
             <div className="module-title">
               <span className="module-family-background" />
               <p>
-                {this.props.entity.title}
-                <span className="module-family-color">{this.props.entity.name}</span>
+                {this.props.entity.name}
+                <span className="module-family-color">{this.props.entity.title}</span>
               </p>
             </div>
 

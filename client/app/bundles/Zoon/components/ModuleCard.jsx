@@ -6,7 +6,7 @@ export default ({ m, link = false, onClick = null }) => {
   const body = (
     <div className={`entity-card module-family-${m.family}`}>
       <div className="entity-content">
-        <p className="entity-title">{m.title}</p>
+        <p className="entity-title">{m.name}</p>
         <div className="entity-version-and-ratings module-family-color">
           <span className="entity-version">V.{m.version}</span>
           <span className="entity-rating">

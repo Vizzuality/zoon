@@ -7,7 +7,7 @@ import ModuleCard from "./ModuleCard"
 const module = {
   id: 1,
   family: "occurence",
-  title: "My pretty module",
+  name: "My pretty module",
   version: "1.0",
   average_rating: 3,
   description: "It's just pretty.",

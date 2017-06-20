@@ -43,8 +43,4 @@ class ZoonModule < ApplicationRecord
   def url
     "https://github.com/zoonproject/modules/blob/master/R/#{name}.R"
   end
-
-  def code
-    name
-  end
 end

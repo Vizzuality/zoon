@@ -12,7 +12,7 @@ import Tags from "./Tags"
 import Code from "./Code"
 import ModuleCard from "./ModuleCard"
 import WorkflowDiagram from "./WorkflowDiagram"
-import {encodeWorkflowQuerystring} from "../lib/workflow"
+import {encodeWorkflowQuerystring, usage} from "../lib/workflow"
 import ReactHighmaps from "react-highcharts/ReactHighmaps"
 import continentsMap from "../continentsMap"
 import continentsData from "../continentsData"
@@ -131,7 +131,7 @@ class Workflow extends React.Component {
               Copy these lines into your R console
             </p>
 
-            <Code>{this.props.entity.code}</Code>
+            <Code>{this.props.entity.modules && usage(this.props.entity)}</Code>
 
             <Feedback
               entity={this.props.entity}

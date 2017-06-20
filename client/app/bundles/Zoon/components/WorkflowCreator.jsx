@@ -5,7 +5,8 @@ import { Link } from "react-router"
 import React from "react"
 
 import * as workflowsActions from "../actions/workflows"
-import {encodeWorkflowQuerystring} from "../lib/workflow"
+import Code from "./Code"
+import {encodeWorkflowQuerystring, usage} from "../lib/workflow"
 import ModuleCard from "./ModuleCard"
 import {objectFromPairs, parseLocationSearch} from "../utils"
 import WorkflowDiagram, {allCompositionTypes} from "./WorkflowDiagram"
@@ -23,7 +24,7 @@ class WorkflowCreator extends React.Component {
       modules: React.PropTypes.objectOf(
         React.PropTypes.arrayOf(React.PropTypes.object)
       ).isRequired,
-      composition_types: React.PropTypes.objectOf(
+      compositionTypes: React.PropTypes.objectOf(
         React.PropTypes.oneOf(allCompositionTypes),
       ).isRequired,
     }),
@@ -73,7 +74,7 @@ class WorkflowCreator extends React.Component {
         },
         compositionTypes: {
           ...this.state.compositionTypes,
-          ...w.composition_types,
+          ...w.compositionTypes,
         },
         update_path: w.update_path,
       }
@@ -215,6 +216,19 @@ class WorkflowCreator extends React.Component {
               reorderModules={this.reorder}
               onModuleHover={this.showModuleLightbox}
             />
+            {
+              this.isComplete() && (
+                <F.Row>
+                  <F.Column offsetOnSmall={3} small={6}>
+                    <h5>Usage</h5>
+                    <p className="faded">
+                      Copy these lines into your R console
+                    </p>
+                    <Code> {usage(this.state)}</Code>
+                  </F.Column>
+                </F.Row>
+              )
+            }
             {
               this.props.user.id && this.isComplete() && (
                 <span className="buttons">

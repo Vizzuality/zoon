@@ -6,12 +6,11 @@ import React from "react"
 
 import * as workflowsActions from "../actions/workflows"
 import Code from "./Code"
-import {encodeWorkflowQuerystring, usage} from "../lib/workflow"
+import {encodeWorkflowQuerystring, usage, compositionTypes} from "../lib/workflow"
 import ModuleCard from "./ModuleCard"
 import {objectFromPairs, parseLocationSearch} from "../utils"
 import WorkflowDiagram from "./WorkflowDiagram"
 import {families} from "../lib/module"
-import {compositionTypes} from "../lib/workflow"
 
 function onlyUnique (value, index, self) {
   return self.indexOf(self.find(e => e.id === value.id)) === index

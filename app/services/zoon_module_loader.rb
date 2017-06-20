@@ -28,7 +28,7 @@ class ZoonModuleLoader
 
         m.visible = true
         m.latest_import = DateTime.now
-        m.title = name
+        m.title = force_string(j, 'title')
         m.parameters = force_list(j, 'param')
         m.return_value = force_string(j, 'return')
         m.date_submitted = Date.parse extract_section(j, 'Date submitted')

@@ -1,5 +1,5 @@
-import React from "react" // pkoch: to render the jsx.
-import { Provider } from "react-redux"
+import React from "react"
+import { Provider, connect } from "react-redux"
 import {
   IndexRoute,
   Route,
@@ -51,6 +51,7 @@ const ZoonApp = (props, _railsContext) => {
         <Route path="/workflows/save" component={WorkflowSave} />
         <Route path="/workflows/:id" component={Workflow} />
         <Route path="/workflows/:id/edit" component={WorkflowEdit} />
+        <Route path="/workflows/:id/duplicate" component={connect(() => ({stripId: true}))(WorkflowEdit)} />
         <Route path="/users/sign_in" component={SignIn} />
         <Route path="/users/sign_up" component={SignUp} />
         <Route path="/account" component={Account} />

@@ -28,7 +28,6 @@ const WorkflowCard = ({ w, deleteWorkflow }) => {
       </div>
 
       <WorkflowDiagram
-        expandedFamilies={{}}
         compositionTypes={w.compositionTypes || {}}
         modules={w.modules || {}}
       />

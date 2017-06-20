@@ -6,6 +6,10 @@ import WorkflowCreator from "./WorkflowCreator"
 import * as workflowActions from "../actions/workflows"
 
 class WorkflowEdit extends React.Component {
+  static defaultProps = {
+    stripId: false,
+  }
+
   static propTypes = {
     state: React.PropTypes.string.isRequired,
     errorMessage: React.PropTypes.string,
@@ -23,8 +27,15 @@ class WorkflowEdit extends React.Component {
     const {
       state,
       errorMessage,
-      workflow,
     } = this.props
+
+    let workflow = this.props.workflow
+    if (this.props.stripId) {
+      workflow = {
+        ...workflow,
+        id: null,
+      }
+    }
 
     return <Errorable {...{state, errorMessage}}>
       <WorkflowCreator workflow={workflow} />

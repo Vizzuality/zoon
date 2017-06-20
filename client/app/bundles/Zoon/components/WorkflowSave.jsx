@@ -49,7 +49,6 @@ class WorkflowSave extends React.Component {
         <F.Row>
           <F.Column small={12}>
             <WorkflowDiagram
-              expandedFamilies={{}}
               compositionTypes={{}}
               modules={this.state.modules || {}}
             />

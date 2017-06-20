@@ -13,37 +13,33 @@ import MapPickerFilter from "./MapPickerFilter"
 import SearchQueryFilter from "./SearchQueryFilter"
 import {filterAbsentValues} from "../utils"
 import GatedDispatcher from "../lib/gated_dispatcher"
-
-const familyShape = React.PropTypes.shape({
-  name: React.PropTypes.string.isRequired,
-  image_url: React.PropTypes.string.isRequired,
-})
+import {families} from "../lib/module"
 
 const FamilySwitch = ({
-  currentFamilyName,
+  currentFamily,
   targetFamily,
   committer,
 }) => {
-  const isCurrent = currentFamilyName === targetFamily.name
+  const isCurrent = currentFamily === targetFamily
   return (
     <a
       className={isCurrent ? "selected" : ""}
       onClick={() => {
-        committer({searchFamily: isCurrent ? null : targetFamily.name})
+        committer({searchFamily: isCurrent ? null : targetFamily})
       }}>
       <span
         className={[
-          `module-family-${targetFamily.name}`,
+          `module-family-${targetFamily}`,
           "module-family-background",
         ].join(" ")}
       />
-      <span rel={targetFamily.name}>{targetFamily.name}</span>
+      <span rel={targetFamily}>{targetFamily}</span>
     </a>
   )
 }
 
 FamilySwitch.propTypes = {
-  currentFamilyName: React.PropTypes.string,
+  currentFamily: React.PropTypes.string,
   targetFamily: React.PropTypes.object.isRequired,
 
   committer: React.PropTypes.func.isRequired,
@@ -52,7 +48,6 @@ FamilySwitch.propTypes = {
 class Modules extends React.Component {
   static propTypes = {
     state: React.PropTypes.string.isRequired,
-    families: React.PropTypes.arrayOf(familyShape).isRequired,
     searchFamily: React.PropTypes.string,
     searchQuery: React.PropTypes.string,
     granularity: React.PropTypes.string,
@@ -142,10 +137,10 @@ class Modules extends React.Component {
               <div className="family-filter">
                 <h4>Filter by module type</h4>
                 <ul className="family-filter__families">
-                  {this.props.families.map(f => (
-                    <li key={f.name}>
+                  {families.map(f => (
+                    <li key={f}>
                       <FamilySwitch
-                        currentFamilyName={this.state.searchFamily}
+                        currentFamily={this.state.searchFamily}
                         targetFamily={f}
                         committer={this.commitState}
                       />
@@ -202,7 +197,6 @@ class Modules extends React.Component {
 
 export default connect(
   (state) => ({
-    families: state.families.entities,
     ...state.modules,
   }),
   {

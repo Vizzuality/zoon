@@ -13,6 +13,14 @@ import Tags from "./Tags"
 import ReactHighmaps from "react-highcharts/ReactHighmaps"
 import continentsMap from "../continentsMap"
 import continentsData from "../continentsData"
+import {rd2html} from "../lib/rd"
+
+const dangerousRd = (rd) => (
+  // This opens us up to injection comming from the Modules' docs.
+  // See
+  // https://facebook.github.io/react/docs/dom-elements.html#dangerouslysetinnerhtml
+  <span dangerouslySetInnerHTML={{__html: rd2html(rd)}} />
+)
 
 class Screenshots extends React.Component {
   render () {
@@ -152,11 +160,38 @@ class Module extends React.Component {
               </p>
             </div>
 
-            <h5>Description</h5>
-            <p className="faded">{this.props.entity.description || "(no description)"}</p>
+            { this.props.entity.title &&
+            <span>
+              <h5>Title</h5>
+              <p className="faded">{dangerousRd(this.props.entity.title)}</p>
+            </span>
+            }
 
-            <h5>Details</h5>
-            <p className="faded">{this.props.entity.details || "(no details)"}</p>
+            { this.props.entity.parameters && this.props.entity.parameters.length &&
+            <span>
+              <h5>Parameters</h5>
+              {this.props.entity.parameters.map((p) => (
+                <span>
+                  <h6>{p.name}</h6>
+                  <p className="faded">{dangerousRd(p.description)}</p>
+                </span>
+              ))}
+            </span>
+            }
+
+            { this.props.entity.description &&
+            <span>
+              <h5>Description</h5>
+              <p className="faded">{dangerousRd(this.props.entity.description)}</p>
+            </span>
+            }
+
+            { this.props.entity.details &&
+            <span>
+              <h5>Details</h5>
+              <p className="faded">{dangerousRd(this.props.entity.details)}</p>
+            </span>
+            }
 
             <Feedback
               entity={this.props.entity}

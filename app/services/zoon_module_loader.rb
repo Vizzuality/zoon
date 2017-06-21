@@ -37,6 +37,7 @@ class ZoonModuleLoader
         m.authors = make_authors(j)
         m.family = j['family']
         m.description = force_string(j, 'description')
+        m.details = force_string(j, 'details')
 
         m.save!
 

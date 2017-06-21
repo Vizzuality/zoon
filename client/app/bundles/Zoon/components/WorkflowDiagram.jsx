@@ -6,7 +6,6 @@ import {upFirstLetter} from "../utils"
 import {families} from "../lib/module"
 import {compositionTypes as allCompositionTypes} from "../lib/workflow"
 
-
 const Switch = ({ value, onChange }) => (
   <div className="module-list__switch">
     {allCompositionTypes.map((compType) => {

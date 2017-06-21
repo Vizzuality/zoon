@@ -171,7 +171,7 @@ class Module extends React.Component {
             <span>
               <h5>Parameters</h5>
               {this.props.entity.parameters.map((p) => (
-                <span>
+                <span key={p.name}>
                   <h6>{p.name}</h6>
                   <p className="faded">{dangerousRd(p.description)}</p>
                 </span>

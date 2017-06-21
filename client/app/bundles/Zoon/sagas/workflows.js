@@ -8,6 +8,14 @@ import * as workflowAPI from "../api/workflows"
 import * as moduleAPI from "../api/modules"
 import * as tagAPI from "../api/tags"
 
+const normalize = (workflow) => (
+  {
+    ...workflow,
+    compositionTypes: workflow.composition_types,
+    composition_types: undefined,
+  }
+)
+
 function* create ({workflow}) {
   let json = yield workflowAPI.create(workflow)
 
@@ -65,6 +73,7 @@ function* search ({searchQuery, selectedGeos}) {
       errorMessage: "Error talking to the server.",
     }))
   } else {
+    json.entities = json.entities.map(normalize)
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
       ...json,
@@ -81,10 +90,9 @@ function* get ({id}) {
       errorMessage: "Error talking to the server.",
     }))
   } else {
-    json.workflow.compositionTypes = json.workflow.composition_types
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
-      entities: [json.workflow],
+      entities: [normalize(json.workflow)],
     }))
   }
 }

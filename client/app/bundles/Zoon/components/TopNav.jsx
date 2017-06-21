@@ -9,6 +9,7 @@ const TopNav = ({
   isLoggedIn,
   isHome,
   isModules,
+  isWorkflows,
   isSignIn,
   isSignUp,
   isAccount,
@@ -32,7 +33,7 @@ const TopNav = ({
                 <F.MenuItem className="home"><Link to="/">Zoon</Link></F.MenuItem>
               )}
               <F.MenuItem className={isModules && "active"}><Link to="/modules">Modules</Link></F.MenuItem>
-              <F.MenuItem><Link to="/workflows">Workflows</Link></F.MenuItem>
+              <F.MenuItem className={isWorkflows && "active"}><Link to="/workflows">Workflows</Link></F.MenuItem>
               <F.MenuItem><Link to="javascript:void(0)">About</Link></F.MenuItem>
             </F.Menu>
           </F.TopBarLeft>
@@ -54,6 +55,7 @@ export default connect(
       isLoggedIn: !!state.auth.id,
       isHome: l.pathname === "/",
       isModules: l.pathname === "/modules",
+      isWorkflows: l.pathname === "/workflows",
       isSignIn: l.pathname === "/users/sign_in",
       isSignUp: l.pathname === "/users/sign_up",
       isAccount: l.pathname === "/account",

@@ -100,7 +100,7 @@ class Workflow extends React.Component {
           <F.Column small={4} offsetOnSmall={1}>
             <p className="module-duplicate">
               <Link
-                to={this.props.entity.id ? `/workflows/?${this.props.entity.id}/duplicate` : "#"}
+                to={this.props.entity.id ? `/workflows/${this.props.entity.id}/duplicate` : "#"}
                 className="button"
               >
                 Duplicate this workflow

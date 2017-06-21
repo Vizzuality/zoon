@@ -40,7 +40,7 @@ const FamilySwitch = ({
 
 FamilySwitch.propTypes = {
   currentFamily: React.PropTypes.string,
-  targetFamily: React.PropTypes.object.isRequired,
+  targetFamily: React.PropTypes.string.isRequired,
 
   committer: React.PropTypes.func.isRequired,
 }

@@ -1,295 +1,105 @@
 [
   {
-    "title": "Occurrence module: UK Anopheles plumbeus data",
-    "description": "Return some Anopheles plumbeus data that is bundled with package.\n Data taken from GBIF and has the extent \\code{c(-10, 10, 45, 65)}.",
+    "name": "addInteraction",
+    "title": "Set up interactions among covariates",
+    "description": "The module constructs new covariates torepresent interactions (and possibly polynomial terms).",
+    "details": "Statistical interactions are (mathematically) the product of covariates. This module allows the user to pre-specify which interactions to add to the data. If a four-way interaction between A, B, C and D is desired, it automatically adds all possible two- and three-way interactions as well (obeying the marginality theorem). If the same variable name is provided several times in a vector (e.g. c(A, A, A)), this will lead to a cubic polynomial.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "which_covs",
+      "description": "List with vector(s) of names of covariates to interact, e.g. list(c('A', 'C', 'D')), or 'pairs' for all pairwise interactions."
+    },
+    "param.2": {
+      "name": "exclude",
+      "description": "For option 'pairs', exclude the covariates named from interactions."
+    },
+    "family": "process",
+    "author": "Alison Johnston & Carsten F. Dormann, \\email{alison.johnston@bto.org}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "title": "Process module: AddRandomUniformPredictors",
+    "description": "Process module which adds a random uniform covariate to the dataset.  This new covariate can be scaled to an existing covariate.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "name",
+      "description": "Optional argument specifying the name of the new covariate layer.  If not specified, it will automatically named."
+    },
+    "param.2": {
+      "name": "scaleTo",
+      "description": "Optional argument specifying the name of an existing covariate layer which the new random uniform covariate will be scaled to."
+    },
+    "return": "a Raster object with the appended random uniform covariate.",
+    "author": "James Campbell, \\email{jamesadamcampbell@gmail.com}",
+    "section": "Version: 1.01",
+    "section.1": "Date submitted: 2016-06-15",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "examples": "work1 <- workflow(occurrence = UKAnophelesPlumbeus,\n   covariate  = UKAir,\n   process    = Chain(OneHundredBackground,\n                   AddRandomUniformPredictors(scaleTo = 'layer', name = 'Random.layer'),\n                   AddRandomUniformPredictors(scaleTo = 'layer'),\n                   AddRandomUniformPredictors),\n   model      = LogisticRegression,\n   output     = PerformanceMeasures)\n   \n### Display resulting covariate maps from each workflow\nspplot(work1$process.output[[1]]$ras$layer)\nspplot(work1$process.output[[1]]$ras$Random.layer.1)\nspplot(work1$process.output[[1]]$ras$RandUnif.1)\nspplot(work1$process.output[[1]]$ras$RandUnif.2)\n\n### Show resulting model\nwork1$model.output[[1]]$model$model\n",
+    "name": "AddRandomUniformPredictors",
+    "family": "process"
+  },
+  {
+    "title": "Covariate module: AirNCEP",
+    "description": "Covariate module to grab a coarse resolution mean air temperature raster from\n January-February 2001-2002 for the UK.",
+    "param": {
+      "name": "quiet",
+      "description": "Logical. If TRUE (default) the progress of downloads is not shown"
+    },
+    "seealso": "\\code{\\link{RNCEP::NCEP.gather}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "name": "AirNCEP",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "family": "covariate"
+  },
+  {
+    "title": "Occurrence module: AnophelesPlumbeus",
+    "description": "Occurrence module to grab *Anopheles plumbeus* (a mosquito) presence\n      (presence-only) data from GBIF, in the area bounded by extent.",
+    "param": {
+      "name": "extent",
+      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax. By default the extent of the UK."
+    },
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
     "section": "Version: 1.0",
     "section.1": "Date submitted: 2015-11-13",
     "section.2": "Data type: presence-only",
-    "name": "UKAnophelesPlumbeus",
+    "name": "AnophelesPlumbeus",
     "family": "occurrence"
   },
   {
-    "title": "Model module: OptGRaF",
-    "description": "Model module to fit a (slow) GRaF model, with parameter optimisation.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence",
-    "name": "OptGRaF",
-    "family": "model"
-  },
-  {
-    "name": "NoOutput",
-    "title": "Do not create any output",
-    "description": "No output is created",
-    "details": "",
+    "name": "Appify",
+    "title": "Appify",
+    "description": "The Appify module builds a shiny app that displays dynamic graphical and tabular representations of the input data (occurrence and covarite) as well as model predictions.",
+    "details": "Appify will return the path to the shiny application. For details on how to share the application visit http://shiny.rstudio.com/tutorial/lesson7/. You can run the app locally using shiny::runApp(appDir = <YOUR_PATH>)",
     "param": {
       "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
     },
     "param.1": {
       "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "family": "output",
-    "author": "Tim Lucas, \\email{timcdlucas@gmail.com}",
-    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "title": "Model module: MaxNet",
-    "description": "Model module to fit MaxEnt models using the maxnet package",
-    "details": "The maxnet R package fits MaxEnt models using the glmnet package, \n which enables efficient fitting of glms with regularization. Unlike MaxEnt, \n MaxNet does not require the user to download and install the MaxEnt java \n executable.\n \n \\code{features} should be a string including an 'l' for linear features, 'q'\n for quadratic features, 'h' for hinge features, 'p' for pairwise \n interactions and 't' for threshold features. E.g. to use only linear \n features and their interactions, either \\code{features = 'lp'} or \n \\code{features = 'pl'} would work. the default value of \\code{'default'} \n uses maxnet's default settings, adjusting the set up based on the number of \n occurrence records \\emph{np}: 'l' if np < 10; 'lq' if np < 15; 'lqh' if np <\n 80; or 'lqph' if np >= 80. I.e. the default never uses threshold features.\n \n \\code{prediction_type} corresponds to the \\code{type} argument in the \n \\code{maxnet} predict function. \\code{maxnet} enables types: 'link', \n 'exponential', 'cloglog' and 'logistic'. However most output modules expect \n predictions to be made on the probability scale, for which only 'cloglog'\n and 'logistic' are guaranteed to work.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "features",
-      "description": "A length-one character vector (i.e. a string) defining the \ntypes of features to use for all covariates (see details)."
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user.#'"
     },
     "param.2": {
-      "name": "regmult",
-      "description": "A positive scalar giving the multiplier for the degree of \nregularisation. Higher values mean more regularisation."
+      "name": "directory",
+      "description": "(Optional) a string giving the path to a directory within which to save the shiny app. This directory must exist.#'"
     },
     "param.3": {
-      "name": "clamp_predictions",
-      "description": "Whether to clamp predictions when extrapolating."
-    },
-    "param.4": {
-      "name": "prediction_type",
-      "description": "The scale on which to make predictions (see details for\noptions)."
-    },
-    "seealso": "\\code{\\link{maxnet::maxnet}}",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2016-12-21",
-    "section.2": "Data type: presence/background",
-    "name": "MaxNet",
-    "family": "model"
-  },
-  {
-    "name": "CoefficientPlot",
-    "title": "Plot estimated coefficients from LogisticRegression",
-    "description": "This module plots the estimated coefficients from the LogisticRegression module and returns the summarised model object",
-    "details": "The module outputs a point plot of coefficient estimates from the LogisticRegression module. Coefficients with a p-value <= 0.05 are identified on the graph. The summary glm object is returned in the console. This module is only implemented for the LogisticRegression model module.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+      "name": "run_App",
+      "description": "Logical, should the app be run automatically. Not recommended for workflows containing lists. Default is FALSE"
     },
     "family": "output",
-    "author": "Liz Martin, \\email{emartin@student.unimelb.edu.au}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.3",
-    "section.2": "Date submitted:  2017-05-09"
-  },
-  {
-    "name": "InteractiveOccurrenceMap",
-    "title": "Interactive Occurrence Map",
-    "description": "This output module creates an interactive occurrence map of the species data.",
-    "details": "The module creates an html widget that displays in  the Viewer panel",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "family": "output",
-    "author": "David Wilkinson, \\email{davidpw@student.unimelb.edu.au}",
-    "section": "Data type: presence-only, presence/absence",
-    "section.1": "Version: 0.2",
-    "section.2": "Date submitted:  2017-06-08"
-  },
-  {
-    "title": "Process module: OneHundredBackground",
-    "description": "Process module to generate up to 100 background records at random in\n     cells of ras and return these along with the presence only data.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "author": "ZOON Developers, Tom August, \\email{zoonproject@gmail.com}",
     "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only",
-    "name": "OneHundredBackground",
-    "family": "process"
-  },
-  {
-    "title": "Model module: MaxEnt",
-    "description": "Model module to fit MaxEnt model via the dismo package",
-    "details": "In order to fit a MaxEnt model, you must first download the\nMaxEnt executable file \\code{maxent.jar} and save it in the correct location.\nThe zoon function \\code{GetMaxEnt} can orchestrate this for you.\nRunning MaxEnt also requires an up-to-date version of java \n(which you may already have installed).",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence data and covariate\ndata. \\code{.df} is passed automatically in workflow from the process\nmodule(s) to the model module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "args",
-      "description": "Additional arguments to pass to MaxEnt to modify model fitting,\nin the form of flags to the java executable.\nUnfortunately these are a bit cryptic and the maxent\nhelp files, which list all of the options, aren't available on the web.\nYou could try the MaxEnt graphical user interface, otherwise there is a list\n(which may or may not be up-to-date) in this forum:\n\\url{https://groups.google.com/d/msg/maxent/yRBlvZ1_9rQ/Fj8Two0lmHIJ}."
-    },
-    "seealso": "\\code{\\link{dismo::maxent}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/background",
-    "name": "MaxEnt",
-    "family": "model"
-  },
-  {
-    "name": "NaiveRandomPresence",
-    "title": "Naive Random Presence",
-    "description": "Creates a random occurrence dataset within the extent given",
-    "details": "Points are created entirely at random using runif",
-    "param": {
-      "name": "extent",
-      "description": "A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK."
-    },
-    "param.1": {
-      "name": "n",
-      "description": "Numeric - the number of points to create"
-    },
-    "param.2": {
-      "name": "seed",
-      "description": "Used with set.seed to set a seed. Default NULL, no seed is used"
-    },
-    "param.3": {
-      "name": "projection",
-      "description": "The projection for your points (as a proj4string)"
-    },
-    "family": "occurrence",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Data type: presence-only",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-05-31"
-  },
-  {
-    "title": "Process module: Clean",
-    "description": "Do some data cleaning on occurrence points",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "which",
-      "description": "A numeric or character vector describing which data cleaning processes to use (see details)."
-    },
-    "seealso": "\\code{\\link{scrubr::coord_incomplete}}",
-    "details": "A number of data cleaning steps are implemented. \\code{which} takes a (case insensitive) character or numeric vector\n declaring which should be used:\n\\itemize{\n \\item{\"1 - Impossible\"}{Remove rows with imposisble latitude or longitude values}\n \\item{\"2 - Incomplete\"}{Remove rows with missing data for either latitude of longitude}\n \\item{\"3 - Unlikely\"}{Remove rows with unlikely data such as (0, 0)}\n}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-03-21",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "Clean",
-    "family": "process"
-  },
-  {
-    "name": "ResponsePlot",
-    "title": "Plot predicted response curves along covariate gradients",
-    "description": "This module plots predicted response curves along covariate gradients for all or specified covariates",
-    "details": "The module outputs a line graph of probability of occupancy (relative for presence-only and presence background data, absolute for presence-absence data). cov accepts a numeric and character strings. When cov = NULL, the module plots line graphs for each covariate in the zoon workflow iteratively. Currently only implemented for presence-only, presence-background, and presence-absence data.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "cov",
-      "description": "covariate name"
-    },
-    "family": "output",
-    "author": "Liz Martin, \\email{emartin@student.unimelb.edu.au}",
-    "section": "Data type: presence-only, presence/absence, presence/background",
-    "section.1": "Version: 0.2",
-    "section.2": "Date submitted:  2017-05-03"
-  },
-  {
-    "name": "PredictNewRasterMap",
-    "title": "Output module: PredictNewRasterMap",
-    "description": "Output module. Predict a model across a new area or time period.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "newraster",
-      "description": "Raster* object to make predictions onto."
-    },
-    "param.3": {
-      "name": "extent",
-      "description": "Numeric vector of length 4 giving (in this order) the min x, max x, min y, max y, the the new area to be mapped. Must be within the covariate data collected in the covariate module."
-    },
-    "param.4": {
-      "name": "plot",
-      "description": "Logical, if \\code{TRUE} (default) the prediction map is plotted."
-    },
-    "param.5": {
-      "name": "...",
-      "description": "further arguments to be passed to \\code{\\link[raster]{plot}}."
-    },
-    "family": "output",
-    "author": "Zoon developers (modified by F. Rodriguez-Sanchez), \\email{zoonproject@gmail.com}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 1.0.1",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "title": "Model module: mgcv",
-    "description": "Model module to fit a generalized additive model using generalized\ncrossvalidation via the mgcv R package.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence"
-    },
-    "param.1": {
-      "name": "k",
-      "description": "the dimension of the basis used to represent the smooth term.\nThe default depends on the number of variables that the smooth is a\n function of. k should not be less than the dimension of the null space\n  of the penalty for the term (see \\code{\\link{mgcv::null.space.dimension}}),\n  but will be reset if it is. See \\code{\\link{mgcv::choose.k}} for further\n  information"
-    },
-    "param.2": {
-      "name": "bs",
-      "description": "a two letter character string indicating the (penalized)\nsmoothing basis to use. (eg \"tp\" for thin plate regression spline,\n \"cr\" for cubic regression spline). See \\code{\\link{mgcv::smooth.terms}}\n for an overview of what is available."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence",
-    "name": "mgcv",
-    "family": "model"
-  },
-  {
-    "title": "Model module: LogisticRegression",
-    "description": "Model module to fit a simple logistic regression model",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "seealso": "\\code{\\link{glm}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence",
-    "name": "LogisticRegression",
-    "family": "model"
+    "section.1": "Date submitted: 2016-05-05",
+    "section.2": "Data type: presence-only, presence/absence, presence/background, abundance, proportion"
   },
   {
     "title": "Process module: BackgroundAndCrossvalid",
@@ -314,29 +124,452 @@
     "family": "process"
   },
   {
-    "details": "zoonModules: A package of zoon modules",
-    "name": "zoonModules",
-    "docType": "package",
-    "name.1": "StandardiseCov",
-    "title": "Scale numeric covariates",
-    "description": "The module by default scales all numeric covariates. By default conducts a regular standardisation: minus the mean and divide by the standard deviation. If Gelman = TRUE then divides by 2 sd as suggested by Gelman. Excluded covariates are not standardised.",
+    "title": "Process module: Background",
+    "description": "Process module to generate random (optionally biased) background\n  records in cells of the covariate raster and return these along with the\n  presence only data.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
+    },
+    "param.1": {
+      "name": "n",
+      "description": "the number of background points to sample"
+    },
+    "param.2": {
+      "name": "bias",
+      "description": "optional \\code{RasterLayer} with cells giving the relative\nprobability of a background record being sampled there. Alternatively,\na length one numeric giving a radius (in KM) around presence points to take \nbackground points from. If \\code{bias = NULL} (the default) then no \nbiasing is applied, and all non-missing cells are equally likely to be selected."
+    },
+    "param.3": {
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.1",
+    "section.1": "Date submitted: 2016-03-23",
+    "section.2": "Data type: presence-only",
+    "name": "Background",
+    "family": "process"
+  },
+  {
+    "title": "Covariate module: Bioclim_future",
+    "description": "Get worldclim data for the future (CMIP5). Downloads then stores locally.",
+    "param": {
+      "name": "extent",
+      "description": "Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude."
+    },
+    "param.1": {
+      "name": "resolution",
+      "description": "Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."
+    },
+    "param.2": {
+      "name": "layers",
+      "description": "which bioclim layers to obtain, a vector of integers between 1 and 19. See \\url{http://www.worldclim.org/bioclim}."
+    },
+    "param.3": {
+      "name": "rcp",
+      "description": "numeric. Representative Concentration Pathways, or greenhouse gases concentration trajectories (see \\url{https://en.wikipedia.org/wiki/Representative_Concentration_Pathways}. Should be one of 26, 45, 60, or 85."
+    },
+    "param.4": {
+      "name": "model",
+      "description": "character. General Circulation Model. Should be one of \"AC\", \"BC\", \"CC\", \"CE\", \"CN\", \"GF\", \"GD\", \"GS\", \"HD\", \"HG\", \"HE\", \"IN\", \"IP\", \"MI\", \"MR\", \"MC\", \"MP\", \"MG\", or \"NO\"."
+    },
+    "param.5": {
+      "name": "year",
+      "description": "numeric. Time period. Should be either 50 (which represents the period 2041-2060) or 70 (which represents the period 2061-2080)."
+    },
+    "seealso": "\\url{http://www.worldclim.org} and \\code{\\link[raster]{getData}}.",
+    "author": "F. Rodriguez-Sanchez & E. Van Loon, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0.0",
+    "section.1": "Date submitted: 2016-06-15",
+    "name": "Bioclim_future",
+    "family": "covariate"
+  },
+  {
+    "title": "Covariate module: Bioclim",
+    "description": "Get worldclim environment data. Downloads then stores locally.",
+    "param": {
+      "name": "extent",
+      "description": "Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude."
+    },
+    "param.1": {
+      "name": "resolution",
+      "description": "Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."
+    },
+    "param.2": {
+      "name": "layers",
+      "description": "which bioclim layers to obtain, a vector of integers between 1 and 19."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "name": "Bioclim",
+    "family": "covariate"
+  },
+  {
+    "title": "Model module: BiomodModel",
+    "description": "Model module wrapper for the biomod2 function BIOMOD_Modeling()",
+    "details": "In order to fit a MaxEnt model, you must first download the\nMaxEnt executable file \\code{maxent.jar} and save it in the correct location.\nThe zoon function \\code{GetMaxEnt} can orchestrate this for you.\nRunning MaxEnt also requires an up-to-date version of java\n(which you may already have installed).",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence data and covariate\n data. \\code{.df} is passed automatically in workflow from the process\n module(s) to the model module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "modelType",
+      "description": "A character to describe models to use. Select from\n'GLM','GBM','GAM','CTA','ANN','SRE','FDA','MARS','RF','MAXENT'"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/background, presence/absence, abundance, proportion",
+    "name": "BiomodModel",
+    "family": "model",
+    "seealso": "\\code{\\link{biomod2::BIOMOD_ModelingOptions}}"
+  },
+  {
+    "title": "Process module: Boostrap",
+    "description": "Process module to generate random bootstraps of the \n  data.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
+    },
+    "param.1": {
+      "name": "n",
+      "description": "the number of points to sample. Defaults to the same number as the dataset"
+    },
+    "param.2": {
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2016-03-23",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "Bootstrap",
+    "family": "process"
+  },
+  {
+    "name": "CarolinaWrenPA",
+    "title": "Presence/absence data for the Carolina Wren in the USA",
+    "description": "Presence/absence of the Carolina Wren \\emph{Thryothorus \n  ludovicianus} at Breeding Bird Survey transects in 2006. These data are \n  made available in the maxlike R package. See \n  \\code{\\link[maxlike]{carw.data}} for more details. This module loads them \n  data transform the coordinates to lat/longs and formats the data for use in\n  a zoon workflow. To use these data for validation rather than model\n  fitting, see \\code{CarolineWrenValidation}.",
+    "details": "",
+    "family": "occurrence",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-05-21"
+  },
+  {
+    "name": "CarolinaWrenPO",
+    "title": "Presence-only data for the Carolina Wren in the USA",
+    "description": "Occurrence locations for the Carolina Wren \\emph{Thryothorus ludovicianus} at Breeding Bird Survey transects in 2006. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the module \\code{CarolinaWrenPA} for the presence-absence version. This module loads the data, drops absence data, transforms the coordinates to lat/longs and formats the data for use in a zoon workflow.",
+    "details": "",
+    "family": "occurrence",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence-only",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-05-21"
+  },
+  {
+    "name": "CarolinaWrenRasters",
+    "title": "Covariate rasters for the USA used in the Carolina Wren analysis",
+    "description": "Land cover and coordinate covariate data for the USA, used in the Carolina Wren MaxLike analysis. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the modules \\code{CarolinaWrenPA} and \\code{CarolinaWrenPO} for corresponding occurrence data. This module loads the data, converts them into a \\code{RasterStack} object and transforms the coordinates to lat/longs.",
+    "details": "The six covariates are: Percentage cover of mixed forest, deciduous forest, coniferous forest and grassland, and the latitude and longitude of each cell. After converting to latlongs, the pixels have dimensions 0.29x0.223 decimal degrees and the extent is \\code{c(-138.71, -52.58, 18.15, 54.95)}",
+    "family": "covariate",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Version: 0",
+    "section.1": "Date submitted:  2016-05-21"
+  },
+  {
+    "name": "CarolinaWrenValidation",
+    "title": "Presence/absence validation data for the Carolina Wren in the USA",
+    "description": "Presence/absence of the Carolina Wren \\emph{Thryothorus \n  ludovicianus} at Breeding Bird Survey transects in 2006. These data are \n  made available in the maxlike R package. See \n  \\code{\\link[maxlike]{carw.data}} for more details. This module loads the \n  data, transforms the coordinates to lat/longs and formats the data for use \n  in a zoon workflow. This module is identical to \\code{CarolinaWrenPO}, \n  except that the data are added as external validation data (fold = 0), \n  rather than training data (fold = 1).",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
+    },
+    "family": "process",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-12-21"
+  },
+  {
+    "title": "Process module: Clean",
+    "description": "Do some data cleaning on occurrence points",
     "param": {
       "name": ".data",
       "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
     },
     "param.1": {
-      "name": "Gelman",
-      "description": "Option to divide by two rather than one standard deviation."
+      "name": "which",
+      "description": "A numeric or character vector describing which data cleaning processes to use (see details)."
+    },
+    "seealso": "\\code{\\link{scrubr::coord_incomplete}}",
+    "details": "A number of data cleaning steps are implemented. \\code{which} takes a (case insensitive) character or numeric vector\n declaring which should be used:\n\\itemize{\n \\item{\"1 - Impossible\"}{Remove rows with imposisble latitude or longitude values}\n \\item{\"2 - Incomplete\"}{Remove rows with missing data for either latitude of longitude}\n \\item{\"3 - Unlikely\"}{Remove rows with unlikely data such as (0, 0)}\n}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-03-21",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "Clean",
+    "family": "process"
+  },
+  {
+    "name": "CoefficientPlot",
+    "title": "Plot estimated coefficients from LogisticRegression",
+    "description": "This module plots the estimated coefficients from the LogisticRegression module and returns the summarised model object",
+    "details": "The module outputs a point plot of coefficient estimates from the LogisticRegression module. Coefficients with a p-value <= 0.05 are identified on the graph. The summary glm object is returned in the console. This module is only implemented for the LogisticRegression model module.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "family": "output",
+    "author": "Liz Martin, \\email{emartin@student.unimelb.edu.au}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.3",
+    "section.2": "Date submitted:  2017-05-09"
+  },
+  {
+    "title": "Process module: Crossvalidate",
+    "description": "Run k fold crossvalidation. If presence absence, split presences and absences separately so folds have equally balanced data. Otherwise just sample.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "k",
+      "description": "Positive integer number of folds to split the data into. Default is 5."
     },
     "param.2": {
-      "name": "exclude",
-      "description": "Variable names of numeric variables to exclude from standardisation"
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "Crossvalidate",
+    "family": "process"
+  },
+  {
+    "title": "Occurrence module: coffee white stem borer surveys in Zimbabwe",
+    "description": "Presence/absence survey data for the coffee white stem borer\n in Zimbabwe.",
+    "details": "This is an example presence/absence dataset for the\ncoffee white stem borer \\emph{Monochamus leuconotus} P. taken from an\nopen access dataset on the Dryad data repository.\nThe data are made available by those authors under a Creative Commons CC0\nand are used in the module \\code{CWBZimbabwe} which can be used for running\ntoy presence/absence species distribution models.\nThe data all fall withing the extent \\code{c(32, 34, -21, -18)}.\n\nOriginal publication:\nKutywayo D, Chemura A, Kusena W, Chidoko P, Mahoya C (2013) The impact of\n climate change on the potential distribution of agricultural pests: the case\n  of the coffee white stem borer (\\emph{Monochamus leuconotus} P.) in\n   Zimbabwe. PLoS ONE 8(8): e73432.\n\nDryad data package:\n  Kutywayo D, Chemura A, Kusena W, Chidoko P, Mahoya C (2013) Data from:\n   The impact of climate change on the potential distribution of agricultural\n    pests: the case of the coffee white stem borer (\\emph{Monochamus\n     leuconotus} P.) in Zimbabwe. Dryad Digital Repository.\n  \\url{http://dx.doi.org/10.1371/journal.pone.0073432}",
+    "name": "CWBZimbabwe",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/absence",
+    "family": "occurrence"
+  },
+  {
+    "title": "Model module: Domain",
+    "description": "Model module to fit the Domain algorithm.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "return": "A model object with a valid predict method",
+    "seealso": "\\code{\\link{dismo::domain}}",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2017-04-05",
+    "section.2": "Data type: presence-only",
+    "name": "Domain",
+    "family": "model"
+  },
+  {
+    "title": "Model module: GBM",
+    "description": "Model module to fit a generalized boosted regression (aka boosted regression\ntrees) model",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence"
+    },
+    "param.1": {
+      "name": "max.trees",
+      "description": "The maximum number of trees to fit.\nThe number of trees is equivalent to the number of iterations and\n the number of basis functions in the additive expansion. The optimal\n number will be selected by cross-validation, but this sets an upper limit."
+    },
+    "param.2": {
+      "name": "interaction.depth",
+      "description": "The maximum depth of variable interactions.\n1 implies an additive model, 2 implies a model with up to 2-way interactions,\n etc."
+    },
+    "param.3": {
+      "name": "shrinkage",
+      "description": "a shrinkage parameter applied to each tree in the expansion.\nAlso known as the learning rate or step-size reduction."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/absence",
+    "name": "GBM",
+    "family": "model"
+  },
+  {
+    "name": "GenerateCovariateReport",
+    "title": "Generate a data profiling report",
+    "description": "This output module generates a report outlining the results of data profiling. This includes data structure, missing values, and correlation testing.",
+    "details": "The results are presented as an html output generated using Rmarkdown that opens in your internet browser",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "type",
+      "description": "The type of data report(s) you wish to generate. This must be one of \"D\" (data report only), \"R\" (raster report only), or \"DR\" (both data and raster reports)"
+    },
+    "family": "output",
+    "author": "David Wilkinson, \\email{davidpw@student.unimelb.edu.au}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 0.4",
+    "section.2": "Date submitted:  2017-05-15"
+  },
+  {
+    "title": "Output module: InteractiveCovariateMap",
+    "description": "Plot a zoomable and scrollable map of a covariate layer.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "which",
+      "description": "which covariate to plot.\nA single numeric giving the index of the covariate to plot"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "name": "InteractiveCovariateMap",
+    "family": "output"
+  },
+  {
+    "title": "Output module: InteractiveMap",
+    "description": "Plot a zoomable and scrollable map of the predicted distribution\nand training data. Clicking on a point reveals additional information.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.1",
+    "section.1": "Date submitted: 2017-04-05",
+    "name": "InteractiveMap",
+    "family": "output"
+  },
+  {
+    "name": "InteractiveOccurrenceMap",
+    "title": "Interactive Occurrence Map",
+    "description": "This output module creates an interactive occurrence map of the species data.",
+    "details": "The module creates an html widget that displays in  the Viewer panel",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "family": "output",
+    "author": "David Wilkinson, \\email{davidpw@student.unimelb.edu.au}",
+    "section": "Data type: presence-only, presence/absence",
+    "section.1": "Version: 0.2",
+    "section.2": "Date submitted:  2017-06-08"
+  },
+  {
+    "name": "JitterOccurrence",
+    "title": "Add noise to occurrence coordinates",
+    "description": "Often the geographic coordinates of occurrence records are subject to uncertainty. One approach ot accounting for that uncertainty in an SDM analysis is to run several analyses, each time sampling a different location from a probability distribution over the likely \"true\" coordinates. \\code{JitterOccurrence} generates one such sample, under an assumption that the distribution is an isotropic Gaussian with standard deviation \\code{sd}",
+    "details": "Currently only a single standard deviation is provided for all occurrence records. Future iterations of this module will enable more control over the uncertainty distributions",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "sd",
+      "description": "standard deviation of the gaussian noise to add the the coordinates of each ocurrence record"
     },
     "family": "process",
-    "author": "Alison Johnston & Carsten F. Dormann, \\email{alison.johnston@bto.org}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 0",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
+    "section.1": "Version: 0.1",
     "section.2": "Date submitted:  2016-06-16"
+  },
+  {
+    "title": "Occurrence module: LocalOccurrenceData",
+    "description": "Occurrence module to format local occurrence data to be used with zoon. \n Must be a .csv file with three columns longitude, latitude and value \n in that order. Other columns will be kept. A column named CRS can be supplied\n if the coordinates are not lat/long. CRS should contain the proj4string for\n the coordinate system of the data (for example \"+init=epsg:27700\" for easting/northing\n data). If a CRS column is supplied longitude is taken to be the X coordinate and \n latitude the Y coordinate.",
+    "param": {
+      "name": "filename",
+      "description": "The path to the spreadsheet. The spreadsheet should have a \nheader giving column names. The column names should be 'longitude', 'latitude',\nand 'value'. 'value' is a numeric such as a proportion, count or presence/absence\n(1/0). The file can be .csv, .tab, .tsv, or .xlsx"
+    },
+    "param.1": {
+      "name": "occurrenceType",
+      "description": "What type data is it? One of 'presence', \n'presence/absence', 'abundance', 'probability'"
+    },
+    "param.2": {
+      "name": "externalValidation",
+      "description": "Logical indicating whether this data is external\nvalidation data. Cross validation is handled elsewhere and this argument \nshould be left as FALSE for data that will be used in cross validation.\nThis is ignored if the user supplies a 'fold' column."
+    },
+    "param.3": {
+      "name": "columns",
+      "description": "Which columns in the spreadsheet relate to longitude, latitude\nand response value? Takes a named character vector e.g.\nc(long = 'longitude', lat = 'latitude', value = 'responseVals'). If an\nunnamed character vector is given, the order is assumed to be \nlong, lat, value."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only, presence/background, presence/absence, abundance, proportion",
+    "name": "LocalOccurrenceData",
+    "family": "occurrence"
+  },
+  {
+    "title": "Covariate module: LocalRaster",
+    "description": "LocalRaster: Read in a single raster or a list of rasters and stack them.",
+    "details": "Read in a single raster or a list of rasters and stack them.",
+    "param": {
+      "name": "rasters",
+      "description": "Either a string of the filename of the raster layer, a list or vector of strings of filenames to rasters that will be stacked, a RasterLayer or a RasterStack object."
+    },
+    "name": "LocalRaster",
+    "family": "covariate",
+    "author": "Tim Lucas, Samuel Bosch, \\email{timcdlucas@gmail.com}",
+    "section": "Version: 1.1",
+    "section.1": "Date submitted: 2016-03-04"
+  },
+  {
+    "title": "Model module: LogisticRegression",
+    "description": "Model module to fit a simple logistic regression model",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "seealso": "\\code{\\link{glm}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/absence",
+    "name": "LogisticRegression",
+    "family": "model"
+  },
+  {
+    "name": "Lorem_ipsum_UK",
+    "title": "A dataset of Lorem ipsum occurrences",
+    "description": "The module retrieves a dataset ofLorem ipsum records from figshare. This dataset containsprecence only data and was collected between 1990 and2000 by members of to Lorem ipsum appreciation society",
+    "details": "This dataset is fake, Lorem ipsum does not exist",
+    "family": "occurrence",
+    "author": "A.B. Ceidi, \\email{ABCD@anemail.com}",
+    "section": "Data type: presence-only",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-06-13"
   },
   {
     "title": "Model module: MachineLearn",
@@ -386,25 +619,187 @@
     "family": "model"
   },
   {
-    "title": "Output module: SurfaceMap",
-    "description": "Make a png of a map of predicted surface.",
+    "title": "Model module: MaxEnt",
+    "description": "Model module to fit MaxEnt model via the dismo package",
+    "details": "In order to fit a MaxEnt model, you must first download the\nMaxEnt executable file \\code{maxent.jar} and save it in the correct location.\nThe zoon function \\code{GetMaxEnt} can orchestrate this for you.\nRunning MaxEnt also requires an up-to-date version of java \n(which you may already have installed).",
     "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence data and covariate\ndata. \\code{.df} is passed automatically in workflow from the process\nmodule(s) to the model module(s) and should not be passed by the user."
     },
     "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+      "name": "args",
+      "description": "Additional arguments to pass to MaxEnt to modify model fitting,\nin the form of flags to the java executable.\nUnfortunately these are a bit cryptic and the maxent\nhelp files, which list all of the options, aren't available on the web.\nYou could try the MaxEnt graphical user interface, otherwise there is a list\n(which may or may not be up-to-date) in this forum:\n\\url{https://groups.google.com/d/msg/maxent/yRBlvZ1_9rQ/Fj8Two0lmHIJ}."
+    },
+    "seealso": "\\code{\\link{dismo::maxent}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/background",
+    "name": "MaxEnt",
+    "family": "model"
+  },
+  {
+    "title": "Model module: MaxLike",
+    "description": "Model module to fit a simple MaxLike model",
+    "details": "The maxlike method aims to infer the parameters of a \n  presence-absence logistic regression model using only presence-background \n  data, in a manner somewhat similar to MaxEnt. The practical utility of this\n  model has been questioned (see references), since it makes very strong \n  assumptions about the underlying model which are unlikely to be met in \n  practice. A more feature-rich version of the model is implemented in the \n  \\code{\\link{maxlike::maxlike}} package, but that implementation only \n  accepts raster/point data as input. This module implements a simple version\n  of the model using the logistic link, in a format that interacts with the \n  rest of the zoon system.",
+    "references": "J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of Maxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
+    },
+    "seealso": "\\code{\\link{maxlike::maxlike}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/background",
+    "name": "MaxLike",
+    "family": "model"
+  },
+  {
+    "title": "Model module: MaxNet",
+    "description": "Model module to fit MaxEnt models using the maxnet package",
+    "details": "The maxnet R package fits MaxEnt models using the glmnet package, \n which enables efficient fitting of glms with regularization. Unlike MaxEnt, \n MaxNet does not require the user to download and install the MaxEnt java \n executable.\n \n \\code{features} should be a string including an 'l' for linear features, 'q'\n for quadratic features, 'h' for hinge features, 'p' for pairwise \n interactions and 't' for threshold features. E.g. to use only linear \n features and their interactions, either \\code{features = 'lp'} or \n \\code{features = 'pl'} would work. the default value of \\code{'default'} \n uses maxnet's default settings, adjusting the set up based on the number of \n occurrence records \\emph{np}: 'l' if np < 10; 'lq' if np < 15; 'lqh' if np <\n 80; or 'lqph' if np >= 80. I.e. the default never uses threshold features.\n \n \\code{prediction_type} corresponds to the \\code{type} argument in the \n \\code{maxnet} predict function. \\code{maxnet} enables types: 'link', \n 'exponential', 'cloglog' and 'logistic'. However most output modules expect \n predictions to be made on the probability scale, for which only 'cloglog'\n and 'logistic' are guaranteed to work.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "features",
+      "description": "A length-one character vector (i.e. a string) defining the \ntypes of features to use for all covariates (see details)."
     },
     "param.2": {
-      "name": "dir",
-      "description": "Directory where plots are saved. If NULL (default) then plots are not saved."
+      "name": "regmult",
+      "description": "A positive scalar giving the multiplier for the degree of \nregularisation. Higher values mean more regularisation."
+    },
+    "param.3": {
+      "name": "clamp_predictions",
+      "description": "Whether to clamp predictions when extrapolating."
+    },
+    "param.4": {
+      "name": "prediction_type",
+      "description": "The scale on which to make predictions (see details for\noptions)."
+    },
+    "seealso": "\\code{\\link{maxnet::maxnet}}",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2016-12-21",
+    "section.2": "Data type: presence/background",
+    "name": "MaxNet",
+    "family": "model"
+  },
+  {
+    "title": "Process module: MESSMask",
+    "description": "Calculate the multivariate environmental similarity surface \n  and mask areas with values outside the range of variability in the \n  training region.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
+    },
+    "seealso": "\\code{\\link{dismo::mess}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2016-03-23",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "MESSMask",
+    "family": "process"
+  },
+  {
+    "title": "Model module: mgcv",
+    "description": "Model module to fit a generalized additive model using generalized\ncrossvalidation via the mgcv R package.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence"
+    },
+    "param.1": {
+      "name": "k",
+      "description": "the dimension of the basis used to represent the smooth term.\nThe default depends on the number of variables that the smooth is a\n function of. k should not be less than the dimension of the null space\n  of the penalty for the term (see \\code{\\link{mgcv::null.space.dimension}}),\n  but will be reset if it is. See \\code{\\link{mgcv::choose.k}} for further\n  information"
+    },
+    "param.2": {
+      "name": "bs",
+      "description": "a two letter character string indicating the (penalized)\nsmoothing basis to use. (eg \"tp\" for thin plate regression spline,\n \"cr\" for cubic regression spline). See \\code{\\link{mgcv::smooth.terms}}\n for an overview of what is available."
     },
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
     "section": "Version: 1.0",
     "section.1": "Date submitted: 2015-11-13",
-    "name": "SurfaceMap",
-    "family": "output"
+    "section.2": "Data type: presence/absence",
+    "name": "mgcv",
+    "family": "model"
+  },
+  {
+    "details": "zoonModules: A package of zoon modules\n\nThe mymaxlike method aims to infer the parameters of a \n  presence-absence logistic regression model using only presence-background \n  data, in a manner somewhat similar to MaxEnt. The practical utility of this\n  model has been questioned (see references), since it makes very strong \n  assumptions about the underlying model which are unlikely to be met in \n  practice. A more feature-rich version of the model is implemented in the \n  \\code{\\link{mymaxlike::mymaxlike}} package, but that implementation only \n  accepts raster/point data as input. This module implements a simple version\n  of the model using the logistic link, in a format that interacts with the \n  rest of the zoon system.",
+    "name": "zoonModules",
+    "docType": "package",
+    "title": "Model module: MyMaxLike",
+    "description": "Model module to fit a simple MyMaxLike model",
+    "references": "J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of MyMaxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
+    },
+    "seealso": "\\code{\\link{mymaxlike::mymaxlike}}",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/background",
+    "name.1": "MyMaxLike",
+    "family": "model"
+  },
+  {
+    "name": "NaiveRandomPresenceAbsence",
+    "title": "Naive Random Presence/Absence",
+    "description": "Creates a random occurrence dataset within the extent given",
+    "details": "Points are created entirely at random using runif",
+    "param": {
+      "name": "extent",
+      "description": "A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK."
+    },
+    "param.1": {
+      "name": "pAbs",
+      "description": "The proportion of records that should be absences (default: 0.5)"
+    },
+    "param.2": {
+      "name": "n",
+      "description": "Numeric - the number of points to create"
+    },
+    "param.3": {
+      "name": "seed",
+      "description": "Used with set.seed to set a seed. Default NULL, no seed is used"
+    },
+    "param.4": {
+      "name": "projection",
+      "description": "The projection for your points (as a proj4string)"
+    },
+    "family": "occurrence",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-06-03"
+  },
+  {
+    "name": "NaiveRandomPresence",
+    "title": "Naive Random Presence",
+    "description": "Creates a random occurrence dataset within the extent given",
+    "details": "Points are created entirely at random using runif",
+    "param": {
+      "name": "extent",
+      "description": "A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK."
+    },
+    "param.1": {
+      "name": "n",
+      "description": "Numeric - the number of points to create"
+    },
+    "param.2": {
+      "name": "seed",
+      "description": "Used with set.seed to set a seed. Default NULL, no seed is used"
+    },
+    "param.3": {
+      "name": "projection",
+      "description": "The projection for your points (as a proj4string)"
+    },
+    "family": "occurrence",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Data type: presence-only",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-05-31"
   },
   {
     "name": "NaiveRandomRaster",
@@ -431,6 +826,249 @@
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
     "section": "Version: 0",
     "section.1": "Date submitted:  2016-06-02"
+  },
+  {
+    "name": "NATrees",
+    "title": "Occurrences for 21 tree species from North America",
+    "description": "Retrieves occurrences for 21 trees from eastern North America. Data originally sourced from USGS FIA forest inventory database, collected in the QUICC-FOR project ($URL). This dataset was originally published in $REF. Extent for this dataset is c(-97,-67,25,50)",
+    "details": "",
+    "param": {
+      "name": "dateRange",
+      "description": "Optional 2-item numeric vector giving the years to use; default is the full range of the data (1960-2013)"
+    },
+    "param.1": {
+      "name": "species",
+      "description": "Which species should be extracted, with format genus_species (all lowercase); allowable values are: abies_balsamea acer_rubrum acer_saccharum betula_alleghaniensis betula_papyrifera fagus_grandifolia fraxinus_americana fraxinus_nigra larix_laricina picea_glauca picea_mariana picea_rubens pinus_banksiana pinus_resinosa pinus_strobus populus_grandidentata populous_tremuloides quercus_macrocarpa quercus_rubra thuja_occidentalis tsuga_canadensis"
+    },
+    "family": "occurrence",
+    "author": "Matt Talluto, \\email{mtalluto@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.5",
+    "section.2": "Date submitted:  2016-06-16"
+  },
+  {
+    "title": "Covariate module: NCEP",
+    "description": "Covariate module to grab coarse resolution environmental data from NCEP",
+    "param": {
+      "name": "extent",
+      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax."
+    },
+    "param.1": {
+      "name": "variables",
+      "description": "Character vector of which variables to select.\nSee NCEP.gather for more options but basic options are\n      *'air'*    Air Temperature                 deg K    \n      *'hgt'*    Geopotential Height             m        \n      *'rhum'*   Relative Humidity               %        \n      *'shum'*   Specific Humidity               kg/kg    \n      *'omega'*  Omega [Vertical Velocity]       Pascal/s \n      *'uwnd'*   U-Wind Component [East/West]    m/s      \n      *'vwnd'*   V-Wind Component [North/South]  m/s"
+    },
+    "param.2": {
+      "name": "status.bar",
+      "description": "Logical. Should a status bar be shown indicating the percentage of completion?"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "seealso": "\\code{\\link{RNCEP::NCEP.gather}}",
+    "name": "NCEP",
+    "family": "covariate"
+  },
+  {
+    "name": "NoOutput",
+    "title": "Do not create any output",
+    "description": "No output is created",
+    "details": "",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "family": "output",
+    "author": "Tim Lucas, \\email{timcdlucas@gmail.com}",
+    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "title": "Process module: NoProcess",
+    "description": "Process module that does nothing. A place holder for if nothing should be\ndone to the data before modelling.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "return": "a Raster object (class from the raster package) with the gridded\n     covariates used to train and predict from the SDM.",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "NoProcess",
+    "family": "process"
+  },
+  {
+    "name": "NullModel",
+    "title": "Null Model",
+    "description": "A simple null model for predicting species distributions. Predictions are simply the mean of the occurrence values column. This only make sense for some data combination, see details.",
+    "details": "The predictions can be interpreted as the landscape-level prevalence (for presence & absence), a metric of suitability (for presence & background), a mean abundance (for abundance) or a site-level prevalence (for proportion). The module will error if the occurrence data types are not one of these types",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "family": "model",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence/absence, presence/background, abundance, proportion",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2017-05-03"
+  },
+  {
+    "title": "Process module: OneHundredBackground",
+    "description": "Process module to generate up to 100 background records at random in\n     cells of ras and return these along with the presence only data.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only",
+    "name": "OneHundredBackground",
+    "family": "process"
+  },
+  {
+    "title": "Process module: OneThousandBackground",
+    "description": "Process module to generate up to 1000 background records at random in\n     cells of the covariate raster and return these along with the occurrence data.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only",
+    "name": "OneThousandBackground",
+    "family": "process"
+  },
+  {
+    "title": "Model module: OptGRaF",
+    "description": "Model module to fit a (slow) GRaF model, with parameter optimisation.",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/absence",
+    "name": "OptGRaF",
+    "family": "model"
+  },
+  {
+    "name": "PairPlot",
+    "title": "Pair plot of covariates with correlation",
+    "description": "This output module provides a pair plot of covariate data that includes correlation statistics.",
+    "details": "The data are plotted in the bottom left-hand panel and on the top-right are displayed the correlation statistics. Covariate names run diagonally down from top left to bottom right.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "family": "output",
+    "author": "Saras Windecker, \\email{saras.windecker@gmail.com}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2017-05-03"
+  },
+  {
+    "title": "PartitionDisc: Leave-one-disc-out cross-validation",
+    "description": "This process module partitions the sample into training and tests set by selecting circular test areas (possibly surrounded by an exclusion buffer) and using the remaining samples as training samples. See function partition.disc in package sperrorest for more details",
+    "details": "Module type: Process",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "radius",
+      "description": "Numeric the radius of the disc, in degrees"
+    },
+    "param.2": {
+      "name": "buffer",
+      "description": "Numeric, the size of the buffer zone in degrees"
+    },
+    "param.3": {
+      "name": "seed",
+      "description": "Numeric used with \\code{\\link[sperrorest]{partition.disc}}"
+    },
+    "author": "Tom August, \\email{tomaug@ceh.ac.uk}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
+    "name": "PartitionDisc",
+    "family": "process"
+  },
+  {
+    "title": "Output module: PerformanceMeasures",
+    "description": "Calculate a suite of performance metrics on either crossvalidation, external validation data or (at your own risk) in-sample validation.",
+    "details": "This model prints to console a number of metrics of the model fitted:\n\\itemize{\n \\item \\code{auc} - (see ?SDMTools::auc) The Area Under the Curve of the Receiver operating characteristic using a Mann-Whitney U statistic\n \\item \\code{\\link{kappa}} - (see ?kappa) An estimate of the 2-norm condition number of a matrix or of the R matrix of a QR decomposition, perhaps of a linear fit. The 2-norm condition number can be shown to be the ratio of the largest to the smallest non-zero singular value of the matrix.\n \\item \\code{\\link{omissions}} - (see ?SDMTools::omission) The ommission rate as a proportion of true occurrences misidentified given the defined threshold value.\n \\item \\code{sensitivity} - (see ?SDMTools::sensitivity) The proportion of actual presences predicted given the defined threshold value.\n \\item \\code{specificity} - (see ?SDMTools::specificity) The proportion of actual absences predicted given the defined threshold value.\n \\item \\code{proportionCorrect} - (see ?SDMTools::prop.correct) The proportion of the presence and absence records correctly identified given the defined threshold value.\n}",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "threshold",
+      "description": "A chosen threshold value for measures that need 0/1 predictions \nIf NULL, the proportion of occurrences in the occurrence data is used."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2016-06-15",
+    "section.2": "Data type: presence/absence, presence/background",
+    "name": "PerformanceMeasures",
+    "family": "output"
+  },
+  {
+    "name": "PredictNewRasterMap",
+    "title": "Output module: PredictNewRasterMap",
+    "description": "Output module. Predict a model across a new area or time period.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "newraster",
+      "description": "Raster* object to make predictions onto."
+    },
+    "param.3": {
+      "name": "extent",
+      "description": "Numeric vector of length 4 giving (in this order) the min x, max x, min y, max y, the the new area to be mapped. Must be within the covariate data collected in the covariate module."
+    },
+    "param.4": {
+      "name": "plot",
+      "description": "Logical, if \\code{TRUE} (default) the prediction map is plotted."
+    },
+    "param.5": {
+      "name": "...",
+      "description": "further arguments to be passed to \\code{\\link[raster]{plot}}."
+    },
+    "family": "output",
+    "author": "Zoon developers (modified by F. Rodriguez-Sanchez), \\email{zoonproject@gmail.com}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 1.0.1",
+    "section.2": "Date submitted:  2016-06-15"
   },
   {
     "title": "Output module: PrintMap",
@@ -488,834 +1126,6 @@
     "family": "output"
   },
   {
-    "title": "Covariate module: LocalRaster",
-    "description": "LocalRaster: Read in a single raster or a list of rasters and stack them.",
-    "details": "Read in a single raster or a list of rasters and stack them.",
-    "param": {
-      "name": "rasters",
-      "description": "Either a string of the filename of the raster layer, a list or vector of strings of filenames to rasters that will be stacked, a RasterLayer or a RasterStack object."
-    },
-    "name": "LocalRaster",
-    "family": "covariate",
-    "author": "Tim Lucas, Samuel Bosch, \\email{timcdlucas@gmail.com}",
-    "section": "Version: 1.1",
-    "section.1": "Date submitted: 2016-03-04"
-  },
-  {
-    "name": "JitterOccurrence",
-    "title": "Add noise to occurrence coordinates",
-    "description": "Often the geographic coordinates of occurrence records are subject to uncertainty. One approach ot accounting for that uncertainty in an SDM analysis is to run several analyses, each time sampling a different location from a probability distribution over the likely \"true\" coordinates. \\code{JitterOccurrence} generates one such sample, under an assumption that the distribution is an isotropic Gaussian with standard deviation \\code{sd}",
-    "details": "Currently only a single standard deviation is provided for all occurrence records. Future iterations of this module will enable more control over the uncertainty distributions",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "sd",
-      "description": "standard deviation of the gaussian noise to add the the coordinates of each ocurrence record"
-    },
-    "family": "process",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-16"
-  },
-  {
-    "title": "Covariate module: UKAir",
-    "description": "Return some UK air temperature data from NCEP. Data is bundled with package and has the extent \\code{c(-10, 10, 45, 65)}.",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "name": "UKAir",
-    "family": "covariate"
-  },
-  {
-    "title": "Occurrence module: LocalOccurrenceData",
-    "description": "Occurrence module to format local occurrence data to be used with zoon. \n Must be a .csv file with three columns longitude, latitude and value \n in that order. Other columns will be kept. A column named CRS can be supplied\n if the coordinates are not lat/long. CRS should contain the proj4string for\n the coordinate system of the data (for example \"+init=epsg:27700\" for easting/northing\n data). If a CRS column is supplied longitude is taken to be the X coordinate and \n latitude the Y coordinate.",
-    "param": {
-      "name": "filename",
-      "description": "The path to the spreadsheet. The spreadsheet should have a \nheader giving column names. The column names should be 'longitude', 'latitude',\nand 'value'. 'value' is a numeric such as a proportion, count or presence/absence\n(1/0). The file can be .csv, .tab, .tsv, or .xlsx"
-    },
-    "param.1": {
-      "name": "occurrenceType",
-      "description": "What type data is it? One of 'presence', \n'presence/absence', 'abundance', 'probability'"
-    },
-    "param.2": {
-      "name": "externalValidation",
-      "description": "Logical indicating whether this data is external\nvalidation data. Cross validation is handled elsewhere and this argument \nshould be left as FALSE for data that will be used in cross validation.\nThis is ignored if the user supplies a 'fold' column."
-    },
-    "param.3": {
-      "name": "columns",
-      "description": "Which columns in the spreadsheet relate to longitude, latitude\nand response value? Takes a named character vector e.g.\nc(long = 'longitude', lat = 'latitude', value = 'responseVals'). If an\nunnamed character vector is given, the order is assumed to be \nlong, lat, value."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only, presence/background, presence/absence, abundance, proportion",
-    "name": "LocalOccurrenceData",
-    "family": "occurrence"
-  },
-  {
-    "title": "Occurrence module: coffee white stem borer surveys in Zimbabwe",
-    "description": "Presence/absence survey data for the coffee white stem borer\n in Zimbabwe.",
-    "details": "This is an example presence/absence dataset for the\ncoffee white stem borer \\emph{Monochamus leuconotus} P. taken from an\nopen access dataset on the Dryad data repository.\nThe data are made available by those authors under a Creative Commons CC0\nand are used in the module \\code{CWBZimbabwe} which can be used for running\ntoy presence/absence species distribution models.\nThe data all fall withing the extent \\code{c(32, 34, -21, -18)}.\n\nOriginal publication:\nKutywayo D, Chemura A, Kusena W, Chidoko P, Mahoya C (2013) The impact of\n climate change on the potential distribution of agricultural pests: the case\n  of the coffee white stem borer (\\emph{Monochamus leuconotus} P.) in\n   Zimbabwe. PLoS ONE 8(8): e73432.\n\nDryad data package:\n  Kutywayo D, Chemura A, Kusena W, Chidoko P, Mahoya C (2013) Data from:\n   The impact of climate change on the potential distribution of agricultural\n    pests: the case of the coffee white stem borer (\\emph{Monochamus\n     leuconotus} P.) in Zimbabwe. Dryad Digital Repository.\n  \\url{http://dx.doi.org/10.1371/journal.pone.0073432}",
-    "name": "CWBZimbabwe",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence",
-    "family": "occurrence"
-  },
-  {
-    "title": "Process module: Background",
-    "description": "Process module to generate random (optionally biased) background\n  records in cells of the covariate raster and return these along with the\n  presence only data.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
-    },
-    "param.1": {
-      "name": "n",
-      "description": "the number of background points to sample"
-    },
-    "param.2": {
-      "name": "bias",
-      "description": "optional \\code{RasterLayer} with cells giving the relative\nprobability of a background record being sampled there. Alternatively,\na length one numeric giving a radius (in KM) around presence points to take \nbackground points from. If \\code{bias = NULL} (the default) then no \nbiasing is applied, and all non-missing cells are equally likely to be selected."
-    },
-    "param.3": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.1",
-    "section.1": "Date submitted: 2016-03-23",
-    "section.2": "Data type: presence-only",
-    "name": "Background",
-    "family": "process"
-  },
-  {
-    "name": "Transform",
-    "title": "Apply Transformations to Covariates",
-    "description": "Apply a tranformation function (e.g. square, log, something else) to one or more covariates, pixelwise. These can either overwrite the named covariates, or be added to the covariate set.",
-    "details": "This module is essentially a wrapper around the \\code{raster} function \\code{\\link[raster]{calc}}.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user.#'"
-    },
-    "param.1": {
-      "name": "trans",
-      "description": "a function defining a transformation to apply to each pixel in the covariate(s) raster. This can be a definition (e.g. \\code{function(x) x^2} for a square) or a function defined in base R (e.g. \\code{log1p} for the log(x + 1) transformation). The default transformation does nothing.#'"
-    },
-    "param.2": {
-      "name": "which_cov",
-      "description": "a character vector naming all of the covariates in the RasterStack to which the new transformation should be applied.#'"
-    },
-    "param.3": {
-      "name": "replace",
-      "description": "a logical, determining whether to overwrite the values of the named layers with the transformed values (if \\code{replace = TRUE}), or to add extra layers with the transformed covariates. If additional layers are added, they will be renamed accoring to the \\code{raster} package's renaming conventions. This normally involves adding a '.2' at the end of the name."
-    },
-    "family": "process",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "name": "addInteraction",
-    "title": "Set up interactions among covariates",
-    "description": "The module constructs new covariates torepresent interactions (and possibly polynomial terms).",
-    "details": "Statistical interactions are (mathematically) the product of covariates. This module allows the user to pre-specify which interactions to add to the data. If a four-way interaction between A, B, C and D is desired, it automatically adds all possible two- and three-way interactions as well (obeying the marginality theorem). If the same variable name is provided several times in a vector (e.g. c(A, A, A)), this will lead to a cubic polynomial.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "which_covs",
-      "description": "List with vector(s) of names of covariates to interact, e.g. list(c('A', 'C', 'D')), or 'pairs' for all pairwise interactions."
-    },
-    "param.2": {
-      "name": "exclude",
-      "description": "For option 'pairs', exclude the covariates named from interactions."
-    },
-    "family": "process",
-    "author": "Alison Johnston & Carsten F. Dormann, \\email{alison.johnston@bto.org}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "name": "CarolinaWrenPA",
-    "title": "Presence/absence data for the Carolina Wren in the USA",
-    "description": "Presence/absence of the Carolina Wren \\emph{Thryothorus \n  ludovicianus} at Breeding Bird Survey transects in 2006. These data are \n  made available in the maxlike R package. See \n  \\code{\\link[maxlike]{carw.data}} for more details. This module loads them \n  data transform the coordinates to lat/longs and formats the data for use in\n  a zoon workflow. To use these data for validation rather than model\n  fitting, see \\code{CarolineWrenValidation}.",
-    "details": "",
-    "family": "occurrence",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-05-21"
-  },
-  {
-    "name": "SugarMaple",
-    "title": "Sugar Maple distribution in North America",
-    "description": "Presence/absence of Sugar Maple (\\emph{Acer saccharum}) in North America. Each record corresponds to the centroid of a 0.5 degree cell.",
-    "details": "The extent of the occurrence data is \\code{c(-170, -20, 10, 80)}. These data were used as part of a wider analysis by Morin & Thuiller (2009), and were subsequently analysed and made available by Talluto \\emph{et al.}(2016). Morin, X., & Thuiller, W. (2009). Comparing niche-and process-based models to reduce prediction uncertainty in species range shifts under climate change. Ecology, 90(5), 1301<U+2013>1313. http://doi.org/10.1890/08-0134.1  Talluto, M. V., Boulangeat, I., Ameztegui, A., Aubin, I., Berteaux, D., Butler, A., <U+2026> Gravel, D. (2016). Cross-scale integration of knowledge for predicting species ranges: A metamodelling framework. Global Ecology and Biogeography, 25(2), 238<U+2013>249. http://doi.org/10.1111/geb.12395",
-    "family": "occurrence",
-    "author": "Matt Talluto & Nick Golding, \\email{mtalluto@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.2",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "name": "ResponseCurveViz",
-    "title": "Conditional Plots",
-    "description": "Basic conditional plots in one column",
-    "details": "Just starting out, much more to do",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "cov",
-      "description": "Covariates"
-    },
-    "family": "output",
-    "author": "G. McInerny, \\email{gmcinerny@hotmail.com}",
-    "section": "Data type: presence-only",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "name": "SeparatePA",
-    "title": "two graphs showing the probabilies for presence and absence points",
-    "description": "The module retrieves output from a presence-absence model and outputs a simple figure with kernel-density estimated histrograms (left) and a boxplot (right).",
-    "details": "Based on code in the dismo vignette",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "family": "output",
-    "author": "E.E. van Loon, \\email{e.e.vanloonD@uva.nl}",
-    "section": "Data type: presence-only, presence/absence, presence/background",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "name": "GenerateCovariateReport",
-    "title": "Generate a data profiling report",
-    "description": "This output module generates a report outlining the results of data profiling. This includes data structure, missing values, and correlation testing.",
-    "details": "The results are presented as an html output generated using Rmarkdown that opens in your internet browser",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "type",
-      "description": "The type of data report(s) you wish to generate. This must be one of \"D\" (data report only), \"R\" (raster report only), or \"DR\" (both data and raster reports)"
-    },
-    "family": "output",
-    "author": "David Wilkinson, \\email{davidpw@student.unimelb.edu.au}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 0.4",
-    "section.2": "Date submitted:  2017-05-15"
-  },
-  {
-    "name": "CarolinaWrenRasters",
-    "title": "Covariate rasters for the USA used in the Carolina Wren analysis",
-    "description": "Land cover and coordinate covariate data for the USA, used in the Carolina Wren MaxLike analysis. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the modules \\code{CarolinaWrenPA} and \\code{CarolinaWrenPO} for corresponding occurrence data. This module loads the data, converts them into a \\code{RasterStack} object and transforms the coordinates to lat/longs.",
-    "details": "The six covariates are: Percentage cover of mixed forest, deciduous forest, coniferous forest and grassland, and the latitude and longitude of each cell. After converting to latlongs, the pixels have dimensions 0.29x0.223 decimal degrees and the extent is \\code{c(-138.71, -52.58, 18.15, 54.95)}",
-    "family": "covariate",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Version: 0",
-    "section.1": "Date submitted:  2016-05-21"
-  },
-  {
-    "name": "Lorem_ipsum_UK",
-    "title": "A dataset of Lorem ipsum occurrences",
-    "description": "The module retrieves a dataset ofLorem ipsum records from figshare. This dataset containsprecence only data and was collected between 1990 and2000 by members of to Lorem ipsum appreciation society",
-    "details": "This dataset is fake, Lorem ipsum does not exist",
-    "family": "occurrence",
-    "author": "A.B. Ceidi, \\email{ABCD@anemail.com}",
-    "section": "Data type: presence-only",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-06-13"
-  },
-  {
-    "title": "Output module: InteractiveCovariateMap",
-    "description": "Plot a zoomable and scrollable map of a covariate layer.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "which",
-      "description": "which covariate to plot.\nA single numeric giving the index of the covariate to plot"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "name": "InteractiveCovariateMap",
-    "family": "output"
-  },
-  {
-    "title": "Output module: InteractiveMap",
-    "description": "Plot a zoomable and scrollable map of the predicted distribution\nand training data. Clicking on a point reveals additional information.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.1",
-    "section.1": "Date submitted: 2017-04-05",
-    "name": "InteractiveMap",
-    "family": "output"
-  },
-  {
-    "name": "NaiveRandomPresenceAbsence",
-    "title": "Naive Random Presence/Absence",
-    "description": "Creates a random occurrence dataset within the extent given",
-    "details": "Points are created entirely at random using runif",
-    "param": {
-      "name": "extent",
-      "description": "A numeric vector of length 4 giving the coordinates of the rectangular region within which to create the random points. order: xmin, xmax, ymin, ymax. By default the extent of the UK."
-    },
-    "param.1": {
-      "name": "pAbs",
-      "description": "The proportion of records that should be absences (default: 0.5)"
-    },
-    "param.2": {
-      "name": "n",
-      "description": "Numeric - the number of points to create"
-    },
-    "param.3": {
-      "name": "seed",
-      "description": "Used with set.seed to set a seed. Default NULL, no seed is used"
-    },
-    "param.4": {
-      "name": "projection",
-      "description": "The projection for your points (as a proj4string)"
-    },
-    "family": "occurrence",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-06-03"
-  },
-  {
-    "title": "Occurrence module: SpOcc",
-    "description": "Occurrence module to collect occurrence data from a number of data bases.",
-    "param": {
-      "name": "species",
-      "description": "A character string giving the species name.\ne.g. 'Anopheles plumbeus'."
-    },
-    "param.1": {
-      "name": "extent",
-      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax."
-    },
-    "param.2": {
-      "name": "databases",
-      "description": "A character vector giving the databases to use.\nChoose from \"gbif\", \"bison\", \"inat\", \"ebird\", \"ecoengine\", \"antweb\".\nDefaults to gbif. NB I have had some problems with databases other\nthan gbif."
-    },
-    "param.3": {
-      "name": "type",
-      "description": "A string giving the type of occurrence data to treat these records as.\nMust be one of \\code{'presence'} (the default and most common use case),\n\\code{'absence'} or \\code{'background'} (which may be used to implement\na 'target background group' approach for overcoming observation bias)."
-    },
-    "param.4": {
-      "name": "limit",
-      "description": "The maximum number of occurrence records to return."
-    },
-    "seealso": "\\code{\\link{spocc::occ}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "SpOcc",
-    "family": "occurrence"
-  },
-  {
-    "title": "Model module: MyMaxLike",
-    "description": "Model module to fit a simple MyMaxLike model",
-    "details": "The mymaxlike method aims to infer the parameters of a \n  presence-absence logistic regression model using only presence-background \n  data, in a manner somewhat similar to MaxEnt. The practical utility of this\n  model has been questioned (see references), since it makes very strong \n  assumptions about the underlying model which are unlikely to be met in \n  practice. A more feature-rich version of the model is implemented in the \n  \\code{\\link{mymaxlike::mymaxlike}} package, but that implementation only \n  accepts raster/point data as input. This module implements a simple version\n  of the model using the logistic link, in a format that interacts with the \n  rest of the zoon system.",
-    "references": "J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of MyMaxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
-    },
-    "seealso": "\\code{\\link{mymaxlike::mymaxlike}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/background",
-    "name": "MyMaxLike",
-    "family": "model"
-  },
-  {
-    "title": "PartitionDisc: Leave-one-disc-out cross-validation",
-    "description": "This process module partitions the sample into training and tests set by selecting circular test areas (possibly surrounded by an exclusion buffer) and using the remaining samples as training samples. See function partition.disc in package sperrorest for more details",
-    "details": "Module type: Process",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "radius",
-      "description": "Numeric the radius of the disc, in degrees"
-    },
-    "param.2": {
-      "name": "buffer",
-      "description": "Numeric, the size of the buffer zone in degrees"
-    },
-    "param.3": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[sperrorest]{partition.disc}}"
-    },
-    "author": "Tom August, \\email{tomaug@ceh.ac.uk}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "PartitionDisc",
-    "family": "process"
-  },
-  {
-    "name": "NATrees",
-    "title": "Occurrences for 21 tree species from North America",
-    "description": "Retrieves occurrences for 21 trees from eastern North America. Data originally sourced from USGS FIA forest inventory database, collected in the QUICC-FOR project ($URL). This dataset was originally published in $REF. Extent for this dataset is c(-97,-67,25,50)",
-    "details": "",
-    "param": {
-      "name": "dateRange",
-      "description": "Optional 2-item numeric vector giving the years to use; default is the full range of the data (1960-2013)"
-    },
-    "param.1": {
-      "name": "species",
-      "description": "Which species should be extracted, with format genus_species (all lowercase); allowable values are: abies_balsamea acer_rubrum acer_saccharum betula_alleghaniensis betula_papyrifera fagus_grandifolia fraxinus_americana fraxinus_nigra larix_laricina picea_glauca picea_mariana picea_rubens pinus_banksiana pinus_resinosa pinus_strobus populus_grandidentata populous_tremuloides quercus_macrocarpa quercus_rubra thuja_occidentalis tsuga_canadensis"
-    },
-    "family": "occurrence",
-    "author": "Matt Talluto, \\email{mtalluto@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.5",
-    "section.2": "Date submitted:  2016-06-16"
-  },
-  {
-    "name": "VariableImportance",
-    "title": "Variable Importance",
-    "description": "This module outputs a simple report of the coefficents/importance measures from the model",
-    "details": "This module identifies the class of the model object and if it has a known return method for this class it will be applied. If the class is not known it will try the default which is to return the summary of the object.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "print",
-      "description": "If true then the data are returned to console as well as outputted"
-    },
-    "family": "output",
-    "author": "Tom August, \\email{tomaug@ceh.ac.uk}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-15"
-  },
-  {
-    "title": "Covariate module: Bioclim",
-    "description": "Get worldclim environment data. Downloads then stores locally.",
-    "param": {
-      "name": "extent",
-      "description": "Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude."
-    },
-    "param.1": {
-      "name": "resolution",
-      "description": "Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."
-    },
-    "param.2": {
-      "name": "layers",
-      "description": "which bioclim layers to obtain, a vector of integers between 1 and 19."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "name": "Bioclim",
-    "family": "covariate"
-  },
-  {
-    "title": "Process module: OneThousandBackground",
-    "description": "Process module to generate up to 1000 background records at random in\n     cells of the covariate raster and return these along with the occurrence data.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only",
-    "name": "OneThousandBackground",
-    "family": "process"
-  },
-  {
-    "title": "Process module: AddRandomUniformPredictors",
-    "description": "Process module which adds a random uniform covariate to the dataset.  This new covariate can be scaled to an existing covariate.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "name",
-      "description": "Optional argument specifying the name of the new covariate layer.  If not specified, it will automatically named."
-    },
-    "param.2": {
-      "name": "scaleTo",
-      "description": "Optional argument specifying the name of an existing covariate layer which the new random uniform covariate will be scaled to."
-    },
-    "return": "a Raster object with the appended random uniform covariate.",
-    "author": "James Campbell, \\email{jamesadamcampbell@gmail.com}",
-    "section": "Version: 1.01",
-    "section.1": "Date submitted: 2016-06-15",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "examples": "work1 <- workflow(occurrence = UKAnophelesPlumbeus,\n   covariate  = UKAir,\n   process    = Chain(OneHundredBackground,\n                   AddRandomUniformPredictors(scaleTo = 'layer', name = 'Random.layer'),\n                   AddRandomUniformPredictors(scaleTo = 'layer'),\n                   AddRandomUniformPredictors),\n   model      = LogisticRegression,\n   output     = PerformanceMeasures)\n   \n### Display resulting covariate maps from each workflow\nspplot(work1$process.output[[1]]$ras$layer)\nspplot(work1$process.output[[1]]$ras$Random.layer.1)\nspplot(work1$process.output[[1]]$ras$RandUnif.1)\nspplot(work1$process.output[[1]]$ras$RandUnif.2)\n\n### Show resulting model\nwork1$model.output[[1]]$model$model\n",
-    "name": "AddRandomUniformPredictors",
-    "family": "process"
-  },
-  {
-    "title": "Model module: QuickGRaF",
-    "description": "Model module to fit a quick GRaF model, without parameter optimisation.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "l",
-      "description": "lengthscale parameter, a positive number controlling the complexity\nof the fitted model with respect to each covariate.\nCan either be a single number (in which case it is used for all covariates),\na vector of numbers of the same length as the number of covariates,\nor \\code{NULL} in which case GRaF will calculate a fixed approximation to\na sensible lengthscale."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence",
-    "name": "QuickGRaF",
-    "family": "model"
-  },
-  {
-    "name": "CarolinaWrenPO",
-    "title": "Presence-only data for the Carolina Wren in the USA",
-    "description": "Occurrence locations for the Carolina Wren \\emph{Thryothorus ludovicianus} at Breeding Bird Survey transects in 2006. These data are made available in the maxlike R package. See \\code{\\link[maxlike]{carw.data}} for more details, and see the module \\code{CarolinaWrenPA} for the presence-absence version. This module loads the data, drops absence data, transforms the coordinates to lat/longs and formats the data for use in a zoon workflow.",
-    "details": "",
-    "family": "occurrence",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence-only",
-    "section.1": "Version: 0",
-    "section.2": "Date submitted:  2016-05-21"
-  },
-  {
-    "title": "Output module: ResponseCurve",
-    "description": "Plot a detailed conditional response curve from the model\nagainst one covariate.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "cov",
-      "description": "which of the covariates to plot the response against.\nIf \\code{NULL}, the function is executed for all covariates, one after another.\nElse it should be a single numeric identifying the covariate to plot."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.1",
-    "section.1": "Date submitted: 2017-04-11",
-    "name": "ResponseCurve",
-    "family": "output"
-  },
-  {
-    "title": "Process module: Boostrap",
-    "description": "Process module to generate random bootstraps of the \n  data.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
-    },
-    "param.1": {
-      "name": "n",
-      "description": "the number of points to sample. Defaults to the same number as the dataset"
-    },
-    "param.2": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2016-03-23",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "Bootstrap",
-    "family": "process"
-  },
-  {
-    "name": "CarolinaWrenValidation",
-    "title": "Presence/absence validation data for the Carolina Wren in the USA",
-    "description": "Presence/absence of the Carolina Wren \\emph{Thryothorus \n  ludovicianus} at Breeding Bird Survey transects in 2006. These data are \n  made available in the maxlike R package. See \n  \\code{\\link[maxlike]{carw.data}} for more details. This module loads the \n  data, transforms the coordinates to lat/longs and formats the data for use \n  in a zoon workflow. This module is identical to \\code{CarolinaWrenPO}, \n  except that the data are added as external validation data (fold = 0), \n  rather than training data (fold = 1).",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
-    },
-    "family": "process",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-12-21"
-  },
-  {
-    "title": "Process module: MESSMask",
-    "description": "Calculate the multivariate environmental similarity surface \n  and mask areas with values outside the range of variability in the \n  training region.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow\nfunction}. \\code{.data} is a list of a data frame and a raster object\nreturned from occurrence modules and covariate modules respectively.\n\\code{.data} is passed automatically in workflow from the occurrence and\ncovariate modules to the process module(s) and should not be passed by the\nuser."
-    },
-    "seealso": "\\code{\\link{dismo::mess}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2016-03-23",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "MESSMask",
-    "family": "process"
-  },
-  {
-    "name": "TargetGroupBackground",
-    "title": "Target Group Background Data",
-    "description": "This module takes as one of its arguements a call to an occurrence module, these occurrence points are then used as background points. This follows the methods outlined by Phillips et al (Phillips, S. J., Dudik, M., Elith, J., Graham, C. H., Lehmann, A., Leathwick, J. and Ferrier, S. (2009), Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications, 19: 181-197. doi:10.1890/07-2153.1) as a method to choose background points with similar bias to the target species presence points.",
-    "details": "",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "OccurrenceCall",
-      "description": "A call to an occurrence module in the same format as would be given to the \"Occurrence\" argument in workflow. Can be a Chain but cannot be a list (instead list TargetGroupBackground)."
-    },
-    "param.2": {
-      "name": "naOmit",
-      "description": "Should NA containing rows be removed from the dataset (occurrence and background points combine). Defaults to TRUE"
-    },
-    "family": "process",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Data type: presence-only",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-08-22"
-  },
-  {
-    "name": "Appify",
-    "title": "Appify",
-    "description": "The Appify module builds a shiny app that displays dynamic graphical and tabular representations of the input data (occurrence and covarite) as well as model predictions.",
-    "details": "Appify will return the path to the shiny application. For details on how to share the application visit http://shiny.rstudio.com/tutorial/lesson7/. You can run the app locally using shiny::runApp(appDir = <YOUR_PATH>)",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user.#'"
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user.#'"
-    },
-    "param.2": {
-      "name": "directory",
-      "description": "(Optional) a string giving the path to a directory within which to save the shiny app. This directory must exist.#'"
-    },
-    "param.3": {
-      "name": "run_App",
-      "description": "Logical, should the app be run automatically. Not recommended for workflows containing lists. Default is FALSE"
-    },
-    "family": "output",
-    "author": "ZOON Developers, Tom August, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2016-05-05",
-    "section.2": "Data type: presence-only, presence/absence, presence/background, abundance, proportion"
-  },
-  {
-    "title": "Covariate module: NCEP",
-    "description": "Covariate module to grab coarse resolution environmental data from NCEP",
-    "param": {
-      "name": "extent",
-      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax."
-    },
-    "param.1": {
-      "name": "variables",
-      "description": "Character vector of which variables to select.\nSee NCEP.gather for more options but basic options are\n      *'air'*    Air Temperature                 deg K    \n      *'hgt'*    Geopotential Height             m        \n      *'rhum'*   Relative Humidity               %        \n      *'shum'*   Specific Humidity               kg/kg    \n      *'omega'*  Omega [Vertical Velocity]       Pascal/s \n      *'uwnd'*   U-Wind Component [East/West]    m/s      \n      *'vwnd'*   V-Wind Component [North/South]  m/s"
-    },
-    "param.2": {
-      "name": "status.bar",
-      "description": "Logical. Should a status bar be shown indicating the percentage of completion?"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "seealso": "\\code{\\link{RNCEP::NCEP.gather}}",
-    "name": "NCEP",
-    "family": "covariate"
-  },
-  {
-    "title": "Occurrence module: AnophelesPlumbeus",
-    "description": "Occurrence module to grab *Anopheles plumbeus* (a mosquito) presence\n      (presence-only) data from GBIF, in the area bounded by extent.",
-    "param": {
-      "name": "extent",
-      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax. By default the extent of the UK."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only",
-    "name": "AnophelesPlumbeus",
-    "family": "occurrence"
-  },
-  {
-    "title": "Model module: BiomodModel",
-    "description": "Model module wrapper for the biomod2 function BIOMOD_Modeling()",
-    "details": "In order to fit a MaxEnt model, you must first download the\nMaxEnt executable file \\code{maxent.jar} and save it in the correct location.\nThe zoon function \\code{GetMaxEnt} can orchestrate this for you.\nRunning MaxEnt also requires an up-to-date version of java\n(which you may already have installed).",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence data and covariate\n data. \\code{.df} is passed automatically in workflow from the process\n module(s) to the model module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "modelType",
-      "description": "A character to describe models to use. Select from\n'GLM','GBM','GAM','CTA','ANN','SRE','FDA','MARS','RF','MAXENT'"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/background, presence/absence, abundance, proportion",
-    "name": "BiomodModel",
-    "family": "model",
-    "seealso": "\\code{\\link{biomod2::BIOMOD_ModelingOptions}}"
-  },
-  {
-    "title": "Model module: RandomForest",
-    "description": "Model module to fit a simple RandomForest classification model",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "return": "A model object with a valid predict method",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.1",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/absence, presence/background",
-    "name": "RandomForest",
-    "family": "model"
-  },
-  {
-    "name": "PairPlot",
-    "title": "Pair plot of covariates with correlation",
-    "description": "This output module provides a pair plot of covariate data that includes correlation statistics.",
-    "details": "The data are plotted in the bottom left-hand panel and on the top-right are displayed the correlation statistics. Covariate names run diagonally down from top left to bottom right.",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "family": "output",
-    "author": "Saras Windecker, \\email{saras.windecker@gmail.com}",
-    "section": "Data type: presence-only, presence/absence, abundance, proportion",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2017-05-03"
-  },
-  {
-    "title": "Covariate module: UKBioclim",
-    "description": "Load Bioclim rasters at 5 degree resolution for the UK\n\t(extent \\code{c(-10, 10, 45, 65)}).",
-    "details": "The first time this module is used the data are downloaded from the web,\n\tsubsequently a local copy is used so it's much faster.\n\tThis is essentially a wrapper around the `raster` function `getData`,\n\tsee `?getData' for more details of what that function does.\nUse the \\code{Bioclim} module for bioclim data with other extents.",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "name": "UKBioclim",
-    "family": "covariate"
-  },
-  {
-    "name": "StochasticLogisticRegression",
-    "title": "StochasticLogisticRegression",
-    "description": "Fits a simple logistic regression model, but then samples a single draw of the model coefficients (with probability proportional to their likelihood) and uses these for future prediction",
-    "details": "Coefficients are simulated from the likelihood density using the approximate hessian matrix, under an assumption of multivariate normality. This module is intended for use in a Monte Carlo simulation procedure to propagate uncertainty through an analysis. It is not intended to be used on its own!",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "family": "model",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence/absence",
-    "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2016-06-16"
-  },
-  {
-    "title": "Model module: Domain",
-    "description": "Model module to fit the Domain algorithm.",
-    "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
-    },
-    "return": "A model object with a valid predict method",
-    "seealso": "\\code{\\link{dismo::domain}}",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2017-04-05",
-    "section.2": "Data type: presence-only",
-    "name": "Domain",
-    "family": "model"
-  },
-  {
-    "title": "Covariate module: Bioclim_future",
-    "description": "Get worldclim data for the future (CMIP5). Downloads then stores locally.",
-    "param": {
-      "name": "extent",
-      "description": "Length 4 numeric vector giving min longitude, max longitude, min latitude, max latitude."
-    },
-    "param.1": {
-      "name": "resolution",
-      "description": "Resolution in minutes. Must be one of 2.5, 5 or 10. Default is 10."
-    },
-    "param.2": {
-      "name": "layers",
-      "description": "which bioclim layers to obtain, a vector of integers between 1 and 19. See \\url{http://www.worldclim.org/bioclim}."
-    },
-    "param.3": {
-      "name": "rcp",
-      "description": "numeric. Representative Concentration Pathways, or greenhouse gases concentration trajectories (see \\url{https://en.wikipedia.org/wiki/Representative_Concentration_Pathways}. Should be one of 26, 45, 60, or 85."
-    },
-    "param.4": {
-      "name": "model",
-      "description": "character. General Circulation Model. Should be one of \"AC\", \"BC\", \"CC\", \"CE\", \"CN\", \"GF\", \"GD\", \"GS\", \"HD\", \"HG\", \"HE\", \"IN\", \"IP\", \"MI\", \"MR\", \"MC\", \"MP\", \"MG\", or \"NO\"."
-    },
-    "param.5": {
-      "name": "year",
-      "description": "numeric. Time period. Should be either 50 (which represents the period 2041-2060) or 70 (which represents the period 2061-2080)."
-    },
-    "seealso": "\\url{http://www.worldclim.org} and \\code{\\link[raster]{getData}}.",
-    "author": "F. Rodriguez-Sanchez & E. Van Loon, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0.0",
-    "section.1": "Date submitted: 2016-06-15",
-    "name": "Bioclim_future",
-    "family": "covariate"
-  },
-  {
     "title": "Output module: PrintOccurrenceMap",
     "description": "Plot a map of only occurrence data over the study area.",
     "param": {
@@ -1359,79 +1169,41 @@
     "family": "output"
   },
   {
-    "title": "Output module: PerformanceMeasures",
-    "description": "Calculate a suite of performance metrics on either crossvalidation, external validation data or (at your own risk) in-sample validation.",
-    "details": "This model prints to console a number of metrics of the model fitted:\n\\itemize{\n \\item \\code{auc} - (see ?SDMTools::auc) The Area Under the Curve of the Receiver operating characteristic using a Mann-Whitney U statistic\n \\item \\code{\\link{kappa}} - (see ?kappa) An estimate of the 2-norm condition number of a matrix or of the R matrix of a QR decomposition, perhaps of a linear fit. The 2-norm condition number can be shown to be the ratio of the largest to the smallest non-zero singular value of the matrix.\n \\item \\code{\\link{omissions}} - (see ?SDMTools::omission) The ommission rate as a proportion of true occurrences misidentified given the defined threshold value.\n \\item \\code{sensitivity} - (see ?SDMTools::sensitivity) The proportion of actual presences predicted given the defined threshold value.\n \\item \\code{specificity} - (see ?SDMTools::specificity) The proportion of actual absences predicted given the defined threshold value.\n \\item \\code{proportionCorrect} - (see ?SDMTools::prop.correct) The proportion of the presence and absence records correctly identified given the defined threshold value.\n}",
-    "param": {
-      "name": ".model",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": ".ras",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
-    },
-    "param.2": {
-      "name": "threshold",
-      "description": "A chosen threshold value for measures that need 0/1 predictions \nIf NULL, the proportion of occurrences in the occurrence data is used."
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2016-06-15",
-    "section.2": "Data type: presence/absence, presence/background",
-    "name": "PerformanceMeasures",
-    "family": "output"
-  },
-  {
-    "title": "Process module: Crossvalidate",
-    "description": "Run k fold crossvalidation. If presence absence, split presences and absences separately so folds have equally balanced data. Otherwise just sample.",
-    "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
-    },
-    "param.1": {
-      "name": "k",
-      "description": "Positive integer number of folds to split the data into. Default is 5."
-    },
-    "param.2": {
-      "name": "seed",
-      "description": "Numeric used with \\code{\\link[base]{set.seed}}"
-    },
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "Crossvalidate",
-    "family": "process"
-  },
-  {
-    "title": "Model module: GBM",
-    "description": "Model module to fit a generalized boosted regression (aka boosted regression\ntrees) model",
+    "title": "Model module: QuickGRaF",
+    "description": "Model module to fit a quick GRaF model, without parameter optimisation.",
     "param": {
       "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}.\n\\code{.df} is data frame that combines the occurrence"
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
     },
     "param.1": {
-      "name": "max.trees",
-      "description": "The maximum number of trees to fit.\nThe number of trees is equivalent to the number of iterations and\n the number of basis functions in the additive expansion. The optimal\n number will be selected by cross-validation, but this sets an upper limit."
-    },
-    "param.2": {
-      "name": "interaction.depth",
-      "description": "The maximum depth of variable interactions.\n1 implies an additive model, 2 implies a model with up to 2-way interactions,\n etc."
-    },
-    "param.3": {
-      "name": "shrinkage",
-      "description": "a shrinkage parameter applied to each tree in the expansion.\nAlso known as the learning rate or step-size reduction."
+      "name": "l",
+      "description": "lengthscale parameter, a positive number controlling the complexity\nof the fitted model with respect to each covariate.\nCan either be a single number (in which case it is used for all covariates),\na vector of numbers of the same length as the number of covariates,\nor \\code{NULL} in which case GRaF will calculate a fixed approximation to\na sensible lengthscale."
     },
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
     "section": "Version: 1.0",
     "section.1": "Date submitted: 2015-11-13",
     "section.2": "Data type: presence/absence",
-    "name": "GBM",
+    "name": "QuickGRaF",
     "family": "model"
   },
   {
-    "title": "Output module: SameTimePlaceMap",
-    "description": "Output module. A function for outputing the raster of the predictions from an analysis",
+    "title": "Model module: RandomForest",
+    "description": "Model module to fit a simple RandomForest classification model",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "return": "A model object with a valid predict method",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.1",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence/absence, presence/background",
+    "name": "RandomForest",
+    "family": "model"
+  },
+  {
+    "title": "Output module: ResponseCurve",
+    "description": "Plot a detailed conditional response curve from the model\nagainst one covariate.",
     "param": {
       "name": ".model",
       "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
@@ -1440,29 +1212,61 @@
       "name": ".ras",
       "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
     },
-    "return": "A Raster object giving the probabilistic model predictions for each\n     cell of ras",
+    "param.2": {
+      "name": "cov",
+      "description": "which of the covariates to plot the response against.\nIf \\code{NULL}, the function is executed for all covariates, one after another.\nElse it should be a single numeric identifying the covariate to plot."
+    },
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "name": "SameTimePlaceMap",
+    "section": "Version: 1.1",
+    "section.1": "Date submitted: 2017-04-11",
+    "name": "ResponseCurve",
     "family": "output"
   },
   {
-    "title": "Model module: MaxLike",
-    "description": "Model module to fit a simple MaxLike model",
-    "details": "The maxlike method aims to infer the parameters of a \n  presence-absence logistic regression model using only presence-background \n  data, in a manner somewhat similar to MaxEnt. The practical utility of this\n  model has been questioned (see references), since it makes very strong \n  assumptions about the underlying model which are unlikely to be met in \n  practice. A more feature-rich version of the model is implemented in the \n  \\code{\\link{maxlike::maxlike}} package, but that implementation only \n  accepts raster/point data as input. This module implements a simple version\n  of the model using the logistic link, in a format that interacts with the \n  rest of the zoon system.",
-    "references": "J.A. Royle, R.B. Chandler, C. Yackulic, and J.D. Nichols (2012). \n  Likelihood analysis of species occurrence probability from presence-only \n  data for modelling species distributions. Methods in Ecology and Evolution,\n  3, 545-554.\n  \n  Hastie, T. & Fithian, W. (2013) Inference from presence-only data; the \n  ongoing controversy. Ecography, 36, 864-867.\n  \n  Phillips, S.J. & Elith, J. (2013) On estimating probability of presence \n  from use-availability or presence-background data. Ecology, 94, 1409-1419.\n  \n  Merow, C. & Silander, J.A. (2014) A comparison of Maxlike and Maxent for\n  modelling species distributions. Methods in Ecology and Evolution, 5,\n  215-225.",
+    "name": "ResponseCurveViz",
+    "title": "Conditional Plots",
+    "description": "Basic conditional plots in one column",
+    "details": "Just starting out, much more to do",
     "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \n\\code{.df} is data frame that combines the occurrence data and covariate \ndata. \\code{.df} is passed automatically in workflow from the process \nmodule(s) to the model module(s) and should not be passed by the user."
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
     },
-    "seealso": "\\code{\\link{maxlike::maxlike}}",
-    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "section": "Version: 1.0",
-    "section.1": "Date submitted: 2015-11-13",
-    "section.2": "Data type: presence/background",
-    "name": "MaxLike",
-    "family": "model"
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "cov",
+      "description": "Covariates"
+    },
+    "family": "output",
+    "author": "G. McInerny, \\email{gmcinerny@hotmail.com}",
+    "section": "Data type: presence-only",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "name": "ResponsePlot",
+    "title": "Plot predicted response curves along covariate gradients",
+    "description": "This module plots predicted response curves along covariate gradients for all or specified covariates",
+    "details": "The module outputs a line graph of probability of occupancy (relative for presence-only and presence background data, absolute for presence-absence data). cov accepts a numeric and character strings. When cov = NULL, the module plots line graphs for each covariate in the zoon workflow iteratively. Currently only implemented for presence-only, presence-background, and presence-absence data.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "cov",
+      "description": "covariate name"
+    },
+    "family": "output",
+    "author": "Liz Martin, \\email{emartin@student.unimelb.edu.au}",
+    "section": "Data type: presence-only, presence/absence, presence/background",
+    "section.1": "Version: 0.2",
+    "section.2": "Date submitted:  2017-05-03"
   },
   {
     "name": "ROCcurve",
@@ -1488,33 +1292,110 @@
     "section.2": "Date submitted:  2016-06-15"
   },
   {
-    "title": "Covariate module: AirNCEP",
-    "description": "Covariate module to grab a coarse resolution mean air temperature raster from\n January-February 2001-2002 for the UK.",
+    "title": "Output module: SameTimePlaceMap",
+    "description": "Output module. A function for outputing the raster of the predictions from an analysis",
     "param": {
-      "name": "quiet",
-      "description": "Logical. If TRUE (default) the progress of downloads is not shown"
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
     },
-    "seealso": "\\code{\\link{RNCEP::NCEP.gather}}",
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "return": "A Raster object giving the probabilistic model predictions for each\n     cell of ras",
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
-    "name": "AirNCEP",
     "section": "Version: 1.0",
     "section.1": "Date submitted: 2015-11-13",
-    "family": "covariate"
+    "name": "SameTimePlaceMap",
+    "family": "output"
   },
   {
-    "title": "Process module: NoProcess",
-    "description": "Process module that does nothing. A place holder for if nothing should be\ndone to the data before modelling.",
+    "name": "SeparatePA",
+    "title": "two graphs showing the probabilies for presence and absence points",
+    "description": "The module retrieves output from a presence-absence model and outputs a simple figure with kernel-density estimated histrograms (left) and a boxplot (right).",
+    "details": "Based on code in the dismo vignette",
     "param": {
-      "name": ".data",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
     },
-    "return": "a Raster object (class from the raster package) with the gridded\n     covariates used to train and predict from the SDM.",
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "family": "output",
+    "author": "E.E. van Loon, \\email{e.e.vanloonD@uva.nl}",
+    "section": "Data type: presence-only, presence/absence, presence/background",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "title": "Occurrence module: SpOcc",
+    "description": "Occurrence module to collect occurrence data from a number of data bases.",
+    "param": {
+      "name": "species",
+      "description": "A character string giving the species name.\ne.g. 'Anopheles plumbeus'."
+    },
+    "param.1": {
+      "name": "extent",
+      "description": "A numeric vector of length 4 giving the coordinates of the \nrectangular region within which to carry out the analysis, in the \norder: xmin, xmax, ymin, ymax."
+    },
+    "param.2": {
+      "name": "databases",
+      "description": "A character vector giving the databases to use.\nChoose from \"gbif\", \"bison\", \"inat\", \"ebird\", \"ecoengine\", \"antweb\".\nDefaults to gbif. NB I have had some problems with databases other\nthan gbif."
+    },
+    "param.3": {
+      "name": "type",
+      "description": "A string giving the type of occurrence data to treat these records as.\nMust be one of \\code{'presence'} (the default and most common use case),\n\\code{'absence'} or \\code{'background'} (which may be used to implement\na 'target background group' approach for overcoming observation bias)."
+    },
+    "param.4": {
+      "name": "limit",
+      "description": "The maximum number of occurrence records to return."
+    },
+    "seealso": "\\code{\\link{spocc::occ}}",
     "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
     "section": "Version: 1.0",
     "section.1": "Date submitted: 2015-11-13",
     "section.2": "Data type: presence-only, presence/absence, abundance, proportion",
-    "name": "NoProcess",
-    "family": "process"
+    "name": "SpOcc",
+    "family": "occurrence"
+  },
+  {
+    "name": "StandardiseCov",
+    "title": "Scale numeric covariates",
+    "description": "The module by default scales all numeric covariates. By default conducts a regular standardisation: minus the mean and divide by the standard deviation. If Gelman = TRUE then divides by 2 sd as suggested by Gelman. Excluded covariates are not standardised.",
+    "details": "",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "Gelman",
+      "description": "Option to divide by two rather than one standard deviation."
+    },
+    "param.2": {
+      "name": "exclude",
+      "description": "Variable names of numeric variables to exclude from standardisation"
+    },
+    "family": "process",
+    "author": "Alison Johnston & Carsten F. Dormann, \\email{alison.johnston@bto.org}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 0",
+    "section.2": "Date submitted:  2016-06-16"
+  },
+  {
+    "name": "StochasticLogisticRegression",
+    "title": "StochasticLogisticRegression",
+    "description": "Fits a simple logistic regression model, but then samples a single draw of the model coefficients (with probability proportional to their likelihood) and uses these for future prediction",
+    "details": "Coefficients are simulated from the likelihood density using the approximate hessian matrix, under an assumption of multivariate normality. This module is intended for use in a Monte Carlo simulation procedure to propagate uncertainty through an analysis. It is not intended to be used on its own!",
+    "param": {
+      "name": ".df",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+    },
+    "family": "model",
+    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-06-16"
   },
   {
     "title": "Process module: SubsampleOccurrence",
@@ -1539,18 +1420,137 @@
     "family": "process"
   },
   {
-    "name": "NullModel",
-    "title": "Null Model",
-    "description": "A simple null model for predicting species distributions. Predictions are simply the mean of the occurrence values column. This only make sense for some data combination, see details.",
-    "details": "The predictions can be interpreted as the landscape-level prevalence (for presence & absence), a metric of suitability (for presence & background), a mean abundance (for abundance) or a site-level prevalence (for proportion). The module will error if the occurrence data types are not one of these types",
+    "name": "SugarMaple",
+    "title": "Sugar Maple distribution in North America",
+    "description": "Presence/absence of Sugar Maple (\\emph{Acer saccharum}) in North America. Each record corresponds to the centroid of a 0.5 degree cell.",
+    "details": "The extent of the occurrence data is \\code{c(-170, -20, 10, 80)}. These data were used as part of a wider analysis by Morin & Thuiller (2009), and were subsequently analysed and made available by Talluto \\emph{et al.}(2016). Morin, X., & Thuiller, W. (2009). Comparing niche-and process-based models to reduce prediction uncertainty in species range shifts under climate change. Ecology, 90(5), 1301<U+2013>1313. http://doi.org/10.1890/08-0134.1  Talluto, M. V., Boulangeat, I., Ameztegui, A., Aubin, I., Berteaux, D., Butler, A., <U+2026> Gravel, D. (2016). Cross-scale integration of knowledge for predicting species ranges: A metamodelling framework. Global Ecology and Biogeography, 25(2), 238<U+2013>249. http://doi.org/10.1111/geb.12395",
+    "family": "occurrence",
+    "author": "Matt Talluto & Nick Golding, \\email{mtalluto@gmail.com}",
+    "section": "Data type: presence/absence",
+    "section.1": "Version: 0.2",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "title": "Output module: SurfaceMap",
+    "description": "Make a png of a map of predicted surface.",
     "param": {
-      "name": ".df",
-      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.df} is data frame that combines the occurrence data and covariate data. \\code{.df} is passed automatically in workflow from the process module(s) to the model module(s) and should not be passed by the user."
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
     },
-    "family": "model",
-    "author": "Nick Golding, \\email{nick.golding.research@gmail.com}",
-    "section": "Data type: presence/absence, presence/background, abundance, proportion",
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "dir",
+      "description": "Directory where plots are saved. If NULL (default) then plots are not saved."
+    },
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "name": "SurfaceMap",
+    "family": "output"
+  },
+  {
+    "name": "TargetGroupBackground",
+    "title": "Target Group Background Data",
+    "description": "This module takes as one of its arguements a call to an occurrence module, these occurrence points are then used as background points. This follows the methods outlined by Phillips et al (Phillips, S. J., Dudik, M., Elith, J., Graham, C. H., Lehmann, A., Leathwick, J. and Ferrier, S. (2009), Sample selection bias and presence-only distribution models: implications for background and pseudo-absence data. Ecological Applications, 19: 181-197. doi:10.1890/07-2153.1) as a method to choose background points with similar bias to the target species presence points.",
+    "details": "",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": "OccurrenceCall",
+      "description": "A call to an occurrence module in the same format as would be given to the \"Occurrence\" argument in workflow. Can be a Chain but cannot be a list (instead list TargetGroupBackground)."
+    },
+    "param.2": {
+      "name": "naOmit",
+      "description": "Should NA containing rows be removed from the dataset (occurrence and background points combine). Defaults to TRUE"
+    },
+    "family": "process",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Data type: presence-only",
     "section.1": "Version: 0.1",
-    "section.2": "Date submitted:  2017-05-03"
+    "section.2": "Date submitted:  2016-08-22"
+  },
+  {
+    "name": "Transform",
+    "title": "Apply Transformations to Covariates",
+    "description": "Apply a tranformation function (e.g. square, log, something else) to one or more covariates, pixelwise. These can either overwrite the named covariates, or be added to the covariate set.",
+    "details": "This module is essentially a wrapper around the \\code{raster} function \\code{\\link[raster]{calc}}.",
+    "param": {
+      "name": ".data",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.data} is a list of a data frame and a raster object returned from occurrence modules and covariate modules respectively. \\code{.data} is passed automatically in workflow from the occurrence and covariate modules to the process module(s) and should not be passed by the user.#'"
+    },
+    "param.1": {
+      "name": "trans",
+      "description": "a function defining a transformation to apply to each pixel in the covariate(s) raster. This can be a definition (e.g. \\code{function(x) x^2} for a square) or a function defined in base R (e.g. \\code{log1p} for the log(x + 1) transformation). The default transformation does nothing.#'"
+    },
+    "param.2": {
+      "name": "which_cov",
+      "description": "a character vector naming all of the covariates in the RasterStack to which the new transformation should be applied.#'"
+    },
+    "param.3": {
+      "name": "replace",
+      "description": "a logical, determining whether to overwrite the values of the named layers with the transformed values (if \\code{replace = TRUE}), or to add extra layers with the transformed covariates. If additional layers are added, they will be renamed accoring to the \\code{raster} package's renaming conventions. This normally involves adding a '.2' at the end of the name."
+    },
+    "family": "process",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Data type: presence-only, presence/absence, presence/background, abundance, proportion",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-06-15"
+  },
+  {
+    "title": "Covariate module: UKAir",
+    "description": "Return some UK air temperature data from NCEP. Data is bundled with package and has the extent \\code{c(-10, 10, 45, 65)}.",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "name": "UKAir",
+    "family": "covariate"
+  },
+  {
+    "title": "Occurrence module: UK Anopheles plumbeus data",
+    "description": "Return some Anopheles plumbeus data that is bundled with package.\n Data taken from GBIF and has the extent \\code{c(-10, 10, 45, 65)}.",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "section.2": "Data type: presence-only",
+    "name": "UKAnophelesPlumbeus",
+    "family": "occurrence"
+  },
+  {
+    "title": "Covariate module: UKBioclim",
+    "description": "Load Bioclim rasters at 5 degree resolution for the UK\n\t(extent \\code{c(-10, 10, 45, 65)}).",
+    "details": "The first time this module is used the data are downloaded from the web,\n\tsubsequently a local copy is used so it's much faster.\n\tThis is essentially a wrapper around the `raster` function `getData`,\n\tsee `?getData' for more details of what that function does.\nUse the \\code{Bioclim} module for bioclim data with other extents.",
+    "author": "ZOON Developers, \\email{zoonproject@gmail.com}",
+    "section": "Version: 1.0",
+    "section.1": "Date submitted: 2015-11-13",
+    "name": "UKBioclim",
+    "family": "covariate"
+  },
+  {
+    "name": "VariableImportance",
+    "title": "Variable Importance",
+    "description": "This module outputs a simple report of the coefficents/importance measures from the model",
+    "details": "This module identifies the class of the model object and if it has a known return method for this class it will be applied. If the class is not known it will try the default which is to return the summary of the object.",
+    "param": {
+      "name": ".model",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.model} is list of a data frame (\\code{data}) and a model object (\\code{model}). \\code{.model} is passed automatically in workflow, combining data from the model module(s) and process module(s), to the output module(s) and should not be passed by the user."
+    },
+    "param.1": {
+      "name": ".ras",
+      "description": "\\strong{Internal parameter, do not use in the workflow function}. \\code{.ras} is a raster layer, brick or stack object. \\code{.ras} is passed automatically in workflow from the covariate module(s) to the output module(s) and should not be passed by the user."
+    },
+    "param.2": {
+      "name": "print",
+      "description": "If true then the data are returned to console as well as outputted"
+    },
+    "family": "output",
+    "author": "Tom August, \\email{tomaug@ceh.ac.uk}",
+    "section": "Data type: presence-only, presence/absence, abundance, proportion",
+    "section.1": "Version: 0.1",
+    "section.2": "Date submitted:  2016-06-15"
   }
-]
+] 

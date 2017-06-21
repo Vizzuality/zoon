@@ -1,5 +1,5 @@
 import React from "react"
-import { Provider, connect } from "react-redux"
+import { Provider } from "react-redux"
 import {
   IndexRoute,
   Route,
@@ -31,6 +31,12 @@ import Workflows from "./components/Workflows"
 
 axios.defaults.headers.common["Accept"] = "application/json"
 
+const withPeggedProps = (peggedProps) => (WrappedComponent) => (props) => (
+  <WrappedComponent {...props} {...peggedProps} />
+)
+
+const WorkflowDuplicate = withPeggedProps({stripId: true})(WorkflowEdit)
+
 const ZoonApp = (props, _railsContext) => {
   let store = configureStore(props)
   let history = syncHistoryWithStore(browserHistory, store)
@@ -51,7 +57,7 @@ const ZoonApp = (props, _railsContext) => {
         <Route path="/workflows/save" component={WorkflowSave} />
         <Route path="/workflows/:id" component={Workflow} />
         <Route path="/workflows/:id/edit" component={WorkflowEdit} />
-        <Route path="/workflows/:id/duplicate" component={connect(() => ({stripId: true}))(WorkflowEdit)} />
+        <Route path="/workflows/:id/duplicate" component={WorkflowDuplicate} />
         <Route path="/users/sign_in" component={SignIn} />
         <Route path="/users/sign_up" component={SignUp} />
         <Route path="/account" component={Account} />

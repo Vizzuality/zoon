@@ -105,7 +105,7 @@ function* createTag ({tagCreatePath, tag}) {
   } else {
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
-      entities: [json.workflow],
+      entities: [normalize(json.workflow)],
     }))
   }
 }
@@ -118,7 +118,7 @@ function* deleteTag ({tagDeletePath}) {
   } else {
     yield put(workflowActions.finishWorkflowFetch({
       state: "ok",
-      entities: [json.workflow],
+      entities: [normalize(json.workflow)],
     }))
   }
 }
@@ -138,7 +138,7 @@ function* sumitFeedback ({submitFeedbackPath, rating, comment}) {
   } else {
     yield put(workflowActions.submitFeedbackFinished({
       state: "ok",
-      entities: [json.workflow],
+      entities: [normalize(json.workflow)],
     }))
   }
 }

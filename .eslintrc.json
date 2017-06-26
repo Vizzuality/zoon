@@ -6,11 +6,13 @@
   ],
   "env": {
     "es6": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "plugins": [
     "standard",
-    "promise"
+    "promise",
+    "jest"
   ],
   "rules": {
     "react/prop-types": ["off"],
@@ -19,6 +21,8 @@
     "quotes": ["error", "double", { "avoidEscape": true }],
     "jsx-quotes": ["error", "prefer-double"],
     "spaced-comment": ["error", "always", { "markers": ["="] }],
-    "react/no-unused-prop-types": ["off"]
+    "react/no-unused-prop-types": ["off"],
+    "jest/no-identical-title": ["error"],
+    "jest/valid-expect": ["error"]
   }
 }

@@ -3,32 +3,17 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+Things you'll need to cover:
 
-* Ruby version 2.3.1 (declared in both the Gemfile and .ruby-version)
+* Ruby version (declared in both the Gemfile and .ruby-version)
 
-* bundle && npm install
+* bundle && yarn (ReactOnRails will use npm, but prefer yarn otherwise)
 
-* Database: we're using PostgreSQL. Brew's default config will get you set.
-Otherwise, you might want to change some params in `config/database.yml`.
+* PostgreSQL: Brew's default config will get you set (i.e., have a pg user that
+  has the same name as your unix user and is passwordless). Otherwise, you might
+  want to change some params in `config/database.yml`.
 
-* Import data from github:
-Get a modules dump from the ES server. Then, run somerthing like `rails import:modules[path/to/modules.json]`.
+* Set the DB to a known state. `git checkout db/schema.rb; rake db:reset`
 
-You can also use `-` as the path to use stdin instead. For prod, you can do
-something like `cat path/to/modules.json | heroku run rake rails import:modules[-]`
+* Do things with `foreman start -f Procfile.dev`
 
-* Running
-`foreman start -f Procfile.dev`
-
-## Seeding
-* `git checkout db/schema.rb; rake db:reset; rake db:migrate`
-* Get a `modules.json` (from Pivotal Track, ES, etc)
-* Run `rails import:modules[path/to/modules.json]`
-
-## Linting
-We have linting on webpack loading. If this cramps your style for some reason,
-you can run webpack with no linting and call the linter manually.
-
-No lint on build: `ZOON_SKIP_LINT=1 foreman start -f Procfile.dev`
-Linting manually: `npm run lint`

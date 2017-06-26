@@ -6,31 +6,34 @@ var server;
 
 module.exports = {
   bootstrap: function(done) {
-    console.log("Booting Rails");
+    console.log("Building webpack");
+    spawn('yarn', ['run', 'build:test']).on('close', () => {
+      console.log("Booting Rails");
 
-    server = spawn('rails', ['s'], {
-      env: Object.assign(
-        {RAILS_ENV: "test"},
-        process.env
-      )
+      server = spawn('rails', ['s'], {
+        env: Object.assign(
+          {RAILS_ENV: "test"},
+          process.env
+        )
+      })
+
+      server.stdout.on('data', (data) => {
+        const line = data.toString().trim()
+        if (line === "Use Ctrl-C to stop") {
+          done();
+        }
+        console.log(`Rails stdout: ${line}`);
+      });
+
+      server.stderr.on('data', (data) => {
+        const line = data.toString().trim()
+        console.log(`Rails stderr: ${line}`);
+      });
+
+      server.on('close', (code) => {
+        console.log(`Rails process exited with code ${code}`);
+      });
     })
-
-    server.stdout.on('data', (data) => {
-      const line = data.toString().trim()
-      if (line === "Use Ctrl-C to stop") {
-        done();
-      }
-      console.log(`Rails stdout: ${line}`);
-    });
-
-    server.stderr.on('data', (data) => {
-      const line = data.toString().trim()
-      console.log(`Rails stderr: ${line}`);
-    });
-
-    server.on('close', (code) => {
-      console.log(`Rails process exited with code ${code}`);
-    });
   },
   teardown: function(done) {
     const t = setTimeout(

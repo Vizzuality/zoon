@@ -10,7 +10,7 @@
     "build:test": "webpack --config client/webpack.config.js",
     "build:production": "NODE_ENV=production webpack --config client/webpack.config.js",
     "build:development": "webpack -w --config client/webpack.config.js",
-    "lint": "eslint --fix --cache client/",
+    "lint": "eslint --cache client/",
     "test": "jest",
     "e2e": "codeceptjs run --steps",
     "e2e:debug": "codeceptjs run --steps --debug"
@@ -21,6 +21,10 @@
       "jsx"
     ]
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "dependencies": {
     "axios": "^0.15.3",
     "babel-cli": "^6.18.0",
@@ -65,12 +69,14 @@
     "eslint-config-standard-jsx": "^3.3.0",
     "eslint-config-standard-react": "^4.2.0",
     "eslint-loader": "^1.6.3",
+    "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-promise": "^3.4.2",
     "eslint-plugin-react": "^6.10.0",
     "eslint-plugin-standard": "^2.0.1",
     "jest": "^20.0.4",
     "nightmare": "^2.10.0",
     "nightmare-upload": "^0.1.1",
+    "pre-commit": "^1.2.2",
     "react-test-renderer": "^15.6.1"
   }
 }

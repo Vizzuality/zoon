@@ -2,7 +2,7 @@ import React from "react"
 
 import TopNav from "./TopNav"
 
-const Layout = React.createClass({
+class Layout extends React.Component {
   render () {
     return (
       <span>
@@ -27,7 +27,7 @@ const Layout = React.createClass({
         </div>
       </span>
     )
-  },
-})
+  }
+}
 
 export default Layout
